@@ -224,7 +224,7 @@ func _place_decor(track: Track, decor: Node, kind: String, d: float, lateral: fl
 		return false
 	var at := track.get_point_at(d, lateral)
 	var where := TrackLayout.locate(track, at)
-	if absf(float(where["lateral"])) < track.road_half_width_at(float(where["offset"])) + track.wall_width + 1.5:
+	if absf(float(where["lateral"])) < track.outline_half_width_at(float(where["offset"])) + track.wall_width + 1.5:
 		return false
 	var node := (load(DECOR_SCENES[kind]) as PackedScene).instantiate() as Node3D
 	_counters["decor_" + kind] = int(_counters.get("decor_" + kind, 0)) + 1
