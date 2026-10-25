@@ -17,19 +17,19 @@
 closed = true
 bake_interval = 0.5
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 147.10225, 0, 226.00742, 0, 0, 0, 0, 0, 0, 147.10225, 0, 169.5, 0, 0, 0, 0, 0, 0, 151.62, 0, 160.62, 0, 0, 0, 0, 0, 0, 160.5, 0, 154.44, 0, 0, 0, 0, 0, 0, 175.5, 0, 154.44, 0, 0, 0, 0, 0, 0, 187.5, 0, 160.98001, 0, 0, 0, 0, 0, 0, 201.6, 0, 175.5, 0, 0, 0, 0, 0, 0, 201.6, 4, 208.5, 0, 0, 0, 0, 0, 0, 211.62, 4, 220.02, 0, 0, 0, 0, 0, 0, 232.5, 4, 227.82, 0, 0, 0, 0, 0, 0, 262.5, 0, 227.82, 0, 0, 0, 0, 0, 0, 271.5, 0, 230.7, 0, 0, 0, 0, 0, 0, 296.64, 0, 263.7, 0, 0, 0, 0, 0, 0, 296.64, 0, 271.5, 0, 0, 0, 0, 0, 0, 289.38, 0, 282.42, 0, 0, 0, 0, 0, 0, 250.5, 0, 315.12, 0, 0, 0, 0, 0, 0, 151.5, 0, 315.12, 0, 0, 0, 0, 0, 0, 143.7, 0, 313.02, 0, 0, 0, 0, 0, 0, 140.69998, 0, 304.5, 0, 0, 0, 0, 0, 0, 140.69998, 0, 274.5, 0, 0, 0, 0, 0, 0, 147.10225, 0, 250.5),
-"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 147.10225, 0, 226.00742, 0, 0, 0, 0, 0, 0, 147.10225, 0, 169.5, 0, 0, 0, 0, 0, 0, 151.62, 0, 160.62, 0, 0, 0, 0, 0, 0, 160.5, 0, 154.44, 0, 0, 0, 0, 0, 0, 175.5, 0, 154.44, 0, 0, 0, 0, 0, 0, 187.5, 0, 160.98001, 0, 0, 0, 0, 0, 0, 201.6, 0, 175.5, 0, 0, 0, 0, 0, 0, 201.6, 4, 208.5, 0, 0, 0, 0, 0, 0, 211.62, 4, 220.02, 0, 0, 0, 0, 0, 0, 232.5, 4, 227.82, 0, 0, 0, 0, 0, 0, 262.5, 0, 227.82, 0, 0, 0, 0, 0, 0, 271.5, 0, 230.7, 0, 0, 0, 0, 0, 0, 296.64, 0, 263.7, 0, 0, 0, 0, 0, 0, 296.64, 2.5, 271.5, 0, 0, 0, 0, 0, 0, 289.38, 5, 282.42, 0, 0, 0, 0, 0, 0, 250.5, 5, 315.12, 0, 0, 0, 0, 0, 0, 227.981, -2, 315.12, 0, 0, 0, 0, 0, 0, 151.5, 0, 315.12, 0, 0, 0, 0, 0, 0, 143.7, 4.416214, 313.02, 0, 0, 0, 0, 0, 0, 140.69998, 0, 304.5, 0, 0, 0, 0, 0, 0, 140.69998, 0, 274.5, 0, 0, 0, 0, 0, 0, 147.10225, 0, 250.5),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
-point_count = 21
+point_count = 22
 
 [node name="MapB" type="Node3D" unique_id=152809136]
 script = ExtResource("1_ayr07")
-surround_width = 10.0
+surround_width = 40.0
 surround_style = 1
-hills_height = 5.0
+hills_height = 3.0
 haze_color = Color(0.88, 0.93, 1, 1)
 portal_gaps = PackedInt32Array()
-segment_widths = PackedFloat32Array()
+segment_widths = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0)
 road_material = ExtResource("2_ne5ps")
 wall_material = ExtResource("3_n8vo8")
 background_material = ExtResource("4_nw453")
@@ -43,16 +43,16 @@ curve = SubResource("Curve3D_eupke")
 [node name="Props" type="Node3D" parent="." unique_id=1383079800]
 
 [node name="ItemBoxSpot1" type="Marker3D" parent="Props" unique_id=1202784935 groups=["item_box_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 142.60225, 0, 206.00742)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 142.60225, -0.49012947, 206.00742)
 
 [node name="ItemBoxSpot2" type="Marker3D" parent="Props" unique_id=592493290 groups=["item_box_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 145.60225, 0, 206.00742)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 145.60225, -0.49012947, 206.00742)
 
 [node name="ItemBoxSpot3" type="Marker3D" parent="Props" unique_id=479521622 groups=["item_box_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 148.60225, 0, 206.00742)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 148.60225, -0.49012947, 206.00742)
 
 [node name="ItemBoxSpot4" type="Marker3D" parent="Props" unique_id=134204486 groups=["item_box_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 151.60225, 0, 206.00742)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 151.60225, -0.49012947, 206.00742)
 
 [node name="SnowTurret1" parent="Props" unique_id=1135298940 instance=ExtResource("15_ayw5g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 139.60225, 0, 176.00742)
@@ -91,19 +91,19 @@ size = Vector2(8, 10)
 tint = Color(0.5, 0.81, 1, 1)
 
 [node name="SnowTurret2" parent="Props" unique_id=1136709700 instance=ExtResource("15_ayw5g")]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 209.1, 0, 190.22633)
+transform = Transform3D(-1, -1.3675936e-08, -8.634646e-08, 0, 0.98768836, -0.15643448, 8.742278e-08, -0.15643448, -0.98768836, 209.1, 2.1663933, 190.22633)
 
 [node name="ItemBoxSpot5" type="Marker3D" parent="Props" unique_id=1108403081 groups=["item_box_spots"]]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 206.10449, 0, 204.97993)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 206.10449, 3.4288845, 204.97993)
 
 [node name="ItemBoxSpot6" type="Marker3D" parent="Props" unique_id=478524627 groups=["item_box_spots"]]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 203.109, 0, 205.1441)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 203.109, 3.4288845, 205.1441)
 
 [node name="ItemBoxSpot7" type="Marker3D" parent="Props" unique_id=1176310456 groups=["item_box_spots"]]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 200.11348, 0, 205.30829)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 200.11348, 3.4288845, 205.30829)
 
 [node name="ItemBoxSpot8" type="Marker3D" parent="Props" unique_id=328926348 groups=["item_box_spots"]]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 197.11798, 0, 205.47246)
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 197.11798, 3.4288845, 205.47246)
 
 [node name="Ice5" parent="Props" unique_id=758506836 instance=ExtResource("8_b4bib")]
 transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.70710677, 209.562, 4, 220.54)
@@ -118,10 +118,10 @@ size = Vector2(8, 10)
 tint = Color(0.5, 0.81, 1, 1)
 
 [node name="ItemBoxSpot9" type="Marker3D" parent="Props" unique_id=1611348049 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 261.28058, 0, 223.82645)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 261.28058, -0.22931266, 223.82645)
 
 [node name="ItemBoxSpot10" type="Marker3D" parent="Props" unique_id=1230426096 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 261.13608, 0, 227.82384)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 261.13608, -0.22931266, 227.82384)
 
 [node name="SnowTurret3" parent="Props" unique_id=335653327 instance=ExtResource("15_ayw5g")]
 transform = Transform3D(-0.34932494, 0, -0.93700165, 0, 1, 0, 0.93700165, 0, -0.34932494, 271.46213, 0, 222.82925)
@@ -142,40 +142,40 @@ transform = Transform3D(-0.79547596, 0, -0.60598516, 0, 1, 0, 0.60598516, 0, -0.
 transform = Transform3D(-0.7954703, 0, -0.60599256, 0, 1, 0, 0.60599256, 0, -0.7954703, 289.92764, 0, 254.88898)
 
 [node name="Ice7" parent="Props" unique_id=881893839 instance=ExtResource("8_b4bib")]
-transform = Transform3D(-0.6436478, 0, 0.7653218, 0, 1, 0, -0.7653218, 0, -0.6436478, 280.621, 0, 289.78677)
+transform = Transform3D(-0.6436478, 0, 0.7653218, 0, 1, 0, -0.7653218, 0, -0.6436478, 280.621, 5, 289.787)
 kind = 2
 size = Vector2(10, 10)
 tint = Color(0.5, 0.81, 1, 1)
 
 [node name="Ice8" parent="Props" unique_id=1767338619 instance=ExtResource("8_b4bib")]
-transform = Transform3D(-0.64365673, 0, 0.7653143, 0, 1, 0, -0.7653143, 0, -0.64365673, 271.4373, 0, 297.51074)
+transform = Transform3D(-0.64365673, 0, 0.7653143, 0, 1, 0, -0.7653143, 0, -0.64365673, 271.437, 5, 297.511)
 kind = 2
 size = Vector2(10, 12)
 tint = Color(0.5, 0.81, 1, 1)
 
 [node name="ItemBoxSpot11" type="Marker3D" parent="Props" unique_id=695576831 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 242.55779, 0, 319.11996)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 242.55779, 2.4168243, 319.11996)
 
 [node name="ItemBoxSpot12" type="Marker3D" parent="Props" unique_id=319081527 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 242.55779, 0, 315.11996)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 242.55779, 2.4168243, 315.11996)
 
 [node name="ItemBoxSpot13" type="Marker3D" parent="Props" unique_id=294081763 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 242.55779, 0, 311.11996)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 242.55779, 2.4168243, 311.11996)
 
 [node name="SnowTurret6" parent="Props" unique_id=968820517 instance=ExtResource("15_ayw5g")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 215.55777, 0, 307.62003)
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 215.558, -1.2, 307.62)
 
 [node name="SnowTurret7" parent="Props" unique_id=199240164 instance=ExtResource("15_ayw5g")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 206.55766, 0, 307.62)
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 206.558, -1.2, 307.62)
 
 [node name="SnowTurret8" parent="Props" unique_id=2074900782 instance=ExtResource("15_ayw5g")]
-transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 197.55789, 0, 307.62)
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 197.558, -1.2, 307.62)
 
 [node name="ItemBoxSpot14" type="Marker3D" parent="Props" unique_id=1171775202 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 179.55777, 0, 317.12)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 179.55777, -0.49012947, 317.12)
 
 [node name="ItemBoxSpot15" type="Marker3D" parent="Props" unique_id=1238364 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 179.55777, 0, 313.12)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 179.55777, -0.49012947, 313.12)
 
 [node name="BoostPad7" parent="Props" unique_id=775606216 instance=ExtResource("18_m4h4y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 138.69998, 0, 297.04068)
@@ -189,13 +189,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 138.69998, 0, 291.04068)
 [node name="Ramp1" parent="Props" unique_id=1491802521 instance=ExtResource("31_ayr07")]
 transform = Transform3D(0.9662135, 0, -0.2577429, 0, 1, 0, 0.2577429, 0, 0.9662135, 143.9152, 0, 262.44717)
 
+[node name="Ramp2" parent="Props" unique_id=554863061 instance=ExtResource("31_ayr07")]
+transform = Transform3D(-0.02180241, 0, 0.9997623, 0, 1, 0, -0.9997623, 0, -0.02180241, 246.67624, 3.8113897, 315.12)
+
+[node name="BoostPad10" parent="Props" unique_id=420342389 instance=ExtResource("18_m4h4y")]
+transform = Transform3D(-4.371139e-08, 0.22495103, 0.97437, 0, 0.97437, -0.22495103, -1, -9.832921e-09, -4.2591065e-08, 246.06729, 4.749265, 315.12)
+kind = 1
+
 [node name="Decor" type="Node3D" parent="." unique_id=1346028964]
 
 [node name="MapDecor1" type="Node3D" parent="Decor" unique_id=395131725]
 transform = Transform3D(-0.6632383, 0, -0.7484083, 0, 1, 0, 0.7484083, 0, -0.6632383, 129.29718, 0, 120.21442)
 
 [node name="Visual" type="MeshInstance3D" parent="Decor/MapDecor1" unique_id=745034133]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.8802006, 0)
 script = ExtResource("32_u5ayy")
 size = Vector3(52, 0, 52)
 base_name = "mapdecor"
@@ -207,7 +214,7 @@ peak = 14.0
 transform = Transform3D(0.9659258, 0, -0.25881904, 0, 1, 0, 0.25881904, 0, 0.9659258, 198.67767, 0, 257.61862)
 
 [node name="Visual" type="MeshInstance3D" parent="Decor/MapDecor2" unique_id=582304837]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+transform = Transform3D(1.5000001, 0, 2.9802322e-08, 0, 1.5, 0, -2.9802322e-08, 0, 1.5000001, 1.5190735, -1.8298409, 5.669281)
 script = ExtResource("32_u5ayy")
 size = Vector3(50, 0, 50)
 base_name = "mapdecor"
@@ -219,7 +226,7 @@ peak = 14.0
 transform = Transform3D(-0.6632383, 0, -0.7484083, 0, 1, 0, 0.7484083, 0, -0.6632383, 314.29718, 0, 323.21442)
 
 [node name="Visual" type="MeshInstance3D" parent="Decor/MapDecor3" unique_id=766406440]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.7305853, 0)
 script = ExtResource("32_u5ayy")
 size = Vector3(52, 0, 52)
 base_name = "mapdecor"
@@ -231,7 +238,7 @@ peak = 14.0
 transform = Transform3D(0.9396926, 0, -0.34202012, 0, 1, 0, 0.34202012, 0, 0.9396926, 82.53949, 0, 250.32452)
 
 [node name="Visual" type="MeshInstance3D" parent="Decor/MapDecor4" unique_id=1650409983]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, -1.7441494, 0)
 script = ExtResource("32_u5ayy")
 size = Vector3(52, 0, 52)
 base_name = "mapdecor"
@@ -243,7 +250,7 @@ peak = 14.0
 transform = Transform3D(0.93969256, 0, 0.34202036, 0, 1, 0, -0.34202036, 0, 0.93969256, 265.32452, 0, 163.53947)
 
 [node name="Visual" type="MeshInstance3D" parent="Decor/MapDecor5" unique_id=1406997475]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.7489932, 0)
 script = ExtResource("32_u5ayy")
 size = Vector3(52, 0, 52)
 base_name = "mapdecor"
