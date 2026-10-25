@@ -35,6 +35,7 @@ const RANDOM_MAP := "?"
 const AUTHOR_SITE := "https://macestudios.ru/"
 const MENU_TEXTURES := "res://assets/original/textures/menu/"
 const PANEL_TEXTURE := preload("res://assets/original/textures/menu/menupanelbg.png")
+const CLOSE_BUTTON := preload("res://assets/textures/ui/close_button.png")
 const FACE := preload("res://assets/original/textures/main/playercaricon-none-000.png")
 ## Кадры кнопок-крестов menustartbutton.
 enum StartFrame { PLAY = 0, SKIN = 1, CREDITS = 2, BACK = 3, FRIENDS = 8, EMPTY = 9 }
@@ -91,6 +92,7 @@ var _back: TextureButton
 var _credits: Control
 var _garage: GaragePage
 var _author: Label
+var _close_button: TextureButton
 var _player_name: Label
 var _player_face: TextureRect
 var _status_icon: TextureRect
@@ -233,6 +235,13 @@ func _build_ui() -> void:
 	_status_text = _small_label("подключение...")
 	_status_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	add_child(_status_text)
+	_close_button = TextureButton.new()
+	_close_button.texture_normal = CLOSE_BUTTON
+	_close_button.ignore_texture_size = true
+	_close_button.stretch_mode = TextureButton.STRETCH_SCALE
+	_close_button.size = Vector2(16, 16)
+	_close_button.pressed.connect(_close_button_pressed)
+	add_child(_close_button)
 	_player_face = TextureRect.new()
 	_player_face.texture = FACE
 	_player_face.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -513,9 +522,11 @@ func _layout() -> void:
 	_status_icon.position = Vector2(screen.x - 20.0, bottom - 4.0)
 	_status_text.size = Vector2(160, 8)
 	_status_text.position = Vector2(screen.x - 184.0, bottom + 2.0)
-	_player_face.position = Vector2(screen.x - 20.0, 4.0)
+	###EDITING###
+	_close_button.position = Vector2(screen.x - 20.0, 4.0)
+	_player_face.position = Vector2(screen.x - 20.0 - 20.0, 4.0)
 	_player_name.size = Vector2(160, 8)
-	_player_name.position = Vector2(screen.x - 184.0, 8.0)
+	_player_name.position = Vector2(screen.x - 184.0 - 20.0, 8.0)
 	_status.size = Vector2(minf(220.0, screen.x - 200.0), 0)
 	_status.position = Vector2((screen.x - _status.size.x) * 0.5, bottom - 6.0)
 
@@ -524,6 +535,9 @@ func _layout() -> void:
 # Действия
 # --------------------------------------------------------------------------
 
+func _close_button_pressed() -> void:
+	get_tree().quit()
+	
 func _select_map(map: String, with_sound: bool) -> void:
 	_selected_map_name = map
 	for key in _map_buttons:

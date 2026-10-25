@@ -1,8 +1,8 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://b4jqqsnsxwqeg"]
 
-[ext_resource type="Script" path="res://scripts/net/lobby_menu.gd" id="1_menu"]
+[ext_resource type="Script" uid="uid://d4vw7babqwqi" path="res://scripts/net/lobby_menu.gd" id="1_menu"]
 
-[node name="LobbyMenu" type="Control"]
+[node name="LobbyMenu" type="Control" unique_id=1976337101]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
