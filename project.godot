@@ -12,7 +12,7 @@ config_version=5
 
 config/name="3Dynamic Force"
 config/description="Ремейк Dynamic Force (оригинал — Mace Dev): аркадные гонки с видом сверху."
-config/version="0.10.5-beta"
+config/version="0.10.6-beta"
 run/main_scene="res://scenes/net/lobby_menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 boot_splash/bg_color=Color(0.078, 0.078, 0.149, 1)
