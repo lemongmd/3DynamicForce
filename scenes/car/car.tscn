@@ -1,62 +1,61 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://d2p1bhny8f0gw"]
 
-[ext_resource type="Script" path="res://scripts/car/car_controller.gd" id="1_ctrl"]
-[ext_resource type="Script" path="res://scripts/car/car_visual.gd" id="2_visual"]
-[ext_resource type="PackedScene" path="res://assets/models/cars/car_base0.glb" id="3_model"]
-[ext_resource type="Script" path="res://scripts/car/car_parry.gd" id="4_parry"]
-[ext_resource type="AudioStream" path="res://assets/original/sounds/parry.wav" id="5_parry_sound"]
+[ext_resource type="Script" uid="uid://bquu054bhh5e0" path="res://scripts/car/car_controller.gd" id="1_ctrl"]
+[ext_resource type="Script" uid="uid://w4jiwsimc4xl" path="res://scripts/car/car_visual.gd" id="2_visual"]
+[ext_resource type="PackedScene" uid="uid://be8kbrfmb6aty" path="res://assets/models/cars/car_base0.glb" id="3_model"]
+[ext_resource type="Script" uid="uid://3r048xj8lsp4" path="res://scripts/car/car_parry.gd" id="4_parry"]
+[ext_resource type="AudioStream" uid="uid://d7kibta1i1s8" path="res://assets/original/sounds/parry.wav" id="5_parry_sound"]
 [ext_resource type="PackedScene" path="res://scenes/fx/parry_fx.tscn" id="6_parry_fx"]
 [ext_resource type="PackedScene" path="res://scenes/fx/parry_window_fx.tscn" id="7_window_fx"]
-[ext_resource type="Script" path="res://scripts/car/car_sfx.gd" id="8_sfx"]
-[ext_resource type="AudioStream" path="res://assets/sounds/drift_charge_1.wav" id="9_charge1"]
-[ext_resource type="AudioStream" path="res://assets/sounds/drift_charge_2.wav" id="9_charge2"]
-[ext_resource type="AudioStream" path="res://assets/sounds/drift_charge_3.wav" id="9_charge3"]
-[ext_resource type="AudioStream" path="res://assets/original/sounds/dash0.wav" id="10_dash"]
-[ext_resource type="AudioStream" path="res://assets/original/sounds/jump1.wav" id="11_jump"]
-[ext_resource type="AudioStream" path="res://assets/original/sounds/bam.wav" id="12_bam"]
-[ext_resource type="Script" path="res://scripts/car/car_effects.gd" id="13_effects"]
-[ext_resource type="Script" path="res://scripts/car/car_items.gd" id="14_items"]
-[ext_resource type="Script" path="res://scripts/car/car_fx.gd" id="15_fx"]
+[ext_resource type="Script" uid="uid://dagd3hd1lxc5y" path="res://scripts/car/car_sfx.gd" id="8_sfx"]
+[ext_resource type="AudioStream" uid="uid://cw5mit10l2m5u" path="res://assets/sounds/drift_charge_1.wav" id="9_charge1"]
+[ext_resource type="AudioStream" uid="uid://107p8m2moweu" path="res://assets/sounds/drift_charge_2.wav" id="9_charge2"]
+[ext_resource type="AudioStream" uid="uid://uvdko7wde5hy" path="res://assets/sounds/drift_charge_3.wav" id="9_charge3"]
+[ext_resource type="AudioStream" uid="uid://bqdaeegvq6c0a" path="res://assets/original/sounds/dash0.wav" id="10_dash"]
+[ext_resource type="AudioStream" uid="uid://b2uxq3kk58ewn" path="res://assets/original/sounds/jump1.wav" id="11_jump"]
+[ext_resource type="AudioStream" uid="uid://co0kokwdckuq0" path="res://assets/original/sounds/bam.wav" id="12_bam"]
+[ext_resource type="Script" uid="uid://d3gbrl34045p7" path="res://scripts/car/car_effects.gd" id="13_effects"]
+[ext_resource type="Script" uid="uid://byslkv3goo5da" path="res://scripts/car/car_items.gd" id="14_items"]
+[ext_resource type="Script" uid="uid://cwu4wvjtxwpw6" path="res://scripts/car/car_fx.gd" id="15_fx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.8
 height = 3.0
 
-[node name="Car" type="CharacterBody3D"]
+[node name="Car" type="CharacterBody3D" unique_id=1642644748]
 collision_layer = 2
 collision_mask = 7
 floor_snap_length = 0.5
 script = ExtResource("1_ctrl")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-position = Vector3(0, 0.8, 0)
-rotation = Vector3(1.5707964, 0, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=609913730]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.8, 0)
 shape = SubResource("CapsuleShape3D_body")
 
-[node name="Visual" type="Node3D" parent="."]
+[node name="Visual" type="Node3D" parent="." unique_id=1337153465]
 script = ExtResource("2_visual")
 wheel_radius = 0.3
 
-[node name="Model" parent="Visual" instance=ExtResource("3_model")]
+[node name="Model" parent="Visual" unique_id=589173426 instance=ExtResource("3_model")]
 
-[node name="Parry" type="Node" parent="."]
+[node name="Parry" type="Node" parent="." unique_id=1728569206]
 script = ExtResource("4_parry")
 parry_sound = ExtResource("5_parry_sound")
 parry_fx_scene = ExtResource("6_parry_fx")
 window_fx_scene = ExtResource("7_window_fx")
 
-[node name="Sfx" type="Node" parent="."]
+[node name="Sfx" type="Node" parent="." unique_id=1991183632]
 script = ExtResource("8_sfx")
 drift_charged_sounds = Array[AudioStream]([ExtResource("9_charge1"), ExtResource("9_charge2"), ExtResource("9_charge3")])
 drift_boost_sound = ExtResource("10_dash")
 jump_sound = ExtResource("11_jump")
 land_sound = ExtResource("12_bam")
 
-[node name="Effects" type="Node" parent="."]
+[node name="Effects" type="Node" parent="." unique_id=1652971346]
 script = ExtResource("13_effects")
 
-[node name="Items" type="Node" parent="."]
+[node name="Items" type="Node" parent="." unique_id=1507435267]
 script = ExtResource("14_items")
 
-[node name="Fx" type="Node3D" parent="."]
+[node name="Fx" type="Node3D" parent="." unique_id=1872900054]
 script = ExtResource("15_fx")

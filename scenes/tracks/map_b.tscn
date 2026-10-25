@@ -17,7 +17,7 @@
 closed = true
 bake_interval = 0.5
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 147.10225, 0, 226.00742, 0, 0, 0, 0, 0, 0, 147.10225, 0, 169.5, 0, 0, 0, 0, 0, 0, 151.62, 0, 160.62, 0, 0, 0, 0, 0, 0, 160.5, 0, 154.44, 0, 0, 0, 0, 0, 0, 175.5, 0, 154.44, 0, 0, 0, 0, 0, 0, 187.5, 0, 160.98001, 0, 0, 0, 0, 0, 0, 201.6, 0, 175.5, 0, 0, 0, 0, 0, 0, 201.6, 4, 208.5, 0, 0, 0, 0, 0, 0, 211.62, 4, 220.02, 0, 0, 0, 0, 0, 0, 232.5, 4, 227.82, 0, 0, 0, 0, 0, 0, 262.5, 0, 227.82, 0, 0, 0, 0, 0, 0, 271.5, 0, 230.7, 0, 0, 0, 0, 0, 0, 296.64, 0, 263.7, 0, 0, 0, 0, 0, 0, 296.64, 2.5, 271.5, 0, 0, 0, 0, 0, 0, 289.38, 5, 282.42, 0, 0, 0, 0, 0, 0, 250.5, 5, 315.12, 0, 0, 0, 0, 0, 0, 227.981, -2, 315.12, 0, 0, 0, 0, 0, 0, 151.5, 0, 315.12, 0, 0, 0, 0, 0, 0, 143.7, 4.416214, 313.02, 0, 0, 0, 0, 0, 0, 140.69998, 0, 304.5, 0, 0, 0, 0, 0, 0, 140.69998, 0, 274.5, 0, 0, 0, 0, 0, 0, 147.10225, 0, 250.5),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 147.10225, 0, 226.00742, 0, 0, 0, 0, 0, 0, 147.10225, 0, 169.5, 0, 0, 0, 0, 0, 0, 151.62, 0, 160.62, 0, 0, 0, 0, 0, 0, 160.5, 0, 154.44, 0, 0, 0, 0, 0, 0, 175.5, 0, 154.44, 0, 0, 0, 0, 0, 0, 187.5, 0, 160.98001, 0, 0, 0, 0, 0, 0, 201.6, 0, 175.5, 0, 0, 0, 0, 0, 0, 201.6, 4, 208.5, 0, 0, 0, 0, 0, 0, 211.62, 4, 220.02, 0, 0, 0, 0, 0, 0, 232.5, 4, 227.82, 0, 0, 0, 0, 0, 0, 262.5, 0, 227.82, 0, 0, 0, 0, 0, 0, 271.5, 0, 230.7, 0, 0, 0, 0, 0, 0, 296.64, 0, 263.7, 0, 0, 0, 0, 0, 0, 296.64, 2.5, 271.5, 0, 0, 0, 0, 0, 0, 289.38, 5, 282.42, 0, 0, 0, 0, 0, 0, 250.5, 5, 315.12, 0, 0, 0, 0, 0, 0, 227.981, -2, 315.12, 0, 0, 0, 0, 0, 0, 159.98859, 0, 315.12, 0, 0, 0, 0, 0, 0, 143.7, 4.4678173, 313.02, 0, 0, 0, 0, 0, 0, 140.69998, 0, 298.8394, 0, 0, 0, 0, 0, 0, 140.69998, 0, 274.5, 0, 0, 0, 0, 0, 0, 147.10225, 0, 250.5),
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 }
 point_count = 22
@@ -29,7 +29,7 @@ surround_style = 1
 hills_height = 3.0
 haze_color = Color(0.88, 0.93, 1, 1)
 portal_gaps = PackedInt32Array()
-segment_widths = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0)
+segment_widths = PackedFloat32Array(12, 0, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 12, 0, 10.5, 9, 9, 10.5)
 road_material = ExtResource("2_ne5ps")
 wall_material = ExtResource("3_n8vo8")
 background_material = ExtResource("4_nw453")
@@ -64,7 +64,7 @@ size = Vector2(8, 10)
 tint = Color(0.5, 0.81, 1, 1)
 
 [node name="Ice2" parent="Props" unique_id=2040543108 instance=ExtResource("8_b4bib")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 163.54091, 0, 152.44156)
+transform = Transform3D(0.38590607, 0, -0.9225381, 0, 1, 0, 0.9225381, 0, 0.38590607, 157.79411, 0, 154.30632)
 kind = 2
 size = Vector2(8, 10)
 tint = Color(0.5, 0.81, 1, 1)
@@ -79,13 +79,13 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 168.
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 171.59647, 0, 152.44)
 
 [node name="Ice3" parent="Props" unique_id=316629810 instance=ExtResource("8_b4bib")]
-transform = Transform3D(-0.2614356, 0, -0.9652209, 0, 1, 0, 0.9652209, 0, -0.2614356, 176.08841, 0, 152.85841)
+transform = Transform3D(-0.2614356, 0, -0.9652209, 0, 1, 0, 0.9652209, 0, -0.2614356, 180.28677, 0, 155.09137)
 kind = 2
 size = Vector2(8, 10)
 tint = Color(0.5, 0.81, 1, 1)
 
 [node name="Ice4" parent="Props" unique_id=1719979366 instance=ExtResource("8_b4bib")]
-transform = Transform3D(-0.5031993, 0, -0.8641704, 0, 1, 0, 0.8641704, 0, -0.5031993, 187.22078, 0, 158.55215)
+transform = Transform3D(-0.5031993, 0, -0.8641704, 0, 1, 0, 0.8641704, 0, -0.5031993, 190.463, 0, 160.50455)
 kind = 2
 size = Vector2(8, 10)
 tint = Color(0.5, 0.81, 1, 1)
@@ -118,10 +118,13 @@ size = Vector2(8, 10)
 tint = Color(0.5, 0.81, 1, 1)
 
 [node name="ItemBoxSpot9" type="Marker3D" parent="Props" unique_id=1611348049 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 261.28058, -0.22931266, 223.82645)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 261.136, -0.229, 223.824)
 
 [node name="ItemBoxSpot10" type="Marker3D" parent="Props" unique_id=1230426096 groups=["item_box_spots"]]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 261.13608, -0.22931266, 227.82384)
+
+[node name="ItemBoxSpot16" type="Marker3D" parent="Props" unique_id=1915215552 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 261.136, -0.229, 231.824)
 
 [node name="SnowTurret3" parent="Props" unique_id=335653327 instance=ExtResource("15_ayw5g")]
 transform = Transform3D(-0.34932494, 0, -0.93700165, 0, 1, 0, 0.93700165, 0, -0.34932494, 271.46213, 0, 222.82925)
@@ -154,13 +157,13 @@ size = Vector2(10, 12)
 tint = Color(0.5, 0.81, 1, 1)
 
 [node name="ItemBoxSpot11" type="Marker3D" parent="Props" unique_id=695576831 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 174.38148, -1.0340037, 319.11996)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 229.46169, -1.0340037, 319.11996)
 
 [node name="ItemBoxSpot12" type="Marker3D" parent="Props" unique_id=319081527 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 174.38148, -1.0340037, 315.11996)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 229.46169, -1.0340037, 315.11996)
 
 [node name="ItemBoxSpot13" type="Marker3D" parent="Props" unique_id=294081763 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 174.38148, -1.0340037, 311.11996)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 229.46169, -1.0340037, 311.11996)
 
 [node name="SnowTurret6" parent="Props" unique_id=968820517 instance=ExtResource("15_ayw5g")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 215.558, -1.2, 307.62)
@@ -178,13 +181,13 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 179.
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 179.55777, -0.49012947, 313.12)
 
 [node name="BoostPad7" parent="Props" unique_id=775606216 instance=ExtResource("18_m4h4y")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 138.69998, 0, 297.04068)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.66489, 0, 297.04068)
 
 [node name="BoostPad8" parent="Props" unique_id=973650796 instance=ExtResource("18_m4h4y")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 138.69998, 0, 294.04065)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.66489, 0, 294.04065)
 
 [node name="BoostPad9" parent="Props" unique_id=2007547529 instance=ExtResource("18_m4h4y")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 138.69998, 0, 291.04068)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.66489, 0, 291.04068)
 
 [node name="Ramp1" parent="Props" unique_id=1491802521 instance=ExtResource("31_ayr07")]
 transform = Transform3D(0.9662135, 0, -0.2577429, 0, 1, 0, 0.2577429, 0, 0.9662135, 143.9152, 0, 262.44717)
