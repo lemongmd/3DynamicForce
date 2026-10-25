@@ -513,7 +513,7 @@ func _road_hit(track: Track, camera: Camera3D, screen_pos: Vector2) -> Variant:
 		point = origin + normal * ((height - origin.y) / normal.y)
 		height = track.get_point_at(float(TrackLayout.locate(track, point)["offset"])).y
 	var where := TrackLayout.locate(track, point)
-	if absf(float(where["lateral"])) > track.road_half_width_at(float(where["offset"])) + track.wall_width + 1.0:
+	if absf(float(where["lateral"])) > track.outline_half_width_at(float(where["offset"])) + track.wall_width + 1.0:
 		return null
 	return point
 

@@ -21,6 +21,11 @@ const LIQUID_SHADER := preload("res://assets/shaders/liquid.gdshader")
 const GENERATED_NAME := "Generated"
 ## Холмы окружения: клетка сетки и ровная площадка у стены, м.
 const HILLS_CELL := 1.5
+## Длина плавного перехода ширины проезда: метров пути на метр сдвига стены с каждой стороны
+## (сужение 12 -> 6 м — 12 м пути; раньше был скос под 45°, на глаз — резкая ступенька).
+const WIDTH_TRANSITION := 4.0
+## Шаг поперечных рядов ленты на переходе ширины, м (чтобы плавная кривая не ломалась).
+const WIDTH_TRANSITION_ROW := 0.75
 const HILLS_PLATEAU := 1.5
 
 @export_group("Размеры")
@@ -180,10 +185,12 @@ enum Shape {
 	set(value):
 		portal_gaps = value
 		_queue_rebuild()
-## Ширина дороги по участкам ломаной, м: i-й элемент — участок от точки i до точки i+1
+## Ширина проезда по участкам ломаной, м: i-й элемент — участок от точки i до точки i+1
 ## (как в оригинале: проезд в 2 блока = 6 м, дальше в 4 = 12 м); 0 или нет элемента —
-## road_width. Ширина меняется у точки скосом под 45° (как диагональные тайлы кирпича),
-## поровну в обе стороны. Чтобы сменить ширину посреди прямой — добавь там точку.
+## road_width. Уже road_width — сама трасса (стены снаружи, окружение, опоры) прежней ширины,
+## а стена утолщается внутрь, как кирпичные блоки на дороге оригинала; шире — трасса
+## расширяется. Меняется у точки плавно (WIDTH_TRANSITION м пути на метр сужения с каждой
+## стороны), поровну в обе стороны. Чтобы сменить ширину посреди прямой — добавь там точку.
 @export var segment_widths: PackedFloat32Array = PackedFloat32Array():
 	set(value):
 		segment_widths = value
@@ -600,8 +607,8 @@ func _nearest_offset(p: Vector3) -> float:
 	return best
 
 
-## Полуширина дороги в точке offset (segment_widths; между участками — скос под 45°:
-## край сдвигается вбок на столько же, на сколько вдоль).
+## Полуширина проезда (дороги между стенами) в точке offset: segment_widths, между участками —
+## плавный переход (smoothstep) длиной _transition_length.
 func road_half_width_at(offset: float) -> float:
 	if _width_offsets.is_empty() or length <= 0.0:
 		return road_width * 0.5
@@ -611,17 +618,41 @@ func road_half_width_at(offset: float) -> float:
 	if i < 0:
 		i = n - 1
 	var half := _width_halves[i]
-	var before := _width_halves[(i - 1 + n) % n]
-	var span := absf(half - before)
+	var span := _transition_length(i)
 	var into := fposmod(d - _width_offsets[i], length)
 	if span > 0.0 and into < span * 0.5:
-		return lerpf(before, half, 0.5 + into / span)
-	var after := _width_halves[(i + 1) % n]
-	span = absf(after - half)
-	var left := fposmod(_width_offsets[(i + 1) % n] - d, length)
+		return lerpf(_width_halves[(i - 1 + n) % n], half, smoothstep(0.0, 1.0, 0.5 + into / span))
+	var next := (i + 1) % n
+	span = _transition_length(next)
+	var left := fposmod(_width_offsets[next] - d, length)
 	if span > 0.0 and left < span * 0.5:
-		return lerpf(after, half, 0.5 + left / span)
+		return lerpf(_width_halves[next], half, smoothstep(0.0, 1.0, 0.5 + left / span))
 	return half
+
+
+## Полуширина самой трассы (до внутренней стороны стен снаружи) в offset: не уже road_width —
+## узкий проезд делают толстые стены, а не узкая трасса. По ней — окружение, холмы, опоры.
+## Без стен (walls = false) утолщать нечего — сужается сама дорога.
+func outline_half_width_at(offset: float) -> float:
+	if not walls:
+		return road_half_width_at(offset)
+	return maxf(road_width * 0.5, road_half_width_at(offset))
+
+
+## Длина перехода ширины в начале участка j (м пути): по WIDTH_TRANSITION, но не длиннее
+## соседних участков — переходы не наползают друг на друга.
+func _transition_length(j: int) -> float:
+	var n := _width_offsets.size()
+	var before := (j - 1 + n) % n
+	var span := absf(_width_halves[j] - _width_halves[before]) * WIDTH_TRANSITION
+	if span <= 0.0:
+		return 0.0
+	var own := fposmod(_width_offsets[(j + 1) % n] - _width_offsets[j], length)
+	var previous := fposmod(_width_offsets[j] - _width_offsets[before], length)
+	if n == 1:
+		own = length
+		previous = length
+	return minf(span, minf(own, previous))
 
 
 ## Номер участка ломаной (от точки i до i+1) в месте offset — для segment_widths.
@@ -664,8 +695,8 @@ func min_road_width() -> float:
 	return narrowest * 2.0
 
 
-## Места, где строить поперечный ряд ленты: равный шаг mesh_step + концы скосов ширины
-## (иначе скос под 45° размазался бы по шагу сетки).
+## Места, где строить поперечный ряд ленты: равный шаг mesh_step + частые ряды на переходах
+## ширины (иначе плавный переход размазался бы по шагу сетки ломаной).
 func _row_offsets(d0: float, d1: float) -> PackedFloat32Array:
 	var steps := maxi(1, ceili((d1 - d0) / mesh_step))
 	var list: Array[float] = []
@@ -673,12 +704,14 @@ func _row_offsets(d0: float, d1: float) -> PackedFloat32Array:
 		list.append(lerpf(d0, d1, float(i) / steps))
 	var n := _width_offsets.size()
 	for j in n:
-		var span := absf(_width_halves[j] - _width_halves[(j - 1 + n) % n])
+		var span := _transition_length(j)
 		if span <= 0.0:
 			continue
-		for end in [_width_offsets[j] - span * 0.5, _width_offsets[j] + span * 0.5]:
+		var count := maxi(2, ceili(span / WIDTH_TRANSITION_ROW))
+		for r in count + 1:
+			var at := _width_offsets[j] - span * 0.5 + span * r / count
 			for lap in [-1.0, 0.0, 1.0]:
-				var x: float = end + lap * length
+				var x: float = at + lap * length
 				if x > d0 + 0.05 and x < d1 - 0.05:
 					list.append(x)
 	list.sort()
@@ -818,8 +851,8 @@ func _build_geometry() -> void:
 				[Vector2(half, -1.0), Vector2(half, wall_collision_height)], d0, d1)
 	# Концы дороги у разрыва закрыты кирпичной стеной поперёк.
 	for g in _gaps.size():
-		_add_end_wall(body, "GapWallIn%d" % (g + 1), _gaps[g].x, 1.0, road_half_width_at(_gaps[g].x) + wall_width)
-		_add_end_wall(body, "GapWallOut%d" % (g + 1), _gaps[g].y, -1.0, road_half_width_at(_gaps[g].y) + wall_width)
+		_add_end_wall(body, "GapWallIn%d" % (g + 1), _gaps[g].x, 1.0, outline_half_width_at(_gaps[g].x) + wall_width)
+		_add_end_wall(body, "GapWallOut%d" % (g + 1), _gaps[g].y, -1.0, outline_half_width_at(_gaps[g].y) + wall_width)
 
 	# Шахматная линия старта (метр в обе стороны от точки 0).
 	_add_ribbon(root, "StartLine", [Vector2(-half, 0.04), Vector2(half, 0.04)],
@@ -935,9 +968,13 @@ func _build_ribbon_mesh(profile: Array, d0: float, d1: float, tile: float, flat_
 		# У разрыва (портал) направление берётся только внутри участка: иначе край ленты
 		# повернулся бы к прямой разрыва.
 		var right := _right_of(_direction_within(d, d0, d1) if not _gaps.is_empty() else get_local_direction(d))
-		# Профили заданы для ширины road_width; на участке другой ширины всё, что не на оси,
-		# сдвигается наружу (дорога шире или уже, стены и полосы — за её краем).
-		var widen := road_half_width_at(d) - road_width * 0.5
+		# Профили заданы для ширины road_width. На участке другой ширины дорога и внутренняя
+		# сторона стен (|x| до края дороги) растягиваются под ширину проезда, а всё дальше
+		# (верх и внешний бок стены, окружение) сдвигается по ширине трассы: на узком проезде
+		# стена толще, сама трасса прежняя.
+		var base_half := road_width * 0.5
+		var squeeze := road_half_width_at(d) / base_half
+		var widen := outline_half_width_at(d) - base_half
 		var row := PackedVector3Array()
 		# Координата u каждой точки профиля: начало + длина ломаной до неё.
 		var us := PackedFloat32Array()
@@ -945,7 +982,10 @@ func _build_ribbon_mesh(profile: Array, d0: float, d1: float, tile: float, flat_
 		var u := 0.0
 		for k in profile.size():
 			var point: Vector2 = profile[k]
-			point.x += signf(point.x) * widen
+			if absf(point.x) <= base_half + 0.001:
+				point.x *= squeeze
+			else:
+				point.x += signf(point.x) * widen
 			u = point.x if k == 0 else u + point.distance_to(last)
 			last = point
 			us.append(u / tile)
@@ -1168,7 +1208,7 @@ func _add_hills(root: Node3D, edge: float) -> void:
 		if not is_in_gap(d):
 			var p := get_local_point(d)
 			var top := p.y - 0.02
-			var outside := road_half_width_at(d) + wall_width
+			var outside := outline_half_width_at(d) + wall_width
 			var ci := roundi((p.x - origin.x) / HILLS_CELL)
 			var cj := roundi((p.z - origin.y) / HILLS_CELL)
 			for j in range(maxi(cj - radius, 0), mini(cj + radius, nz - 1) + 1):
@@ -1276,6 +1316,6 @@ func _add_supports(root: Node3D, lateral: float) -> void:
 			holder.add_child(support)
 			# Верх опоры — под настилом (не вровень с дорогой или полосой окружения: мерцали бы).
 			var deck := minf(deck_thickness, background_depth * 0.5)
-			var at := lateral + road_half_width_at(d) - road_width * 0.5
+			var at := lateral + outline_half_width_at(d) - road_width * 0.5
 			support.transform = Transform3D(facing.scaled(Vector3(1.0, (background_depth - deck) / 6.0, 1.0)),
 					get_local_point(d) + right * at * side + Vector3.DOWN * deck)
