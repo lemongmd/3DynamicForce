@@ -12,7 +12,9 @@
 [ext_resource type="PackedScene" path="res://scenes/props/barrel.tscn" id="10_barrel"]
 [ext_resource type="PackedScene" path="res://scenes/objects/boost_pad.tscn" id="11_boost_pad"]
 [ext_resource type="PackedScene" path="res://scenes/props/road_sign.tscn" id="12_road_sign"]
-[ext_resource type="AudioStream" path="res://assets/original/music/junglerush.ogg" id="90_music"]
+[ext_resource type="PackedScene" path="res://scenes/objects/map_zone.tscn" id="14_e2w62"]
+[ext_resource type="PackedScene" path="res://scenes/props/barrier_block.tscn" id="15_u51sn"]
+[ext_resource type="AudioStream" uid="uid://djrdgw3vnhq1r" path="res://assets/original/music/junglerush.ogg" id="90_music"]
 
 [sub_resource type="Curve3D" id="Curve3D_remake01"]
 closed = true
@@ -25,12 +27,14 @@ point_count = 13
 
 [node name="Remake01" type="Node3D" unique_id=1350518793]
 script = ExtResource("1_track")
-haze_color = Color(0.62, 0.8, 0.98, 1)
 road_width = 13.5
 background_scroll = Vector2(1, -2)
-background_depth = 6.0
 background_reflection = true
+haze_color = Color(0.62, 0.8, 0.98, 1)
+background_depth = 6.0
 support_scene = ExtResource("7_column")
+portal_gaps = PackedInt32Array()
+segment_widths = PackedFloat32Array()
 road_material = ExtResource("2_road")
 wall_material = ExtResource("3_wall")
 background_material = ExtResource("4_background")
@@ -44,19 +48,13 @@ curve = SubResource("Curve3D_remake01")
 [node name="Props" type="Node3D" parent="." unique_id=198167261]
 
 [node name="ItemBoxSpot1" type="Marker3D" parent="Props" unique_id=898328320 groups=["item_box_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 40)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 17.717503)
 
 [node name="ItemBoxSpot2" type="Marker3D" parent="Props" unique_id=319057259 groups=["item_box_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 40)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 17.717503)
 
 [node name="ItemBoxSpot3" type="Marker3D" parent="Props" unique_id=2115385396 groups=["item_box_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 40)
-
-[node name="BoostPad1" parent="Props" unique_id=297583538 instance=ExtResource("11_boost_pad")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -18)
-
-[node name="BoostPad2" parent="Props" unique_id=1910156220 instance=ExtResource("11_boost_pad")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -18)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 17.717503)
 
 [node name="Ramp1" parent="Props" unique_id=2074063786 instance=ExtResource("8_ramp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -45)
@@ -76,6 +74,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, -90)
 [node name="Barrel3" parent="Props" unique_id=2060054437 instance=ExtResource("10_barrel")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -115)
 
+[node name="Barrel18" parent="Props" unique_id=60984376 instance=ExtResource("10_barrel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2.891565, -115)
+
 [node name="ItemBoxSpot4" type="Marker3D" parent="Props" unique_id=1533265933 groups=["item_box_spots"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 0, -134)
 
@@ -86,42 +87,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 0, -130)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 0, -126)
 
 [node name="Barrel4" parent="Props" unique_id=1123488520 instance=ExtResource("10_barrel")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58, 0, -133.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.511475, 0, -133.5)
 
 [node name="Barrel5" parent="Props" unique_id=1820910144 instance=ExtResource("10_barrel")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70, 0, -126.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 73.53528, 0, -126.5)
 
 [node name="Barrel6" parent="Props" unique_id=1116455414 instance=ExtResource("10_barrel")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 82, 0, -133.5)
-
-[node name="BoostPad3" parent="Props" unique_id=705019273 instance=ExtResource("11_boost_pad")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 94, 0, -130)
-kind = 1
-
-[node name="Barrel7" parent="Props" unique_id=1848360660 instance=ExtResource("10_barrel")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 117, 0, -113)
-
-[node name="BoostPad4" parent="Props" unique_id=225938426 instance=ExtResource("11_boost_pad")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 127, 0, -88)
-
-[node name="BoostPad5" parent="Props" unique_id=368104422 instance=ExtResource("11_boost_pad")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 133, 0, -88)
-
-[node name="BarrierParry3" parent="Props" unique_id=102280600 instance=ExtResource("9_barrier_parry")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 126.6, 0, -62)
-
-[node name="Barrel8" parent="Props" unique_id=1791897212 instance=ExtResource("10_barrel")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 134, 0, -45)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 89.07224, 0, -133.5)
 
 [node name="RoadSign1" parent="Props" unique_id=1168295002 instance=ExtResource("12_road_sign")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 138.25, 0, -35)
-
-[node name="BoostPad9" parent="Props" unique_id=1279632212 instance=ExtResource("11_boost_pad")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 115, 0, -10)
-
-[node name="BoostPad6" parent="Props" unique_id=1663799246 instance=ExtResource("11_boost_pad")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, -22)
-kind = 2
 
 [node name="Barrel9" parent="Props" unique_id=1375728380 instance=ExtResource("10_barrel")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96.5, 0, -38)
@@ -138,16 +113,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, -58)
 [node name="ItemBoxSpot9" type="Marker3D" parent="Props" unique_id=484537742 groups=["item_box_spots"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 104, 0, -58)
 
-[node name="Barrel11" parent="Props" unique_id=605518431 instance=ExtResource("10_barrel")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 85, 0, -70)
-
-[node name="BoostPad10" parent="Props" unique_id=859239122 instance=ExtResource("11_boost_pad")]
-transform = Transform3D(-0.8944271, 0, 0.44721374, 0, 1, 0, -0.44721374, 0, -0.8944271, 62.5, 0, -55)
-
-[node name="BoostPad7" parent="Props" unique_id=1024000129 instance=ExtResource("11_boost_pad")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 55, 0, -28)
-kind = 1
-
 [node name="Ramp2" parent="Props" unique_id=696833605 instance=ExtResource("8_ramp")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 55, 0, -12)
 
@@ -157,23 +122,169 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.6, 0, -2)
 [node name="BarrierParry5" parent="Props" unique_id=1663999129 instance=ExtResource("9_barrier_parry")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58.4, 0, -2)
 
-[node name="Barrel12" parent="Props" unique_id=2075112427 instance=ExtResource("10_barrel")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0, 30)
+[node name="BoostPad1" parent="Props" unique_id=2010616374 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, -19.5)
 
-[node name="Barrel13" parent="Props" unique_id=2122909139 instance=ExtResource("10_barrel")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58, 0, 22)
+[node name="BoostPad2" parent="Props" unique_id=80308029 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -19.5)
 
-[node name="Barrel14" parent="Props" unique_id=1924637721 instance=ExtResource("10_barrel")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.5, 0, 42.5)
+[node name="BoostPad11" parent="Props" unique_id=605309477 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, -19.5)
 
-[node name="ItemBoxSpot10" type="Marker3D" parent="Props" unique_id=1887354630 groups=["item_box_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 51)
+[node name="Barrel11" parent="Props" unique_id=1679444713 instance=ExtResource("10_barrel")]
+transform = Transform3D(0.27286637, 0, 0.9620519, 0, 1, 0, -0.9620519, 0, 0.27286637, 93.948135, 0, -73.95162)
 
-[node name="ItemBoxSpot11" type="Marker3D" parent="Props" unique_id=892762855 groups=["item_box_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 55)
+[node name="Barrel15" parent="Props" unique_id=581046631 instance=ExtResource("10_barrel")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 83.75532, 0, -65.5)
 
-[node name="ItemBoxSpot12" type="Marker3D" parent="Props" unique_id=493184694 groups=["item_box_spots"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 59)
+[node name="Barrel16" parent="Props" unique_id=775849621 instance=ExtResource("10_barrel")]
+transform = Transform3D(-0.14157377, 0, 0.9899277, 0, 1, 0, -0.9899277, 0, -0.14157377, 74.12299, 0, -74.35325)
 
-[node name="BoostPad8" parent="Props" unique_id=549359086 instance=ExtResource("11_boost_pad")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6, 0, 55)
+[node name="BoostPad12" parent="Props" unique_id=1578733596 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(0.7071077, 0, -0.7071058, 0, 1, 0, 0.7071058, 0, 0.7071077, 11.264959, 0, -117.628914)
+kind = 1
+
+[node name="BoostPad13" parent="Props" unique_id=1924341445 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(0.7071077, 0, -0.7071058, 0, 1, 0, 0.7071058, 0, 0.7071077, 17.62893, 0, -111.26496)
+kind = 1
+
+[node name="BarrierParry7" parent="Props" unique_id=326990746 instance=ExtResource("9_barrier_parry")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 72.97099, 0, -132.25)
+
+[node name="BarrierParry8" parent="Props" unique_id=510882740 instance=ExtResource("9_barrier_parry")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 88.50796, 0, -127.75)
+
+[node name="BarrierParry6" parent="Props" unique_id=7788995 instance=ExtResource("9_barrier_parry")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 57.947197, 0, -127.75)
+
+[node name="Barrel17" parent="Props" unique_id=23376053 instance=ExtResource("10_barrel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, -70)
+
+[node name="Ramp3" parent="Props" unique_id=600846394 instance=ExtResource("8_ramp")]
+transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.70710677, 108.391075, 0, -121.60892)
+
+[node name="Barrel7" parent="Props" unique_id=718262548 instance=ExtResource("10_barrel")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 125.5, 0, -93.12857)
+
+[node name="Barrel19" parent="Props" unique_id=2083179989 instance=ExtResource("10_barrel")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 134.5, 0, -82.12858)
+
+[node name="Ice1" parent="Props" unique_id=1956846571 instance=ExtResource("14_e2w62")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 130, 0, -73.128555)
+kind = 2
+size = Vector2(8, 10)
+tint = Color(0.16470589, 0.74509805, 0.99607843, 1)
+
+[node name="BarrierParry3" parent="Props" unique_id=1203580916 instance=ExtResource("9_barrier_parry")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 130, 0, -66.12858)
+
+[node name="Barrel20" parent="Props" unique_id=1674991067 instance=ExtResource("10_barrel")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 134.5, 0, -66.12858)
+
+[node name="Barrel21" parent="Props" unique_id=527349209 instance=ExtResource("10_barrel")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 125.5, 0, -66.12858)
+
+[node name="BarrierBlock1" parent="Props" unique_id=2017401331 instance=ExtResource("15_u51sn")]
+transform = Transform3D(-0.6857264, 0, -0.6857264, 0, 1, 0, 0.6857264, 0, -0.6857264, 110.5124, 1.5160158, -119.4876)
+
+[node name="BoostPad3" parent="Props" unique_id=2068011681 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 130, 0, -63.128563)
+kind = 1
+
+[node name="Barrel8" parent="Props" unique_id=883986981 instance=ExtResource("10_barrel")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 130, 0, -53.128563)
+
+[node name="Barrel22" parent="Props" unique_id=603738575 instance=ExtResource("10_barrel")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 134.5, 0, -39.561485)
+
+[node name="Barrel23" parent="Props" unique_id=250852991 instance=ExtResource("10_barrel")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 125.5, 0, -39.561485)
+
+[node name="Ice2" parent="Props" unique_id=823082626 instance=ExtResource("14_e2w62")]
+transform = Transform3D(-0.88519895, 0, 0.70879465, 0, 1, 0, -0.7263897, 0, -0.8637571, 127.73078, 0, -13.657258)
+kind = 2
+size = Vector2(8, 10)
+tint = Color(0.16470589, 0.74509805, 0.99607843, 1)
+
+[node name="Ice3" parent="Props" unique_id=185673193 instance=ExtResource("14_e2w62")]
+transform = Transform3D(-7.540189e-08, 0, 1.3482931, 0, 1, 0, -1.7249942, 0, -5.893576e-08, 114.837494, 0, -10)
+kind = 2
+size = Vector2(8, 10)
+tint = Color(0.16470589, 0.74509805, 0.99607843, 1)
+
+[node name="Ice4" parent="Props" unique_id=1808460053 instance=ExtResource("14_e2w62")]
+transform = Transform3D(0.7282509, 0, 0.6853106, 0, 1, 0, -0.6853106, 0, 0.7282509, 102.716354, 0, -13.151899)
+kind = 2
+size = Vector2(8, 10)
+tint = Color(0.16470589, 0.74509805, 0.99607843, 1)
+
+[node name="BoostPad4" parent="Props" unique_id=2142201488 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95.5, 0, -25.453611)
+kind = 2
+
+[node name="BoostPad5" parent="Props" unique_id=165616441 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, -26.949396)
+kind = 2
+
+[node name="BoostPad6" parent="Props" unique_id=642539854 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 104.5, 0, -25.453611)
+kind = 2
+
+[node name="BoostPad9" parent="Props" unique_id=2076831586 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(-0.89442724, 0, 0.4472135, 0, 1, 0, -0.4472135, 0, -0.89442724, 66.40698, 0, -52.751648)
+
+[node name="BoostPad14" parent="Props" unique_id=1369233779 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(-0.89442724, 0, 0.4472135, 0, 1, 0, -0.4472135, 0, -0.89442724, 58.357136, 0, -56.776573)
+
+[node name="BoostPad15" parent="Props" unique_id=294523223 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(-1, 0, 1.8199258e-06, 0, 1, 0, -1.8199258e-06, 0, -1, 59.500004, 0, -30.421722)
+kind = 1
+
+[node name="BoostPad16" parent="Props" unique_id=637719904 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(-1, 0, 1.8199258e-06, 0, 1, 0, -1.8199258e-06, 0, -1, 50.500004, 0, -30.421738)
+kind = 1
+
+[node name="BoostPad10" parent="Props" unique_id=1781316558 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(-0.89442754, 0, 0.44721287, 0, 1, 0, -0.44721287, 0, -0.89442754, 61.487625, 0, -52.975243)
+
+[node name="BoostPad7" parent="Props" unique_id=1110265669 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(-1, 0, -1.8199258e-06, 0, 1, 0, 1.8199258e-06, 0, -1, 55, 0, -28.42173)
+kind = 1
+
+[node name="BarrierBlock2" parent="Props" unique_id=61092268 instance=ExtResource("15_u51sn")]
+transform = Transform3D(-0.9852388, 0, 0.17118567, 0, 1, 0, -0.17118567, 0, -0.9852388, 54.849422, 0, 27.569456)
+
+[node name="Barrel12" parent="Props" unique_id=679042688 instance=ExtResource("10_barrel")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 50.397217, 0, 40.966743)
+
+[node name="Barrel13" parent="Props" unique_id=1781624454 instance=ExtResource("10_barrel")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 44.033257, 0, 34.602783)
+
+[node name="BoostPad8" parent="Props" unique_id=1518588942 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(-0.7071049, 0, 0.7071086, 0, 1, 0, -0.7071086, 0, -0.7071049, 41.02802, 0, 47.15396)
+
+[node name="BoostPad17" parent="Props" unique_id=1371906386 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(-0.7071049, 0, 0.7071086, 0, 1, 0, -0.7071086, 0, -0.7071049, 37.84605, 0, 43.97197)
+
+[node name="BoostPad18" parent="Props" unique_id=389300880 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(0.3036105, 0, 0.9527962, 0, 1, 0, -0.9527962, 0, 0.3036105, 6.280398, 0, 56.672966)
+kind = 1
+
+[node name="BoostPad19" parent="Props" unique_id=1693362459 instance=ExtResource("11_boost_pad")]
+transform = Transform3D(0.3036105, 0, 0.9527962, 0, 1, 0, -0.9527962, 0, 0.3036105, 7.646645, 0, 52.385384)
+kind = 1
+
+[node name="Ice5" parent="Props" unique_id=710117232 instance=ExtResource("14_e2w62")]
+transform = Transform3D(-5.365906e-08, 0, 1.3040836, 0, 1, 0, -1.2275763, 0, -5.7003305e-08, 17.914953, 0, 55)
+kind = 2
+size = Vector2(8, 10)
+tint = Color(0.16470589, 0.74509805, 0.99607843, 1)
+
+[node name="Ice6" parent="Props" unique_id=1691611261 instance=ExtResource("14_e2w62")]
+transform = Transform3D(-0.97477275, 0, 0.95930403, 0, 1, 0, -1.4068686, 0, -0.66467005, 31.550238, 0, 53.218414)
+kind = 2
+size = Vector2(8, 10)
+tint = Color(0.16470589, 0.74509805, 0.99607843, 1)
+
+[node name="Ramp4" parent="Props" unique_id=1742566940 instance=ExtResource("8_ramp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 37.62385)

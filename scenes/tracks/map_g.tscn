@@ -308,7 +308,7 @@ transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 160.
 transform = Transform3D(-0.8616333, 0, -0.5075314, 0, 1, 0, 0.5075314, 0, -0.8616333, 167.78195, 0, 335.07095)
 kind = 2
 size = Vector2(15, 10)
-tint = Color(0.165, 0.745, 0.996, 1)
+tint = Color(0.16470589, 0.74509805, 0.99607843, 1)
 
 [node name="Ice3" parent="Props" unique_id=725552789 instance=ExtResource("26_rcxtk")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 183.01016, 0, 340)
