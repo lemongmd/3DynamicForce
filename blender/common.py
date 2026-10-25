@@ -17,6 +17,7 @@
     top / bottom / front / back / side.
 """
 
+import math
 import os
 import random
 import tempfile
@@ -396,6 +397,55 @@ def add_cylinder_x(name, radius, width, location, material, rect_for_face, verti
     bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
     obj.data.materials.append(material)
     apply_atlas_uvs(obj, rect_for_face)
+    return obj
+
+
+def add_cylinder_z(name, radius, height, segments, material, rects, wraps=1):
+    """Вертикальный цилиндр (бочка), начало координат — центр основания.
+
+    rects: {"side", "top", "bottom"} -> участок атласа (u0, v0, u1, v1). Бок — картинка
+    side, обёрнутая wraps раз по кругу (не зеркалится, если смотреть снаружи), низ участка —
+    низ цилиндра; крышки — картинки top/bottom, спроецированные сверху на круг (перед +Y —
+    верх картинки, как у apply_atlas_uvs).
+    """
+
+    mesh = bpy.data.meshes.new(name)
+    obj = bpy.data.objects.new(name, mesh)
+    bpy.context.collection.objects.link(obj)
+    bm = bmesh.new()
+    uv_layer = bm.loops.layers.uv.new()
+    ring = [(math.cos(2.0 * math.pi * i / segments) * radius, math.sin(2.0 * math.pi * i / segments) * radius)
+            for i in range(segments)]
+    low = [bm.verts.new((x, y, 0.0)) for x, y in ring]
+    high = [bm.verts.new((x, y, height)) for x, y in ring]
+    u0, v0, u1, v1 = rects["side"]
+    for i in range(segments):
+        j = (i + 1) % segments
+        face = bm.faces.new((low[i], low[j], high[j], high[i]))
+        # Доля картинки: wraps раз на круг; угол растёт против часовой (вид сверху) —
+        # снаружи это движение вправо, поэтому u растёт вместе с ним.
+        a = (i * wraps / segments) % 1.0
+        b = a + wraps / segments
+        coords = [(a, 0.0), (b, 0.0), (b, 1.0), (a, 1.0)]
+        for loop, (tu, tv) in zip(face.loops, coords):
+            loop[uv_layer].uv = (u0 + tu * (u1 - u0), v0 + tv * (v1 - v0))
+    for kind, verts, flip in (("top", high, False), ("bottom", list(reversed(low)), True)):
+        c0, d0, c1, d1 = rects[kind]
+        face = bm.faces.new(verts)
+        for loop in face.loops:
+            x, y = loop.vert.co.x, loop.vert.co.y
+            tu = (x / radius + 1.0) * 0.5
+            if flip:
+                tu = 1.0 - tu
+            tv = (y / radius + 1.0) * 0.5
+            loop[uv_layer].uv = (c0 + tu * (c1 - c0), d0 + tv * (d1 - d0))
+    bm.normal_update()
+    bm.to_mesh(mesh)
+    bm.free()
+    mesh.materials.append(material)
+    # Плоские грани — пиксельный стиль, как у остальных моделей.
+    for poly in mesh.polygons:
+        poly.use_smooth = False
     return obj
 
 

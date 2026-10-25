@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hazards/parry_hazard.gd" id="1_hazard"]
+[ext_resource type="Script" path="res://scripts/props/c3_box_visual.gd" id="2_box"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stocksplat.wav" id="3_splat"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stockpain.wav" id="4_pain"]
+[ext_resource type="Texture2D" path="res://assets/textures/props/danger_sign_parry.png" id="5_tex"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(2, 1.9, 1.6)
+
+[node name="DangerSignParry" type="Area3D"]
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_hazard")
+hit_sounds = Array[AudioStream]([ExtResource("3_splat"), ExtResource("4_pain")])
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.95, 0)
+shape = SubResource("BoxShape3D_1")
+
+[node name="Visual" type="MeshInstance3D" parent="."]
+script = ExtResource("2_box")
+size = Vector3(2, 0, 4)
+texture = ExtResource("5_tex")
+flat = true
+standing_sign = true

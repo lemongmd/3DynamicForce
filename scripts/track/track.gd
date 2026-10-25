@@ -1117,32 +1117,57 @@ func _texture_background() -> StandardMaterial3D:
 	return material
 
 
-## Холмы окружения: рельеф по сетке (клетка HILLS_CELL), высота — по расстоянию до центральной
-## линии: под дорогой и стенами ниже дороги, у стены ровная площадка HILLS_PLATEAU, дальше
-## склон с буграми (шум) на surround_width метров уходит на 1.5 м под фон. В отличие от ленты
-## сетка не складывается на тесных поворотах — нечему мерцать.
+## Холмы окружения: рельеф по сетке (клетка HILLS_CELL). Каждая точка центральной линии даёт
+## «гору» по расстоянию за край стены: под дорогой и стенами — ниже дороги, у стены ровная
+## площадка HILLS_PLATEAU на высоте дороги, дальше склон с буграми (шум) на surround_width метров
+## уходит на 1.5 м под фон. Высота клетки — самая высокая из гор (поверхность непрерывна, и где
+## рядом участки разной высоты, склоны плавно сливаются), но не выше дороги, под которой клетка.
+## Низ склона — от уровня фона, а не от своей дороги: на поднятых участках (Y > 0) склон раньше
+## обрывался в воздухе, а клетки «ниже дороги на глубину фона» выбрасывались — дыры.
+## В отличие от ленты сетка не складывается на тесных поворотах — нечему мерцать.
 func _add_hills(root: Node3D, edge: float) -> void:
 	# edge — край стены при ширине road_width; на участках другой ширины край свой.
 	var reach := edge + max_road_width() * 0.5 - road_width * 0.5 + HILLS_PLATEAU + surround_width
 	var bounds := AABB(_points[0], Vector3.ZERO)
 	for point in _points:
 		bounds = bounds.expand(point)
+	# Уровень фона (как в _add_background) и низ склонов под ним.
+	var water := bounds.position.y - background_depth
+	var bottom := water - 1.5
 	bounds = bounds.grow(reach + HILLS_CELL)
 	var origin := Vector2(bounds.position.x, bounds.position.z)
 	var nx := ceili(bounds.size.x / HILLS_CELL) + 1
 	var nz := ceili(bounds.size.z / HILLS_CELL) + 1
-	# Расстояние за внешний край стены (у каждой точки линии — своя ширина дороги): точки
-	# линии через клетку «штампуются» в клетки вокруг; меньше нуля — под дорогой или стеной.
-	var dist := PackedFloat32Array()
-	dist.resize(nx * nz)
-	dist.fill(INF)
-	var base := PackedFloat32Array()
-	base.resize(nx * nz)
+	var noise := FastNoiseLite.new()
+	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
+	noise.frequency = 0.07
+	noise.seed = 7
+	var bumps := PackedFloat32Array()
+	bumps.resize(nx * nz)
+	for k in nx * nz:
+		bumps[k] = noise.get_noise_2d(origin.x + (k % nx) * HILLS_CELL, origin.y + floorf(float(k) / nx) * HILLS_CELL) 				* hills_height
+	# heights — самая высокая гора над клеткой (без бугров; slope_t и tops — место на склоне
+	# и высота дороги этой горы: бугры — по ним, как раньше от ближайшей точки);
+	# cover — самая низкая дорога (со стенами) над клеткой.
+	var heights := PackedFloat32Array()
+	heights.resize(nx * nz)
+	heights.fill(bottom)
+	var slope_t := PackedFloat32Array()
+	slope_t.resize(nx * nz)
+	slope_t.fill(1.0)
+	var tops := PackedFloat32Array()
+	tops.resize(nx * nz)
+	tops.fill(INF)
+	var cover := PackedFloat32Array()
+	cover.resize(nx * nz)
+	cover.fill(INF)
 	var radius := ceili(reach / HILLS_CELL) + 1
+	var slope := maxf(surround_width, 0.1)
 	var d := 0.0
 	while d < length:
 		if not is_in_gap(d):
 			var p := get_local_point(d)
+			var top := p.y - 0.02
 			var outside := road_half_width_at(d) + wall_width
 			var ci := roundi((p.x - origin.x) / HILLS_CELL)
 			var cj := roundi((p.z - origin.y) / HILLS_CELL)
@@ -1152,36 +1177,33 @@ func _add_hills(root: Node3D, edge: float) -> void:
 					var dx := origin.x + i * HILLS_CELL - p.x
 					var dd := sqrt(dx * dx + dz * dz) - outside
 					var k := j * nx + i
-					if dd < dist[k]:
-						dist[k] = dd
-						base[k] = p.y
+					if dd < 0.0:
+						cover[k] = minf(cover[k], top - 0.3)
+						continue
+					var t := clampf((dd - HILLS_PLATEAU) / slope, 0.0, 1.0)
+					var h := top - (top - bottom) * t * t * (3.0 - 2.0 * t)
+					if h > heights[k]:
+						heights[k] = h
+						slope_t[k] = t
+						tops[k] = top
 		d += HILLS_CELL
-	var noise := FastNoiseLite.new()
-	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
-	noise.frequency = 0.07
-	noise.seed = 7
-	var drop := background_depth + 1.5
-	var heights := PackedFloat32Array()
-	heights.resize(nx * nz)
 	for k in nx * nz:
-		var top := base[k] - 0.02
-		if dist[k] < 0.0:
-			heights[k] = top - 0.3
-			continue
-		var t := clampf((dist[k] - HILLS_PLATEAU) / maxf(surround_width, 0.1), 0.0, 1.0)
-		var bump := noise.get_noise_2d(origin.x + (k % nx) * HILLS_CELL, origin.y + floorf(float(k) / nx) * HILLS_CELL)
-		heights[k] = minf(top - drop * t * t * (3.0 - 2.0 * t) + bump * hills_height * sin(PI * t), top)
+		# Под дорогой — чуть ниже неё (самой низкой, если над клеткой несколько: развязка).
+		if cover[k] < INF:
+			heights[k] = cover[k]
+		else:
+			heights[k] = minf(heights[k] + bumps[k] * sin(PI * slope_t[k]), tops[k])
 	_hills = {"origin": origin, "nx": nx, "nz": nz, "heights": heights}
 
 	# Клетки целиком под фоном не нужны.
-	var hidden := -background_depth - 0.6
+	var hidden := water - 0.6
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	for j in nz - 1:
 		for i in nx - 1:
 			var k := j * nx + i
 			var corners := [k, k + 1, k + nx + 1, k + nx]
-			if corners.all(func(c: int) -> bool: return heights[c] < hidden + base[c]):
+			if corners.all(func(c: int) -> bool: return heights[c] < hidden):
 				continue
 			var v: Array[Vector3] = []
 			for c: int in corners:

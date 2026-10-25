@@ -42,6 +42,8 @@ const SCENES := {
 	"crab_parry": "res://scenes/hazards/crab_parry.tscn",
 	"wet": "res://scenes/props/wet_floor.tscn",
 	"wet_parry": "res://scenes/hazards/wet_floor_parry.tscn",
+	"danger": "res://scenes/props/danger_sign.tscn",
+	"danger_parry": "res://scenes/hazards/danger_sign_parry.tscn",
 	"barrier": "res://scenes/hazards/barrier_parry.tscn",
 	"block": "res://scenes/props/barrier_block.tscn",
 	"ramp": "res://scenes/props/ramp.tscn",

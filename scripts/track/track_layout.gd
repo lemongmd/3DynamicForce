@@ -60,6 +60,10 @@ static func half_extents(node: Node3D) -> Vector2:
 		if shape_node.shape is BoxShape3D:
 			var size := (shape_node.shape as BoxShape3D).size
 			local = AABB(-size * 0.5, size)
+		elif shape_node.shape is CylinderShape3D:
+			var cylinder := shape_node.shape as CylinderShape3D
+			var extent := Vector3(cylinder.radius, cylinder.height * 0.5, cylinder.radius)
+			local = AABB(-extent, extent * 2.0)
 		elif shape_node.shape is ConvexPolygonShape3D:
 			var points := (shape_node.shape as ConvexPolygonShape3D).points
 			if points.is_empty():

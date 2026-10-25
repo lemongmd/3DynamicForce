@@ -177,6 +177,8 @@ func _half_width(node: Node3D) -> float:
 		if shape != null and shape.shape is BoxShape3D:
 			var size := (shape.shape as BoxShape3D).size * node.scale
 			half = maxf(half, maxf(size.x, size.z) * 0.5)
+		elif shape != null and shape.shape is CylinderShape3D:
+			half = maxf(half, (shape.shape as CylinderShape3D).radius * maxf(node.scale.x, node.scale.z))
 	return half
 
 

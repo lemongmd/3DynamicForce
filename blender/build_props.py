@@ -42,6 +42,17 @@ def build_box_prop(file_name, size_px, z_height_px, faces):
     common.export_glb(os.path.join("assets", "models", "props", file_name + ".glb"))
 
 
+def build_cylinder_prop(file_name, diameter_px, z_height_px, faces, segments, wraps):
+    """Цилиндр: бок — картинка side, обёрнутая wraps раз; крышки — top/bottom.
+    Начало координат — центр основания."""
+    common.reset_scene()
+    material, rects = _atlas_material(file_name, faces)
+    radius = diameter_px / PIXELS_PER_METER / 2.0
+    common.add_cylinder_z(file_name.capitalize(), radius, z_height_px / PIXELS_PER_METER, segments,
+            material, rects, wraps)
+    common.export_glb(os.path.join("assets", "models", "props", file_name + ".glb"))
+
+
 def _atlas_material(name, faces):
     atlas = common.Atlas(max(len(rows[0]) for rows in faces.values()))
     for kind, rows in faces.items():
@@ -100,11 +111,14 @@ def build_ramp():
 
 
 # Бочка (Barrel): 16×16 px, высота 24 px; кадр 1 — крышка, 0 — дно, 2..5 — бока.
-build_box_prop("barrel", (16, 16), 24, {
+# Бочка — цилиндр (просьба автора ремейка; в оригинале «3D shape»-коробка): диаметр 16 px (2 м),
+# высота 24 px (3 м), 8 граней по кругу, бок обёрнут 2 раза (по четверти картинки на грань:
+# грань не должна захватывать край участка атласа).
+build_cylinder_prop("barrel", 16, 24, {
     "top": original("levelobj", "barrel-001"),
     "bottom": original("levelobj", "barrel-000"),
     "side": original("levelobj", "barrel-002"),
-})
+}, segments=8, wraps=2)
 
 # Колонна эстакады (Сolumn): 16×16 px, высота 48 px (6 м); бока 8×32, торцы 8×8.
 build_box_prop("column", (16, 16), 48, {

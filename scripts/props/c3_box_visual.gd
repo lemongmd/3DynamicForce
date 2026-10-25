@@ -26,6 +26,11 @@ extends MeshInstance3D
 	set(value):
 		frame = value
 		_rebuild()
+## Своя картинка (flat) вместо кадров оригинала — например, табличка «Опасно».
+@export var texture: Texture2D:
+	set(value):
+		texture = value
+		_rebuild()
 ## Видимые грани (биты C3Box.FACE_*, как face-… оригинала) и форма (пирамида — щебень).
 @export_flags("back (дно)", "front (крышка)", "left (−X)", "right (+X)", "top (−Z)", "bottom (+Z)")
 var faces: int = C3Box.FACES_DEFAULT:
@@ -63,19 +68,26 @@ func _validate_property(property: Dictionary) -> void:
 
 
 func _rebuild() -> void:
-	if not is_inside_tree() or base_name.is_empty():
+	if not is_inside_tree() or (base_name.is_empty() and texture == null):
+		return
+	if flat and texture != null:
+		_build_flat(texture)
 		return
 	var frames := C3Box.frames_of(folder, base_name)
 	if flat:
-		var texture: Texture2D = frames[frame] if frame < frames.size() else null
-		if texture == null:
+		var picture: Texture2D = frames[frame] if frame < frames.size() else null
+		if picture == null:
 			var single := "res://assets/original/textures/%s/%s.png" % [folder, base_name]
-			texture = load(single) as Texture2D if ResourceLoader.exists(single) else null
-		if standing_sign:
-			mesh = C3Box.a_frame(Vector2(size.x, size.z), texture)
-		elif peak > 0.0:
-			mesh = C3Box.mountain(Vector2(size.x, size.z), peak, texture)
-		else:
-			mesh = C3Box.flat(Vector2(size.x, size.z), texture)
+			picture = load(single) as Texture2D if ResourceLoader.exists(single) else null
+		_build_flat(picture)
 	else:
 		mesh = C3Box.mesh(size, frames, alpha, faces, pyramid)
+
+
+func _build_flat(picture: Texture2D) -> void:
+	if standing_sign:
+		mesh = C3Box.a_frame(Vector2(size.x, size.z), picture)
+	elif peak > 0.0:
+		mesh = C3Box.mountain(Vector2(size.x, size.z), peak, picture)
+	else:
+		mesh = C3Box.flat(Vector2(size.x, size.z), picture)

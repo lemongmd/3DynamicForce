@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/props/c3_box_visual.gd" id="1_box"]
+[ext_resource type="Texture2D" path="res://assets/textures/props/danger_sign.png" id="2_tex"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(2, 1.9, 1.6)
+
+[node name="DangerSign" type="StaticBody3D"]
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.95, 0)
+shape = SubResource("BoxShape3D_1")
+
+[node name="Visual" type="MeshInstance3D" parent="."]
+script = ExtResource("1_box")
+size = Vector3(2, 0, 4)
+texture = ExtResource("2_tex")
+flat = true
+standing_sign = true

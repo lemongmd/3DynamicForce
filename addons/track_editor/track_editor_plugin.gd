@@ -37,6 +37,8 @@ const PALETTE := [
 	{"title": "Спасательный круг", "scene": "res://scenes/props/life_ring.tscn", "base": "LifeRing"},
 	{"title": "Мокрый пол", "scene": "res://scenes/props/wet_floor.tscn", "base": "WetFloor"},
 	{"title": "Мокрый пол (парир.)", "scene": "res://scenes/hazards/wet_floor_parry.tscn", "base": "WetFloorParry"},
+	{"title": "Опасно", "scene": "res://scenes/props/danger_sign.tscn", "base": "DangerSign"},
+	{"title": "Опасно (парир.)", "scene": "res://scenes/hazards/danger_sign_parry.tscn", "base": "DangerSignParry"},
 	{"title": "Цирковые шары", "scene": "res://scenes/hazards/circus_balls.tscn", "base": "CircusBalls"},
 	{"title": "Лёд 8×10", "scene": "res://scenes/objects/map_zone.tscn", "base": "Ice",
 			"set": {"kind": 2, "size": Vector2(8.0, 10.0)}},
