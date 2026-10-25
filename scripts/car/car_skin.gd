@@ -7,8 +7,9 @@ extends RefCounted
 ##
 ## Модели — blender/build_car.py: кузов нарисован в серых тонах, рядом .json с буквами атласа
 ## (какая часть машины в каждом пикселе). paint() собирает из них текстуру скина: кузов умножается
-## на цвет, стёкла перекрашиваются в цвета кадра стёкол оригинала, рисунок оригинала (вид сверху)
-## кладётся на верх кузова и крышу, колёса — по кадру колёс (размер и цвет).
+## на цвет, стёкла перекрашиваются в цвета кадра стёкол оригинала, колёса — по кадру колёс (размер
+## и цвет). Рисунок оригинала (вид сверху) — объёмный (узел Decal модели): наклейка из пиксельных
+## кубиков на крыше, спойлер (кадр 5) — антикрыло за кормой, ушки (кадр 8) — кошачьи ушки на крыше.
 
 const LEVELS := 4
 ## Обычные кузова (0..2); кузов TANK — секретный танк (в оригинале — если зажать кнопку кузова).
@@ -27,6 +28,18 @@ const PRESETS := ["30000000", "01300000", "02000000", "33000000"]
 ## Колёса: масштаб (вдоль оси, радиус) — 0 обычные, 1 широкие, 2 радужные, 3 маленькие.
 const WHEEL_SCALE := [Vector2(1.0, 1.0), Vector2(1.6, 1.1), Vector2(1.0, 1.0), Vector2(1.0, 0.72)]
 const RAINBOW_WHEELS := 2
+## Рисунки, которые в оригинале торчат за кузовом: антикрыло сзади и ушки спереди.
+const PRINT_SPOILER := 5
+const PRINT_EARS := 8
+## Наклейка на крыше: пиксель рисунка — кубик (в оригинале кузов 22 px = 3 м: 0.135 м),
+## на маленькой крыше — мельче, чтобы рисунок целиком лёг на неё; толщина кубиков, м.
+const STICKER_PIXEL := 0.135
+const STICKER_THICKNESS := 0.05
+## Узлы модели (build_car.py): крыша (кабина / башня танка) и кузов (корпус танка).
+const ROOF_NODES := ["Cabin", "Turret"]
+const BODY_NODES := ["Body", "Hull"]
+const ROOF_AREAS := ["roof", "turret"]
+const BODY_AREAS := ["body_top", "tank_top"]
 
 var r: int = 3
 var g: int = 3
@@ -39,6 +52,8 @@ var wheels: int = 0
 ## Собранные материалы по строке скина (одинаковые скины — одна текстура).
 static var _materials: Dictionary = {}
 static var _meta: Dictionary = {}
+## Сетки объёмных рисунков по «кузов|рисунок».
+static var _decal_meshes: Dictionary = {}
 
 
 static func from_code(code: String) -> CarSkin:
@@ -91,6 +106,7 @@ func paint(model: Node3D) -> void:
 		wheel.scale = Vector3(scale.x, scale.y, scale.y)
 		# Колесо стоит на земле (центр — на радиусе), шире — наружу, а не в кузов.
 		wheel.position = Vector3(rest.x + signf(rest.x) * 0.13 * (scale.x - 1.0), rest.y * scale.y, rest.z)
+	_add_decal(model)
 
 
 func _material_for(model: Node3D) -> Material:
@@ -149,42 +165,209 @@ func _compose(image: Image, meta: Dictionary) -> void:
 			elif tire_roles.has(ch) and wheels == RAINBOW_WHEELS:
 				var color := Color.from_hsv(fposmod(float(x + y) / 8.0, 1.0), 0.75, 0.95 if tire_roles[ch] == "tread" else 0.8)
 				image.set_pixel(x, y, color)
-	if decal > 0:
-		_paint_decal(image, meta, tint_letters)
 
 
-## Рисунок оригинала (вид сверху 24×16, нос — вправо) на верхние грани: каждый пиксель грани —
-## точка машины в метрах, она же — пиксель спрайта (кузов спрайта player-base-000 = кузов модели).
-func _paint_decal(image: Image, meta: Dictionary, tint_letters: String) -> void:
-	var sprite := _sprite("other/playerskinpart-print", decal)
-	var body_sprite := _sprite("main/player-base", 0)
-	if sprite == null or body_sprite == null:
+## Объёмный рисунок (узел Decal модели, только вид). Раньше рисунок ложился на текстуру верхних
+## граней: рожицы рвались о лобовое стекло (его пиксели пропускались), а спойлер и ушки, которые
+## в оригинале торчат за кузовом, расплющивались полосами по багажнику и капоту.
+func _add_decal(model: Node3D) -> void:
+	if decal <= 0:
 		return
-	var body_px := body_sprite.get_used_rect()
-	var areas: Dictionary = meta["areas"]
-	var extent: Array = areas.values()[0]
-	var letters: Array = meta["letters"]
-	for area_name in areas:
-		var rect: Array = meta["rects"][area_name]
-		var area: Array = areas[area_name]
-		for py in int(rect[3]):
-			for px in int(rect[2]):
-				var ax := int(rect[0]) + px
-				var ay := int(rect[1]) + py
-				if not tint_letters.contains(String(letters[ay])[ax]):
-					continue
-				# Пиксель грани -> метры (x — вправо, y — вперёд; строка 0 — перед).
-				var mx := lerpf(float(area[0]), float(area[1]), (px + 0.5) / float(rect[2]))
-				var my := lerpf(float(area[3]), float(area[2]), (py + 0.5) / float(rect[3]))
-				# Метры -> пиксель спрайта: нос вправо, правый бок машины — вниз.
-				var sx := body_px.position.x + inverse_lerp(float(extent[2]), float(extent[3]), my) * body_px.size.x
-				var sy := body_px.position.y + inverse_lerp(float(extent[0]), float(extent[1]), mx) * body_px.size.y
-				var spx := clampi(floori(sx), 0, sprite.get_width() - 1)
-				var spy := clampi(floori(sy), 0, sprite.get_height() - 1)
-				var color := sprite.get_pixel(spx, spy)
-				if color.a > 0.5:
-					image.set_pixel(ax, ay, Color(color.r, color.g, color.b, 1.0))
+	var key := "%d|%d" % [base, decal]
+	if not _decal_meshes.has(key):
+		_decal_meshes[key] = _build_decal(model, _load_meta(MODELS[base] + ".json"))
+	var mesh: ArrayMesh = _decal_meshes[key]
+	if mesh == null:
+		return
+	var instance := MeshInstance3D.new()
+	instance.name = "Decal"
+	instance.mesh = mesh
+	model.add_child(instance)
 
+
+func _build_decal(model: Node3D, meta: Dictionary) -> ArrayMesh:
+	var sprite := _sprite("other/playerskinpart-print", decal)
+	var roof := _area(meta, ROOF_AREAS)
+	var body := _area(meta, BODY_AREAS)
+	var roof_top := _top_of(model, ROOF_NODES)
+	var body_top := _top_of(model, BODY_NODES)
+	if sprite == null or roof.size == Vector2.ZERO or is_nan(roof_top):
+		return null
+	sprite.convert(Image.FORMAT_RGBA8)
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	if decal == PRINT_SPOILER:
+		_add_spoiler(st, sprite, roof, roof_top, body, body_top)
+	elif decal == PRINT_EARS:
+		_add_ears(st, sprite, roof, roof_top)
+	else:
+		_add_sticker(st, sprite, roof, roof_top)
+	var material := StandardMaterial3D.new()
+	material.vertex_color_use_as_albedo = true
+	material.roughness = 0.8
+	# Нормали заданы явно, а порядок вершин у граней разный — рисуем обе стороны.
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	st.set_material(material)
+	return st.commit()
+
+
+## Наклейка: каждый пиксель рисунка — кубик на крыше. Рисунок по центру крыши, нос спрайта
+## (вправо) — вперёд (−Z), низ спрайта — правый бок (+X).
+func _add_sticker(st: SurfaceTool, sprite: Image, roof: Rect2, top: float) -> void:
+	var used := sprite.get_used_rect()
+	var pixel := minf(STICKER_PIXEL, minf(roof.size.y * 0.9 / used.size.x, roof.size.x * 0.9 / used.size.y))
+	var center := roof.get_center()
+	for sy in range(used.position.y, used.end.y):
+		for sx in range(used.position.x, used.end.x):
+			if not _solid(sprite, sx, sy):
+				continue
+			var color := sprite.get_pixel(sx, sy)
+			color.a = 1.0
+			var forward := (sx - used.position.x + 0.5 - used.size.x * 0.5) * pixel
+			var right := (sy - used.position.y + 0.5 - used.size.y * 0.5) * pixel
+			var at := Vector3(center.x + right, top + 0.002, center.y - forward)
+			# Боковые грани — только там, где соседа нет (внутри наклейки их не видно).
+			var open := {
+				Vector3.RIGHT: not _solid(sprite, sx, sy + 1), Vector3.LEFT: not _solid(sprite, sx, sy - 1),
+				Vector3.FORWARD: not _solid(sprite, sx + 1, sy), Vector3.BACK: not _solid(sprite, sx - 1, sy),
+			}
+			_box(st, at, Vector3(pixel, STICKER_THICKNESS, pixel), color, open)
+
+
+## Спойлер: антикрыло на стойках у кормы — на багажнике, а у фургона (крыша до самой кормы) —
+## на крыше. Цвета — светлый и тёмный из кадра оригинала.
+func _add_spoiler(st: SurfaceTool, sprite: Image, roof: Rect2, roof_top: float, body: Rect2, body_top: float) -> void:
+	var light := Color.WHITE
+	var dark := Color.BLACK
+	var colors := _sprite_colors(sprite)
+	if not colors.is_empty():
+		light = colors[colors.size() - 1]
+		dark = colors[0]
+	var rear := body.end.y
+	var mount := body_top
+	if is_nan(body_top) or rear - roof.end.y < 0.3:
+		rear = roof.end.y
+		mount = roof_top
+	var width := body.size.x + 0.2
+	var wing := Vector3(0.0, mount + 0.34, rear - 0.12)
+	_box(st, wing, Vector3(width, 0.07, 0.34), light)
+	for side in [-1.0, 1.0]:
+		_box(st, Vector3(side * width * 0.5, wing.y - 0.1, wing.z), Vector3(0.06, 0.26, 0.42), dark)
+		_box(st, Vector3(side * 0.42, mount, wing.z - 0.02), Vector3(0.08, 0.34, 0.12), dark)
+
+
+## Ушки: два треугольника у передней кромки крыши, спереди — розовые в светлой рамке, сзади
+## и по бокам — светлые; наклонены назад, чтобы розовое было видно камере сверху-сзади.
+func _add_ears(st: SurfaceTool, sprite: Image, roof: Rect2, top: float) -> void:
+	var inner := Color.HOT_PINK
+	var outer := Color.WHITE
+	var colors := _sprite_colors(sprite)
+	if not colors.is_empty():
+		outer = colors[colors.size() - 1]
+	for color in colors:
+		if color.s > 0.4:
+			inner = color
+	var size := minf(0.46, roof.size.x * 0.4)
+	var tilt := Basis(Vector3.RIGHT, deg_to_rad(35.0))
+	var half := 0.06
+	var left := Vector3(-size * 0.5, 0.0, 0.0)
+	var right := Vector3(size * 0.5, 0.0, 0.0)
+	var tip := Vector3(0.0, size, 0.0)
+	var front := Vector3(0.0, 0.0, -half)
+	var back := Vector3(0.0, 0.0, half)
+	var corners := [left, right, tip]
+	for side in [-1.0, 1.0]:
+		var foot := Vector3(roof.get_center().x + side * (roof.size.x * 0.5 - size * 0.6), top, roof.position.y + 0.14)
+		var place := Transform3D(tilt, foot)
+		_tri(st, place * (left + front), place * (right + front), place * (tip + front), tilt * Vector3.FORWARD, outer)
+		# Розовая серединка чуть впереди рамки.
+		var lift := tip * 0.12 + front * 1.2
+		_tri(st, place * (left * 0.55 + lift), place * (right * 0.55 + lift), place * (tip * 0.8 + front * 1.2),
+				tilt * Vector3.FORWARD, inner)
+		_tri(st, place * (left + back), place * (tip + back), place * (right + back), tilt * Vector3.BACK, outer)
+		for k in 3:
+			var a: Vector3 = corners[k]
+			var c: Vector3 = corners[(k + 1) % 3]
+			var normal: Vector3 = tilt * ((a + c) * 0.5 - Vector3(0.0, size / 3.0, 0.0)).normalized()
+			_quad(st, place * (a + front), place * (c + front), place * (c + back), place * (a + back),
+					normal, outer.darkened(0.1))
+
+
+static func _solid(sprite: Image, x: int, y: int) -> bool:
+	return x >= 0 and y >= 0 and x < sprite.get_width() and y < sprite.get_height() and sprite.get_pixel(x, y).a > 0.5
+
+
+## Верх крыши или кузова (areas из .json build_car.py: x вправо, y вперёд, м) в осях модели:
+## Rect2 по (x, z) — x вправо, z назад.
+static func _area(meta: Dictionary, names: Array) -> Rect2:
+	var areas: Dictionary = meta.get("areas", {})
+	for area_name in names:
+		if areas.has(area_name):
+			var a: Array = areas[area_name]
+			return Rect2(float(a[0]), -float(a[3]), float(a[1]) - float(a[0]), float(a[3]) - float(a[2]))
+	return Rect2()
+
+
+## Высота верха узла модели (по его сетке); узла нет — NAN.
+static func _top_of(model: Node3D, names: Array) -> float:
+	for node_name in names:
+		var mesh := model.find_child(node_name, true, false) as MeshInstance3D
+		if mesh == null or mesh.mesh == null:
+			continue
+		var xf := Transform3D.IDENTITY
+		var node: Node = mesh
+		while node != null and node != model:
+			if node is Node3D:
+				xf = (node as Node3D).transform * xf
+			node = node.get_parent()
+		return (xf * mesh.mesh.get_aabb()).end.y
+	return NAN
+
+
+## Непрозрачные цвета картинки от тёмного к светлому, без повторов.
+static func _sprite_colors(sprite: Image) -> Array[Color]:
+	var seen := {}
+	var colors: Array[Color] = []
+	for y in sprite.get_height():
+		for x in sprite.get_width():
+			var color := sprite.get_pixel(x, y)
+			if color.a > 0.5 and not seen.has(color.to_html(false)):
+				seen[color.to_html(false)] = true
+				colors.append(Color(color, 1.0))
+	colors.sort_custom(func(a: Color, c: Color) -> bool: return a.get_luminance() < c.get_luminance())
+	return colors
+
+
+## Кубик: низ по центру в center, size — размеры; open — какие боковые грани рисовать
+## (нет в словаре — рисовать); дно не рисуется.
+static func _box(st: SurfaceTool, center: Vector3, size: Vector3, color: Color, open: Dictionary = {}) -> void:
+	var lo := center - Vector3(size.x * 0.5, 0.0, size.z * 0.5)
+	var hi := center + Vector3(size.x * 0.5, size.y, size.z * 0.5)
+	_quad(st, Vector3(lo.x, hi.y, lo.z), Vector3(hi.x, hi.y, lo.z), Vector3(hi.x, hi.y, hi.z), Vector3(lo.x, hi.y, hi.z),
+			Vector3.UP, color)
+	var sides := {
+		Vector3.RIGHT: [Vector3(hi.x, lo.y, lo.z), Vector3(hi.x, lo.y, hi.z), Vector3(hi.x, hi.y, hi.z), Vector3(hi.x, hi.y, lo.z)],
+		Vector3.LEFT: [Vector3(lo.x, lo.y, hi.z), Vector3(lo.x, lo.y, lo.z), Vector3(lo.x, hi.y, lo.z), Vector3(lo.x, hi.y, hi.z)],
+		Vector3.FORWARD: [Vector3(lo.x, lo.y, lo.z), Vector3(hi.x, lo.y, lo.z), Vector3(hi.x, hi.y, lo.z), Vector3(lo.x, hi.y, lo.z)],
+		Vector3.BACK: [Vector3(hi.x, lo.y, hi.z), Vector3(lo.x, lo.y, hi.z), Vector3(lo.x, hi.y, hi.z), Vector3(hi.x, hi.y, hi.z)],
+	}
+	for normal: Vector3 in sides:
+		if open.get(normal, true):
+			var q: Array = sides[normal]
+			# Бока чуть темнее верха — объём читается и в тени.
+			_quad(st, q[0], q[1], q[2], q[3], normal, color.darkened(0.15))
+
+
+static func _quad(st: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, d: Vector3, normal: Vector3, color: Color) -> void:
+	_tri(st, a, b, c, normal, color)
+	_tri(st, a, c, d, normal, color)
+
+
+static func _tri(st: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, normal: Vector3, color: Color) -> void:
+	for v in [a, b, c]:
+		st.set_color(color)
+		st.set_normal(normal)
+		st.add_vertex(v)
 
 ## Цвета стёкол из кадра оригинала: [основной, блик] или радужный ряд (последний кадр).
 func _glass_colors() -> Array[Color]:
