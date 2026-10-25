@@ -154,13 +154,13 @@ size = Vector2(10, 12)
 tint = Color(0.5, 0.81, 1, 1)
 
 [node name="ItemBoxSpot11" type="Marker3D" parent="Props" unique_id=695576831 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 242.55779, 2.4168243, 319.11996)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 174.38148, -1.0340037, 319.11996)
 
 [node name="ItemBoxSpot12" type="Marker3D" parent="Props" unique_id=319081527 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 242.55779, 2.4168243, 315.11996)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 174.38148, -1.0340037, 315.11996)
 
 [node name="ItemBoxSpot13" type="Marker3D" parent="Props" unique_id=294081763 groups=["item_box_spots"]]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 242.55779, 2.4168243, 311.11996)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 174.38148, -1.0340037, 311.11996)
 
 [node name="SnowTurret6" parent="Props" unique_id=968820517 instance=ExtResource("15_ayw5g")]
 transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 215.558, -1.2, 307.62)
