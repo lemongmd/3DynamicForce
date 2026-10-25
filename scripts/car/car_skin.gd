@@ -9,7 +9,8 @@ extends RefCounted
 ## (какая часть машины в каждом пикселе). paint() собирает из них текстуру скина: кузов умножается
 ## на цвет, стёкла перекрашиваются в цвета кадра стёкол оригинала, колёса — по кадру колёс (размер
 ## и цвет). Рисунок оригинала (вид сверху) — объёмный (узел Decal модели): наклейка из пиксельных
-## кубиков на крыше, спойлер (кадр 5) — антикрыло за кормой, ушки (кадр 8) — кошачьи ушки на крыше.
+## кубиков на крыше, спойлер (кадр 5) — антикрыло за кормой, ушки (кадр 8) — кошачьи ушки на крыше,
+## чёлка (кадр 9, от stysan — чёлка его персонажа) — свисает с крыши на лобовое стекло.
 
 const LEVELS := 4
 ## Обычные кузова (0..2); кузов TANK — секретный танк (в оригинале — если зажать кнопку кузова).
@@ -31,6 +32,8 @@ const RAINBOW_WHEELS := 2
 ## Рисунки, которые в оригинале торчат за кузовом: антикрыло сзади и ушки спереди.
 const PRINT_SPOILER := 5
 const PRINT_EARS := 8
+## Чёлка (свой рисунок, не из оригинала): у носа спрайта — свешивается с крыши на лобовое стекло.
+const PRINT_BANGS := 9
 ## Наклейка на крыше: пиксель рисунка — кубик (в оригинале кузов 22 px = 3 м: 0.135 м),
 ## на маленькой крыше — мельче, чтобы рисунок целиком лёг на неё; толщина кубиков, м.
 const STICKER_PIXEL := 0.135
@@ -200,6 +203,9 @@ func _build_decal(model: Node3D, meta: Dictionary) -> ArrayMesh:
 		_add_spoiler(st, sprite, roof, roof_top, body, body_top)
 	elif decal == PRINT_EARS:
 		_add_ears(st, sprite, roof, roof_top)
+	elif decal == PRINT_BANGS:
+		var cabin := _box_of(model, ROOF_NODES)
+		_add_bangs(st, sprite, roof, roof_top, cabin.position.z, body_top if not is_nan(body_top) else cabin.position.y)
 	else:
 		_add_sticker(st, sprite, roof, roof_top)
 	var material := StandardMaterial3D.new()
@@ -293,6 +299,41 @@ func _add_ears(st: SurfaceTool, sprite: Image, roof: Rect2, top: float) -> void:
 					normal, outer.darkened(0.1))
 
 
+## Чёлка: пиксели-кубики от передней кромки крыши вперёд и вниз по лобовому стеклу (ступеньками
+## по профилю кабины: крыша -> скос стекла -> капот), пряди и обводка — как нарисованы.
+## Ширина — по крыше; нос спрайта — вперёд, низ спрайта — правый бок.
+func _add_bangs(st: SurfaceTool, sprite: Image, roof: Rect2, roof_top: float, cabin_front: float, body_top: float) -> void:
+	var used := sprite.get_used_rect()
+	var pixel := minf(STICKER_PIXEL, roof.size.x * 0.95 / used.size.y)
+	# Профиль верха машины вдоль оси z: крыша, скос стекла до низа кабины, дальше капот.
+	var surface := func(z: float) -> float:
+		if z >= roof.position.y:
+			return roof_top
+		if z <= cabin_front:
+			return body_top
+		return lerpf(body_top, roof_top, inverse_lerp(cabin_front, roof.position.y, z))
+	# Задний край чёлки — на крыше, чуть за её передней кромкой.
+	var rear_z := roof.position.y + pixel * 1.5
+	for sy in range(used.position.y, used.end.y):
+		for sx in range(used.position.x, used.end.x):
+			if not _solid(sprite, sx, sy):
+				continue
+			var color := sprite.get_pixel(sx, sy)
+			color.a = 1.0
+			var z1 := rear_z - (sx - used.position.x) * pixel
+			var z0 := z1 - pixel
+			var right := roof.get_center().x + (sy - used.position.y + 0.5 - used.size.y * 0.5) * pixel
+			# Кубик от нижней точки поверхности под ним до верхней + толщина: на скосе нет щелей.
+			var low: float = minf(surface.call(z0), surface.call(z1))
+			var high: float = maxf(surface.call(z0), surface.call(z1))
+			var open := {
+				Vector3.RIGHT: not _solid(sprite, sx, sy + 1), Vector3.LEFT: not _solid(sprite, sx, sy - 1),
+				Vector3.FORWARD: true, Vector3.BACK: true,
+			}
+			_box(st, Vector3(right, low + 0.002, (z0 + z1) * 0.5), Vector3(pixel, high - low + STICKER_THICKNESS * 1.4, pixel),
+					color, open)
+
+
 static func _solid(sprite: Image, x: int, y: int) -> bool:
 	return x >= 0 and y >= 0 and x < sprite.get_width() and y < sprite.get_height() and sprite.get_pixel(x, y).a > 0.5
 
@@ -310,6 +351,12 @@ static func _area(meta: Dictionary, names: Array) -> Rect2:
 
 ## Высота верха узла модели (по его сетке); узла нет — NAN.
 static func _top_of(model: Node3D, names: Array) -> float:
+	var box := _box_of(model, names)
+	return box.end.y if box.has_volume() else NAN
+
+
+## Габариты сетки узла модели в осях модели; узла нет — пустой AABB.
+static func _box_of(model: Node3D, names: Array) -> AABB:
 	for node_name in names:
 		var mesh := model.find_child(node_name, true, false) as MeshInstance3D
 		if mesh == null or mesh.mesh == null:
@@ -320,8 +367,8 @@ static func _top_of(model: Node3D, names: Array) -> float:
 			if node is Node3D:
 				xf = (node as Node3D).transform * xf
 			node = node.get_parent()
-		return (xf * mesh.mesh.get_aabb()).end.y
-	return NAN
+		return xf * mesh.mesh.get_aabb()
+	return AABB()
 
 
 ## Непрозрачные цвета картинки от тёмного к светлому, без повторов.
