@@ -1,0 +1,68 @@
+SHEET GlobalS
+== GROUP GlobalSystem ==
+  IF System.on-end-of-layout()
+    -> Audio.stop(tag="music")
+    -> Audio.stop(tag="stopable")
+    -> System.set-minimum-framerate(minimum-fps=10, maximum-fps=Infinity)
+    -> Browser.lock-orientation(orientation=landscape)
+    -> System.set-object-time-scale(object=real, time-scale=1)
+  // Always fullscreen
+  IF NOT System.is-in-preview()
+    -> Browser.request-fullscreen(mode=stretch-letterbox-scale, navigation-ui=auto)
+    -> Browser.lock-orientation(orientation=landscape)
+  IF Keyboard.on-key-pressed(key=122.0)
+    -> Browser.request-fullscreen(mode=stretch-letterbox-scale, navigation-ui=auto)
+  // Volume
+  IF Keyboard.key-is-down(key=189.0)
+    -> Audio.set-master-volume(db=clamp(Self.MasterVolume - 15*dt, -50, 0))
+  IF Keyboard.key-is-down(key=187.0)
+    -> Audio.set-master-volume(db=clamp(Self.MasterVolume + 15*dt, -50, 0))
+  // Mute
+  IF Keyboard.on-key-pressed(key=118.0)
+    -> Audio.set-silent(mode=toggle-silent)
+  // Text
+  FUNCTION Set text(Text:string, Id:string, MakeLowercase:boolean)
+    IF System.compare-boolean-eventvar(variable=MakeLowercase)
+      -> System.set-eventvar-value(variable=Text, value=lowercase(Text))
+    IF Text.compare-instance-variable(instance-variable=Id, comparison=0.0, value=Id)
+      -> Text.set-text(text=Text)
+  // Css
+  var c: number = 0
+  IF System.on-start-of-layout() OR Browser.on-resized()
+    -> System.set-eventvar-value(variable=c, value=LayerToCanvasX("Global", 1, 1) & "px"
+)
+    -> MenuNick.set-css-style(property-name="border-radius", value=c * 2 & "px")
+    -> MenuNick.set-css-style(property-name="border", value=c & "px solid white"
+)
+    -> MenuNick.set-css-style(property-name="background", value="#0000007F")
+    -> MenuNick.set-css-style(property-name="color", value="white")
+    -> MenuNick.set-css-style(property-name="font-family", value="Fixedsys")
+== GROUP GlobalFade ==
+  var FadeTime: number = 0.2 (const)
+  var FadeState: number = -1
+  // Start of layout
+  IF System.on-start-of-layout()
+    -> System.set-layer-opacity(layer="Fade", opacity=100)
+    -> System.set-eventvar-value(variable=FadeState, value=-1)
+  FUNCTION Fade to layout(FadeToLayout:string, ContinueMusic:boolean)
+    -> System.set-eventvar-value(variable=FadeState, value=1)
+    -> System.load-layout-images-by-name(layout=FadeToLayout)
+    -> Audio.fade-volume(tag="sfx", db=-100, duration=1 / 4, ending=stop)
+    // Fade out music
+    IF NOT System.compare-boolean-eventvar(variable=ContinueMusic)
+      -> Audio.fade-volume(tag="music", db=-100, duration=FadeTime / 2, ending=stop)
+      -> System.wait(seconds=1 / 8, use-timescale=true)
+      -> Audio.stop(tag="music")
+    // Go to
+    ALWAYS
+      -> System.wait(seconds=FadeTime, use-timescale=true)
+      IF System.compare-two-values(first-value=FadeToLayout, comparison=0.0, second-value="Next")
+        -> System.go-to-nextprevious-layout(which=next)
+      IF System.else() AND System.compare-two-values(first-value=FadeToLayout, comparison=0.0, second-value="ExitGame")
+        -> System.wait(seconds=1 / 4, use-timescale=true)
+        -> Browser.close()
+      IF System.else()
+        -> System.go-to-layout-by-name(layout=FadeToLayout)
+  // Fade effect
+  IF NOT System.compare-eventvar(variable=FadeState, comparison=0.0, value=0)
+    -> System.set-layer-opacity(layer="Fade", opacity=LayerOpacity("Fade") + (dt * 100 / FadeTime * FadeState))

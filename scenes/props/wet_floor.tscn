@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/props/c3_box_visual.gd" id="1_box"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(2, 1.9, 1.6)
+
+[node name="WetFloor" type="StaticBody3D"]
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.95, 0)
+shape = SubResource("BoxShape3D_1")
+
+[node name="Visual" type="MeshInstance3D" parent="."]
+script = ExtResource("1_box")
+size = Vector3(2, 0, 4)
+base_name = "mapdecorwetfloor"
+flat = true
+standing_sign = true

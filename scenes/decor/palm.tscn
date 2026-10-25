@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/beachdecor-004.png" id="1_tex"]
+
+[node name="Palm" type="Node3D"]
+
+[node name="Visual" type="Sprite3D" parent="."]
+position = Vector3(0, 6, 0)
+pixel_size = 0.125
+cast_shadow = 0
+billboard = 2
+alpha_cut = 1
+texture_filter = 0
+texture = ExtResource("1_tex")

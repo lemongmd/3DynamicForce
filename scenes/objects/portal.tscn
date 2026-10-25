@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/portal.gd" id="1_portal"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/portal-000.png" id="2_tex"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/superpower.wav" id="3_snd"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/portalparticles.png" id="4_part"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_portal"]
+size = Vector3(6, 3, 1.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_part"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("4_part")
+texture_filter = 0
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_part"]
+material = SubResource("StandardMaterial3D_part")
+size = Vector2(0.375, 0.375)
+
+[node name="Portal" type="Area3D"]
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_portal")
+sound = ExtResource("3_snd")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.5, 0)
+shape = SubResource("BoxShape3D_portal")
+
+[node name="Sprite" type="Sprite3D" parent="."]
+position = Vector3(0, 1.5, 0)
+pixel_size = 0.125
+texture_filter = 0
+double_sided = true
+texture = ExtResource("2_tex")
+
+[node name="Particles" type="CPUParticles3D" parent="."]
+position = Vector3(0, 1.5, 0)
+amount = 24
+lifetime = 0.8
+mesh = SubResource("QuadMesh_part")
+emission_shape = 3
+emission_box_extents = Vector3(2.8, 0.8, 0.1)
+direction = Vector3(0, 0, -1)
+spread = 10.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 3.0
+initial_velocity_max = 6.0

@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/fx/parry_fx.gd" id="1_fx"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/other/parryfx-000.png" id="2_tex"]
+
+[node name="ParryFx" type="Sprite3D"]
+pixel_size = 0.125
+axis = 1
+texture_filter = 0
+texture = ExtResource("2_tex")
+script = ExtResource("1_fx")

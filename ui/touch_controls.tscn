@@ -1,0 +1,83 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/touch_controls.gd" id="1_ctrl"]
+[ext_resource type="PackedScene" path="res://ui/touch_button.tscn" id="2_btn"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/controls-000.png" id="3_left"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/controls-001.png" id="4_right"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/controls-002.png" id="5_up"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/controls-003.png" id="6_down"]
+
+[node name="TouchControls" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_ctrl")
+
+[node name="LeftPad" type="Control" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -56.0
+offset_right = 110.0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="SteerLeft" type="TouchScreenButton" parent="LeftPad"]
+position = Vector2(4, 4)
+texture_normal = ExtResource("3_left")
+passby_press = true
+action = "steer_left"
+
+[node name="SteerRight" type="TouchScreenButton" parent="LeftPad"]
+position = Vector2(58, 4)
+texture_normal = ExtResource("4_right")
+passby_press = true
+action = "steer_right"
+
+[node name="RightPad" type="Control" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -158.0
+offset_top = -100.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="Accelerate" type="TouchScreenButton" parent="RightPad"]
+position = Vector2(106, 48)
+texture_normal = ExtResource("5_up")
+action = "accelerate"
+
+[node name="Brake" type="TouchScreenButton" parent="RightPad"]
+position = Vector2(54, 48)
+texture_normal = ExtResource("6_down")
+action = "brake"
+
+[node name="Drift" parent="RightPad" instance=ExtResource("2_btn")]
+position = Vector2(8, 54)
+action = "drift"
+caption = "ДРИФТ"
+
+[node name="Parry" parent="RightPad" instance=ExtResource("2_btn")]
+position = Vector2(60, 4)
+action = "parry"
+caption = "ПАРИР"
+
+[node name="Item" parent="RightPad" instance=ExtResource("2_btn")]
+position = Vector2(112, 4)
+action = "use_item"
+caption = "ПРЕДМ"
+
+[node name="TopPad" type="Control" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -10.0
+offset_right = 10.0
+offset_bottom = 22.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="Pause" parent="TopPad" instance=ExtResource("2_btn")]
+position = Vector2(0, 2)
+scale = Vector2(0.5, 0.5)
+action = "pause"
+caption = "II"

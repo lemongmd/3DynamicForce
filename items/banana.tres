@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemSpawn" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_spawn.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-banana-000.png" id="2_icon"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-banana-001.png" id="3_icon"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-banana-002.png" id="4_icon"]
+[ext_resource type="PackedScene" path="res://scenes/items/banana.tscn" id="5_scene"]
+
+[resource]
+script = ExtResource("1_script")
+object_scene = ExtResource("5_scene")
+count = 1
+interval = 0.0
+id = &"banana"
+display_name = "Банан"
+icon_frames = Array[Texture2D]([ExtResource("2_icon"), ExtResource("3_icon"), ExtResource("4_icon")])
+icon_fps = 16.0

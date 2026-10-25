@@ -1,0 +1,27 @@
+SHEET IntroS
+include GlobalS
+IF System.on-start-of-layout()
+  -> Audio.play(audio-file={ "path": "Menu_start" }, loop=not-looping, volume=0, stereo-pan=0, tag-optional="music")
+  -> System.wait(seconds=5, use-timescale=true)
+  -> Audio.preload(audio-file={ "path": "Menu_loop" })
+  -> System.wait(seconds=5.612, use-timescale=true)
+  -> System.go-to-layout(layout=Menu)
+// Intro anim
+var INTROSPEED: number = 3.9 (const)
+IF System.on-start-of-layout()
+  -> Intro.Tween.tween-one-property(tags="op i", property=offsetOpacity, end-value=100, time=INTROSPEED / 2, ease=easeoutexpo, destroy-on-complete=no, loop=yes, ping-pong=yes, repeat-count=1)
+IF System.every-x-seconds(interval-seconds=INTROSPEED)
+  -> Intro.set-animation-frame(frame-number=Self.AnimationFrame + 1)
+  IF Intro.compare-animation-frame(comparison=0.0, number=2)
+    -> Intro.set-scale(scale=1)
+    -> (disabled) System.set-time-scale(time-scale=1 / 3)
+// Skip
+IF Keyboard.on-key-pressed(key=32.0) OR Touch.on-double-tap()
+  -> System.go-to-layout(layout=Menu)
+// Pulse
+IF System.compare-time(comparison=4.0, time-seconds=9.33) AND System.every-x-seconds(interval-seconds=0.3 / 2)
+  -> System.set-layer-visible(layer="IntroFade", visibility=visible)
+  -> System.wait(seconds=0.3 / 4, use-timescale=true)
+  -> System.set-layer-visible(layer="IntroFade", visibility=invisible)
+  IF NOT Intro.Tween.is-playing(tags="ass")
+    -> Intro.Tween.tween-two-properties(tags="ass", property=scale, end-x=5, end-y=5, time=1.4, ease=easeinsine, destroy-on-complete=no, loop=no, ping-pong=no, repeat-count=1)

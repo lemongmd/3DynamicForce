@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ItemSpawn" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_spawn.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-spine-000.png" id="2_icon"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-spine-001.png" id="3_icon"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-spine-002.png" id="4_icon"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-spine-003.png" id="5_icon"]
+[ext_resource type="PackedScene" path="res://scenes/items/spine_trail.tscn" id="6_scene"]
+
+[resource]
+script = ExtResource("1_script")
+object_scene = ExtResource("6_scene")
+count = 1
+interval = 0.0
+id = &"spine"
+display_name = "Шипы"
+icon_frames = Array[Texture2D]([ExtResource("2_icon"), ExtResource("3_icon"), ExtResource("4_icon"), ExtResource("5_icon")])
+icon_fps = 16.0

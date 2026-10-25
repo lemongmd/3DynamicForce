@@ -1,0 +1,79 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_object.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/textures/bomb_ball.png" id="2_bomb"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/other/bombdeco-000.png" id="3_fuse0"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/other/bombdeco-001.png" id="4_fuse1"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/other/bombdeco-002.png" id="5_fuse2"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/bomb.wav" id="6_bomb"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/peppinoangryscreen.wav" id="7_angry"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/hang.wav" id="8_hang"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bomb"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bomb"]
+albedo_texture = ExtResource("2_bomb")
+roughness = 0.4
+texture_filter = 0
+uv1_scale = Vector3(3, 2, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_bomb"]
+material = SubResource("StandardMaterial3D_bomb")
+radius = 1.0
+height = 2.0
+radial_segments = 10
+rings = 5
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fuse"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_fuse0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_fuse1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_fuse2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="Bomb" type="Area3D"]
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_script")
+wait_time = 19.8
+parryable = false
+hit_sounds = Array[AudioStream]([ExtResource("6_bomb"), ExtResource("7_angry")])
+effect_id = &"bomb_hit"
+effect_time = 1.2
+effect_multipliers = {
+&"max_speed": 0.5
+}
+effect_end_sound = ExtResource("8_hang")
+destroy_on_hit = true
+hit_fx = Array[StringName]([&"explosion_fire", &"explosion_smoke"])
+hit_shake = 0.5
+own_alpha = 0.5
+drop_to_ground = true
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1, 0)
+shape = SubResource("BoxShape3D_bomb")
+
+[node name="Visual" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1, 0)
+mesh = SubResource("SphereMesh_bomb")
+
+[node name="Fuse" type="AnimatedSprite3D" parent="."]
+position = Vector3(0, 2.6, 0)
+pixel_size = 0.125
+billboard = 2
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_fuse")
+autoplay = "default"

@@ -1,0 +1,34 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_object.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/other/instantbullettrail-000.png" id="2_other"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/other/instantbullettrail-001.png" id="3_own"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stockpain.wav" id="4_pain"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/poof.wav" id="5_poof"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_beam"]
+size = Vector3(1, 2, 70)
+
+[node name="LaserBeam" type="Area3D"]
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_script")
+fade_in_time = 0.06
+fade_out_time = 0.25
+hit_sounds = Array[AudioStream]([ExtResource("4_pain"), ExtResource("5_poof")])
+other_texture = ExtResource("2_other")
+own_texture = ExtResource("3_own")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1, -14)
+shape = SubResource("BoxShape3D_beam")
+
+[node name="Visual" type="Sprite3D" parent="."]
+position = Vector3(0, 0.8, -14)
+rotation = Vector3(0, 1.5707964, 0)
+scale = Vector3(840, 1, 1)
+pixel_size = 0.083333
+axis = 1
+texture_filter = 0
+texture = ExtResource("2_other")

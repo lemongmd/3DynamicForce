@@ -1,0 +1,21 @@
+# Godot 4
+.godot/
+/android/
+*.tmp
+
+# Экспорт
+/build/
+/export/
+
+# Исходный проект оригинала (Construct 3, от Mace Dev) — нужные ассеты уже лежат
+# в assets/original (скрипт scripts/tools/import_original_assets.ps1)
+/DF C3 project/
+
+# Blender
+*.blend1
+__pycache__/
+
+# Временные копии занятых файлов (Godot копирует DLL GDExtension, пока она загружена)
+~*
+*.TMP
+*.tmp

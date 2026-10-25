@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/materials/road_sign.tres" id="1_mat"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_sign"]
+material = ExtResource("1_mat")
+size = Vector2(6, 4)
+
+[node name="RoadSign" type="Node3D"]
+
+[node name="Sign" type="MeshInstance3D" parent="."]
+position = Vector3(0, 2, 0)
+mesh = SubResource("QuadMesh_sign")

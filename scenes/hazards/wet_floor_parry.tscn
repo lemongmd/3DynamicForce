@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hazards/parry_hazard.gd" id="1_hazard"]
+[ext_resource type="Script" path="res://scripts/props/c3_box_visual.gd" id="2_box"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stocksplat.wav" id="3_splat"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stockpain.wav" id="4_pain"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(3, 1.9, 1.6)
+
+[node name="WetFloorParry" type="Area3D"]
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_hazard")
+hit_sounds = Array[AudioStream]([ExtResource("3_splat"), ExtResource("4_pain")])
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.95, 0)
+shape = SubResource("BoxShape3D_1")
+
+[node name="Visual" type="MeshInstance3D" parent="."]
+script = ExtResource("2_box")
+size = Vector3(3, 0, 4)
+base_name = "mapdecorwetfloorparry"
+flat = true
+standing_sign = true

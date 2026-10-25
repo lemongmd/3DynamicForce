@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_object.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/other/droppedbanana-000.png" id="2_other"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/other/droppedbanana-001.png" id="3_own"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stocksplat.wav" id="4_splat"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/bananaslip.wav" id="5_slip"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_banana"]
+size = Vector3(5, 2, 5)
+
+[node name="Banana" type="Area3D"]
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_script")
+wait_time = 19.8
+hit_sounds = Array[AudioStream]([ExtResource("4_splat"), ExtResource("5_slip")])
+other_texture = ExtResource("2_other")
+own_texture = ExtResource("3_own")
+drop_to_ground = true
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1, 0)
+shape = SubResource("BoxShape3D_banana")
+
+[node name="Visual" type="Sprite3D" parent="."]
+position = Vector3(0, 0.06, 0)
+pixel_size = 0.277778
+axis = 1
+texture_filter = 0
+texture = ExtResource("2_other")

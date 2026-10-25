@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/mapfence-003.png" id="1_tex"]
+
+[node name="Fence" type="Node3D"]
+
+
+[node name="Visual" type="Sprite3D" parent="."]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0, 2.5, 0)
+pixel_size = 0.078125
+alpha_cut = 1
+texture_filter = 0
+texture = ExtResource("1_tex")

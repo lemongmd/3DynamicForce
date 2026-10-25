@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/props/c3_box_visual.gd" id="1_box"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_1"]
+points = PackedVector3Array(-1.5, 0, -1.5, 1.5, 0, -1.5, 1.5, 0, 1.5, -1.5, 0, 1.5, 0, 1.5, 0)
+
+[node name="Gravel" type="StaticBody3D"]
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_1")
+
+[node name="Visual" type="MeshInstance3D" parent="."]
+script = ExtResource("1_box")
+size = Vector3(3, 1.5, 3)
+base_name = "mapscheben"
+pyramid = true

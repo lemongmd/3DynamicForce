@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/materials/start_arch.tres" id="1_mat"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_arch"]
+material = ExtResource("1_mat")
+size = Vector2(12, 6)
+
+[node name="StartGate" type="Node3D"]
+
+[node name="Arch" type="MeshInstance3D" parent="."]
+position = Vector3(0, 3, 0)
+mesh = SubResource("QuadMesh_arch")

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ItemSelfEffect" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_self_effect.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-vodka-000.png" id="2_icon"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/burp.wav" id="3_sound"]
+
+[resource]
+script = ExtResource("1_script")
+duration = 2.5
+multipliers = {
+&"drift_recover": 0.5,
+&"max_speed": 1.25
+}
+screen_effect = &"drunk"
+id = &"vodka"
+display_name = "Водка"
+icon_frames = Array[Texture2D]([ExtResource("2_icon")])
+icon_fps = 0.0
+use_sounds = Array[AudioStream]([ExtResource("3_sound")])
+shows_timer = true
+timer_bounce = true
+use_emote = &"vodka"

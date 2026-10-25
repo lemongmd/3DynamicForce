@@ -1,0 +1,36 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/track/track.gd" id="1_track"]
+[ext_resource type="Material" path="res://assets/materials/road.tres" id="2_road"]
+[ext_resource type="Material" path="res://assets/materials/wall.tres" id="3_wall"]
+[ext_resource type="Material" path="res://assets/materials/background_water.tres" id="4_background"]
+[ext_resource type="Material" path="res://assets/materials/checker.tres" id="5_checker"]
+[ext_resource type="Texture2D" path="res://assets/textures/space_bg.png" id="6_space"]
+
+[sub_resource type="Curve3D" id="Curve3D_slope"]
+closed = true
+bake_interval = 0.5
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -50, 0, 0, 0, 0, 0, 0, 0, 25, -100, 0, 0, 0, 0, 0, 0, 0, 25, -150, 0, 0, 0, 0, 0, 0, 60, 25, -150, 0, 0, 0, 0, 0, 0, 60, 25, -110, 0, 0, 0, 0, 0, 0, 60, -30, -20, 0, 0, 0, 0, 0, 0, 60, -30, 40, 0, 0, 0, 0, 0, 0, 48, -30, 40, 0, 0, 0, 0, 0, 0, 12, -15, 40, 0, 0, 0, 0, 0, 0, 0, -15, 40, 0, 0, 0, 0, 0, 0, 0, -15, 28),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 12
+
+[node name="RainbowExample" type="Node3D"]
+script = ExtResource("1_track")
+road_width = 13.5
+walls = false
+background_texture = ExtResource("6_space")
+background_tile_size = 24.0
+background_unshaded = true
+haze_color = Color(0.05, 0.03, 0.12, 1)
+background_depth = 20.0
+road_material = ExtResource("2_road")
+wall_material = ExtResource("3_wall")
+background_material = ExtResource("4_background")
+start_line_material = ExtResource("5_checker")
+
+[node name="Path" type="Path3D" parent="."]
+curve = SubResource("Curve3D_slope")
+
+[node name="Props" type="Node3D" parent="."]

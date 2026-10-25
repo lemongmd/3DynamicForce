@@ -1,0 +1,194 @@
+[gd_scene format=3 uid="uid://bmg0w8emonuop"]
+
+[ext_resource type="Script" uid="uid://b46v427mrvqa0" path="res://scripts/ui/race_hud.gd" id="1_hud"]
+[ext_resource type="Texture2D" uid="uid://pqsst3i0w7s0" path="res://assets/original/textures/ui/lapnum-000.png" id="2_lap"]
+[ext_resource type="Texture2D" uid="uid://cqi1sbdqi7r7e" path="res://assets/original/textures/ui/uidecor-default-000.png" id="3_panel"]
+[ext_resource type="Texture2D" uid="uid://belspq6beh40e" path="res://assets/original/textures/ui/countdown-000.png" id="4_countdown"]
+[ext_resource type="Texture2D" uid="uid://cs3kfrabboyk7" path="res://assets/original/textures/ui/curitem-none-000.png" id="5_no_item"]
+[ext_resource type="Texture2D" uid="uid://blt0l2hb72e3n" path="res://assets/original/textures/ui/itemtime-000.png" id="6_item_time"]
+[ext_resource type="Texture2D" uid="uid://ct4tdyomnol0h" path="res://assets/textures/ui/key_q.png" id="7_space_hint"]
+[ext_resource type="FontFile" path="res://assets/fonts/df_timer.res" id="8_timer_font"]
+
+[node name="RaceHud" type="CanvasLayer" unique_id=687044600]
+layer = 4
+script = ExtResource("1_hud")
+
+[node name="PlaceLabel" type="Label" parent="." unique_id=285067220]
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 84.0
+offset_bottom = 22.0
+theme_override_colors/font_color = Color(1, 0.84, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.05, 0.1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 16
+text = "1/4"
+
+[node name="Lap" type="Control" parent="." unique_id=1534705006]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -52.0
+offset_right = 84.0
+offset_bottom = -4.0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="Caption" type="Label" parent="Lap" unique_id=239996751]
+layout_mode = 0
+offset_top = 30.0
+offset_right = 40.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.05, 0.1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 6
+text = "КРУГ:"
+vertical_alignment = 2
+
+[node name="Number" type="TextureRect" parent="Lap" unique_id=1898446534]
+layout_mode = 0
+offset_left = 25.0
+offset_right = 57.0
+offset_bottom = 48.0
+mouse_filter = 2
+texture = ExtResource("2_lap")
+
+[node name="TimerPanel" type="TextureRect" parent="." unique_id=1664362150]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -76.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = 32.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_panel")
+
+[node name="TimeLabel" type="Label" parent="TimerPanel" unique_id=684396293]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 44.0
+offset_bottom = 19.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_timer_font")
+theme_override_font_sizes/font_size = 15
+text = "00:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ItemIcon" type="TextureRect" parent="TimerPanel" unique_id=870533181]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 4.0
+offset_right = 68.0
+offset_bottom = 20.0
+mouse_filter = 2
+texture = ExtResource("5_no_item")
+
+[node name="ItemTime" type="TextureRect" parent="TimerPanel" unique_id=797716137]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 24.0
+offset_right = 70.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("6_item_time")
+expand_mode = 1
+
+[node name="SpaceHint" type="TextureRect" parent="TimerPanel" unique_id=505287685]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 30.0
+offset_right = 61.0
+offset_bottom = 37.0
+mouse_filter = 2
+texture = ExtResource("7_space_hint")
+
+[node name="Countdown" type="TextureRect" parent="." unique_id=1415476405]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -60.0
+offset_right = 36.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_countdown")
+stretch_mode = 3
+
+[node name="CenterLabel" type="Label" parent="." unique_id=982082158]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -99.0
+offset_right = 150.0
+offset_bottom = -75.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.05, 0.1, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "ФИНИШ!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Results" type="Control" parent="." unique_id=715167630]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="Panel" type="PanelContainer" parent="Results" unique_id=1312258926]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -70.0
+offset_right = 150.0
+offset_bottom = 70.0
+
+[node name="Box" type="VBoxContainer" parent="Results/Panel" unique_id=944235839]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="Results/Panel/Box" unique_id=1088813841]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 5)
+theme_override_font_sizes/font_size = 18
+text = "РЕЗУЛЬТАТЫ"
+horizontal_alignment = 1
+
+[node name="List" type="Label" parent="Results/Panel/Box" unique_id=1971534883]
+layout_mode = 2
+size_flags_vertical = 3
+offset_transform_enabled = true
+offset_transform_position = Vector2(5, 6)
+text = "1. Игрок"
+
+[node name="RestartButton" type="Button" parent="Results/Panel/Box" unique_id=604332448]
+custom_minimum_size = Vector2(80, 18)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "ЕЩЁ РАЗ"

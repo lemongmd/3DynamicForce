@@ -1,0 +1,44 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/fx/screen_effects.gd" id="1_script"]
+[ext_resource type="Shader" path="res://scenes/fx/drunk.gdshader" id="2_drunk"]
+[ext_resource type="Shader" path="res://assets/shaders/screen_grade.gdshader" id="3_grade"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_drunk"]
+shader = ExtResource("2_drunk")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_grade"]
+shader = ExtResource("3_grade")
+
+[node name="ScreenEffects" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_script")
+
+[node name="Grade" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_grade")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Drunk" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_drunk")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Flash" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)

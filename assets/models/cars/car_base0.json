@@ -1,0 +1,225 @@
+{
+ "atlas": [
+  32,
+  104
+ ],
+ "rects": {
+  "body_top": [
+   0,
+   0,
+   16,
+   24
+  ],
+  "body_side": [
+   0,
+   24,
+   32,
+   5
+  ],
+  "body_front": [
+   0,
+   32,
+   16,
+   5
+  ],
+  "body_back": [
+   0,
+   40,
+   16,
+   5
+  ],
+  "glass": [
+   0,
+   48,
+   16,
+   8
+  ],
+  "cabin_side": [
+   0,
+   56,
+   24,
+   8
+  ],
+  "roof": [
+   0,
+   64,
+   16,
+   16
+  ],
+  "tire": [
+   0,
+   80,
+   8,
+   8
+  ],
+  "rim": [
+   0,
+   88,
+   8,
+   8
+  ],
+  "underside": [
+   0,
+   96,
+   8,
+   8
+  ]
+ },
+ "letters": [
+  "DDDDDDDDDDDDDDDD................",
+  "DHHHHHHHHHHHHHHD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSRRRRRRRRRRRRSD................",
+  "DSSSSSSSSSSSSSSD................",
+  "DDDDDDDDDDDDDDDD................",
+  "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+  "RRRRRRRRRRRRRRSRRRRRRRRRRRRRRRRR",
+  "RRRRRRRRRRRRRRSRRRRRRRRRRRRRRRRR",
+  "SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+  "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD",
+  "................................",
+  "................................",
+  "................................",
+  "HHHHHHHHHHHHHHHH................",
+  "RYYYRRRRRRRRYYYR................",
+  "RYYYRKKKKKKRYYYR................",
+  "SSSSSKKKKKKSSSSS................",
+  "DDDDDDDDDDDDDDDD................",
+  "................................",
+  "................................",
+  "................................",
+  "HHHHHHHHHHHHHHHH................",
+  "RTTTRRRRRRRRTTTR................",
+  "RTTTRRPPPPRRTTTR................",
+  "SSSSSSPPPPSSSSSS................",
+  "DDDDDDDDDDDDDDDD................",
+  "................................",
+  "................................",
+  "................................",
+  "DDDDDDDDDDDDDDDD................",
+  "DGGGGGGGGGGLLGGD................",
+  "DGGGGGGGGGLLGGGD................",
+  "DGGGGGGGGLLGGGGD................",
+  "DGGGGGGGLLGGGGGD................",
+  "DGGGGGGLLGGGGGLD................",
+  "DGGGGGLLGGGGGLLD................",
+  "DDDDDDDDDDDDDDDD................",
+  "DDDDDDDDDDDDDDDDDDDDDDDD........",
+  "DGGGGGGLLGGDDGGGGGGLLGGD........",
+  "DGGGGGLLGGGDDGGGGGLLGGGD........",
+  "DGGGGLLGGGGDDGGGGLLGGGGD........",
+  "DGGGLLGGGGGDDGGGLLGGGGGD........",
+  "DGGLLGGGGGGDDGGLLGGGGGGD........",
+  "DGLLGGGGGGGDDGLLGGGGGGGD........",
+  "DDDDDDDDDDDDDDDDDDDDDDDD........",
+  "DDDDDDDDDDDDDDDD................",
+  "DHHHHHHHHHHHHHHD................",
+  "DRRRRRRRRRRRRRRD................",
+  "DRRRRRRRRRRRRRRD................",
+  "DRRRRRRRRRRRRRRD................",
+  "DRRRRRRRRRRRRRRD................",
+  "DRRRRRRRRRRRRRRD................",
+  "DRRRRRRRRRRRRRRD................",
+  "DRRRRRRRRRRRRRRD................",
+  "DRRRRRRRRRRRRRRD................",
+  "DRRRRRRRRRRRRRRD................",
+  "DRRRRRRRRRRRRRRD................",
+  "DRRRRRRRRRRRRRRD................",
+  "DRRRRRRRRRRRRRRD................",
+  "DSSSSSSSSSSSSSSD................",
+  "DDDDDDDDDDDDDDDD................",
+  "WWWWWWWW........................",
+  "WVVWWVVW........................",
+  "WWVVWWVV........................",
+  "WWWVVWWV........................",
+  "WWVVWWVV........................",
+  "WVVWWVVW........................",
+  "VVWWVVWW........................",
+  "WWWWWWWW........................",
+  "WWWWWWWW........................",
+  "WWMMMMWW........................",
+  "WMMMMMMW........................",
+  "WMMNNMMW........................",
+  "WMMNNMMW........................",
+  "WMMMMMMW........................",
+  "WWMMMMWW........................",
+  "WWWWWWWW........................",
+  "KKKKKKKK........................",
+  "KKKKKKKK........................",
+  "KKKKKKKK........................",
+  "KKKKKKKK........................",
+  "KKKKKKKK........................",
+  "KKKKKKKK........................",
+  "KKKKKKKK........................",
+  "KKKKKKKK........................"
+ ],
+ "palette": {
+  "R": "#d4d4d4",
+  "H": "#ffffff",
+  "S": "#a4a4a4",
+  "D": "#505050",
+  "G": "#2f6fd6",
+  "L": "#8fd0ff",
+  "Y": "#ffe066",
+  "T": "#ff9a1f",
+  "P": "#e8e8e0",
+  "K": "#2a2a30",
+  "W": "#26262c",
+  "V": "#3c3c46",
+  "M": "#a0a0a8",
+  "N": "#dcdce4",
+  "A": "#6fae3c",
+  "B": "#3f7a2a",
+  "C": "#a8d860",
+  "E": "#2e3a24",
+  "X": "#4a4a50",
+  "Z": "#7a7a84"
+ },
+ "roles": {
+  "tint": "RHSDABCE",
+  "glass": {
+   "G": "main",
+   "L": "light"
+  },
+  "tire": {
+   "W": "main",
+   "V": "tread"
+  },
+  "rim": {
+   "M": "main",
+   "N": "hub"
+  }
+ },
+ "areas": {
+  "body_top": [
+   -0.8,
+   0.8,
+   -1.5,
+   1.5
+  ],
+  "roof": [
+   -0.56,
+   0.56,
+   -0.8,
+   0.0
+  ]
+ }
+}

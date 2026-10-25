@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_object.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/textures/items/spine_needle.png" id="2_other"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/peppinoangryscreen.wav" id="3_angry"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/hang.wav" id="4_hang"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_trail"]
+size = Vector3(2.5, 2, 40)
+
+[node name="SpineTrail" type="Area3D"]
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_script")
+wait_time = 0.3
+stab_time = 0.12
+parryable = false
+hit_sounds = Array[AudioStream]([ExtResource("3_angry"), ExtResource("4_hang")])
+effect_id = &"spine_hit"
+effect_time = 1.2
+effect_multipliers = {
+&"max_speed": 0.5
+}
+effect_end_sound = ExtResource("4_hang")
+other_texture = ExtResource("2_other")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1, 0)
+shape = SubResource("BoxShape3D_trail")
+
+[node name="Visual" type="Sprite3D" parent="."]
+position = Vector3(0, 0.05, 0)
+rotation = Vector3(0, 1.5707964, 0)
+pixel_size = 0.416667
+axis = 1
+texture_filter = 0
+texture = ExtResource("2_other")

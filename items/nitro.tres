@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="ItemSelfEffect" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_self_effect.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-nitro-000.png" id="2_icon0"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-nitro-001.png" id="3_icon1"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-nitro-002.png" id="4_icon2"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/pizzardelectricity.wav" id="5_sound"]
+
+[resource]
+script = ExtResource("1_script")
+duration = 1.0
+multipliers = {
+&"acceleration": 4.0,
+&"max_speed": 1.5
+}
+id = &"nitro"
+display_name = "Нитро"
+icon_frames = Array[Texture2D]([ExtResource("2_icon0"), ExtResource("3_icon1"), ExtResource("4_icon2")])
+icon_fps = 16.0
+use_sounds = Array[AudioStream]([ExtResource("5_sound")])
+shows_timer = true

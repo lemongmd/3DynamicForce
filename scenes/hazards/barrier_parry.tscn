@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hazards/parry_hazard.gd" id="1_hazard"]
+[ext_resource type="Material" path="res://assets/materials/barrier_parry.tres" id="2_mat"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stocksplat.wav" id="3_splat"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stockpain.wav" id="4_pain"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_rope"]
+material = ExtResource("2_mat")
+size = Vector2(6, 2.6666667)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_zone"]
+size = Vector3(6, 2, 1)
+
+[node name="BarrierParry" type="Area3D"]
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_hazard")
+hit_sounds = Array[AudioStream]([ExtResource("3_splat"), ExtResource("4_pain")])
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1, 0)
+shape = SubResource("BoxShape3D_zone")
+
+[node name="Rope" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.3333334, 0)
+mesh = SubResource("QuadMesh_rope")

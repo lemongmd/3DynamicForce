@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemSelfEffect" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_self_effect.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-dash-000.png" id="2_icon0"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/randomnoise1.wav" id="3_sound"]
+
+[resource]
+script = ExtResource("1_script")
+duration = 0.33333334
+forward_push = 30.0
+id = &"dash"
+display_name = "Рывок"
+icon_frames = Array[Texture2D]([ExtResource("2_icon0")])
+icon_fps = 0.0
+use_sounds = Array[AudioStream]([ExtResource("3_sound")])
+use_fx = &"dash"

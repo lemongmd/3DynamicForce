@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://assets/models/props/barrel.glb" id="1_model"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_barrel"]
+size = Vector3(2, 3, 2)
+
+[node name="Barrel" type="StaticBody3D"]
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.5, 0)
+shape = SubResource("BoxShape3D_barrel")
+
+[node name="Model" parent="." instance=ExtResource("1_model")]

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemThrow" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_throw.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/textures/items/curitem_tomato.png" id="2_icon"]
+[ext_resource type="PackedScene" path="res://scenes/items/tomato.tscn" id="3_scene"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/jump2.wav" id="4_sound"]
+
+[resource]
+script = ExtResource("1_script")
+object_scene = ExtResource("3_scene")
+id = &"tomato"
+display_name = "Помидор"
+icon_frames = Array[Texture2D]([ExtResource("2_icon")])
+icon_fps = 0.0
+use_sounds = Array[AudioStream]([ExtResource("4_sound")])
+use_emote = &"hehe"

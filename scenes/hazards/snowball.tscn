@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hazards/snowball.gd" id="1_ball"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/other/snowball-000.png" id="2_tex"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/bassbubble.wav" id="3_snd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ball"]
+size = Vector3(1.25, 2, 1.25)
+
+[node name="Snowball" type="Area3D"]
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_ball")
+hit_sounds = Array[AudioStream]([ExtResource("3_snd")])
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1, 0)
+shape = SubResource("BoxShape3D_ball")
+
+[node name="Sprite" type="Sprite3D" parent="."]
+position = Vector3(0, 1, 0)
+pixel_size = 0.125
+billboard = 1
+texture_filter = 0
+texture = ExtResource("2_tex")

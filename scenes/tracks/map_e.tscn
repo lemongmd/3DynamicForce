@@ -1,0 +1,760 @@
+[gd_scene format=3 uid="uid://cgrv8425bxvla"]
+
+[ext_resource type="Script" uid="uid://dh744xfvvu0dm" path="res://scripts/track/track.gd" id="1_p83px"]
+[ext_resource type="Material" path="res://assets/materials/road.tres" id="2_f3wy8"]
+[ext_resource type="Material" path="res://assets/materials/wall.tres" id="3_fnw6g"]
+[ext_resource type="Material" path="res://assets/materials/background_dirt.tres" id="4_k6vf5"]
+[ext_resource type="Material" path="res://assets/materials/checker.tres" id="5_b5pwy"]
+[ext_resource type="PackedScene" path="res://scenes/props/start_gate.tscn" id="6_x0w48"]
+[ext_resource type="AudioStream" uid="uid://d14ls0puodc5t" path="res://assets/original/music/jojo.ogg" id="7_i8twu"]
+[ext_resource type="PackedScene" path="res://scenes/props/site_crate.tscn" id="11_6kktk"]
+[ext_resource type="PackedScene" path="res://scenes/props/gravel.tscn" id="12_b21cr"]
+[ext_resource type="Script" uid="uid://bqdq8vc0ygln8" path="res://scripts/props/c3_box_visual.gd" id="13_gcdwh"]
+[ext_resource type="PackedScene" path="res://scenes/objects/boost_pad.tscn" id="14_xdl0f"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/barrier_parry.tscn" id="27_sfikw"]
+[ext_resource type="PackedScene" path="res://scenes/props/barrier_block.tscn" id="31_xvut5"]
+[ext_resource type="PackedScene" path="res://scenes/decor/fence.tscn" id="32_b21cr"]
+[ext_resource type="PackedScene" path="res://scenes/objects/portal.tscn" id="37_pb15y"]
+
+[sub_resource type="Curve3D" id="Curve3D_wgmdp"]
+closed = true
+bake_interval = 0.5
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 146.56, 0, 289, 0, 0, 0, 0, 0, 0, 146.56, 0, 244.5, 0, 0, 0, 0, 0, 0, 149.7, 0, 235.62, 0, 0, 0, 0, 0, 0, 157.5, 0, 224.02, 0, 0, 0, 0, 0, 0, 238.5, 0, 224.02, 0, 0, 0, 0, 0, 0, 271.5, 0, 194.57999, 0, 0, 0, 0, 0, 0, 283.5, 0, 188.4, 0, 0, 0, 0, 0, 0, 304.5, 0, 188.4, 0, 0, 0, 0, 0, 0, 315.18002, 0, 193.98001, 0, 0, 0, 0, 0, 0, 317.1, 0, 199.5, 0, 0, 0, 0, 0, 0, 313.02, 0, 208.5, 0, 0, 0, 0, 0, 0, 283.02, 0, 247.5, 0, 0, 0, 0, 0, 0, 259.5, 0, 270.30002, 0, 0, 0, 0, 0, 0, 250.5, 0, 274.5, 0, 0, 0, 0, 0, 0, 223.5, 0, 274.5, 0, 0, 0, 0, 0, 0, 207.42, 0, 281.7, 0, 0, 0, 0, 0, 0, 199.5, 0, 274.5, 0, 0, 0, 0, 0, 0, 313.5, 0, 323.22, 0, 0, 0, 0, 0, 0, 166.5, 0, 323.22, 0, 0, 0, 0, 0, 0, 157.5, 0, 317.82, 0, 0, 0, 0, 0, 0, 146.56, 0, 310.38),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 21
+
+[node name="MapE" type="Node3D" unique_id=2090200831]
+script = ExtResource("1_p83px")
+road_width = 15.0
+surround_width = 3.0
+haze_color = Color(0.85, 0.72, 0.55, 1)
+portal_gaps = PackedInt32Array(16)
+road_material = ExtResource("2_f3wy8")
+wall_material = ExtResource("3_fnw6g")
+background_material = ExtResource("4_k6vf5")
+start_line_material = ExtResource("5_b5pwy")
+start_gate_scene = ExtResource("6_x0w48")
+music = ExtResource("7_i8twu")
+
+[node name="Path" type="Path3D" parent="." unique_id=143080058]
+curve = SubResource("Curve3D_wgmdp")
+
+[node name="Props" type="Node3D" parent="." unique_id=2123934024]
+
+[node name="PortalIn1" parent="Props" unique_id=1194348777 instance=ExtResource("37_pb15y")]
+transform = Transform3D(0.67267203, 0, 0.73994076, 0, 1, 0, -0.73994076, 0, 0.67267203, 200.97986, 0, 275.84537)
+target = NodePath("../PortalOut1")
+color = Color(0, 0.6392157, 0.9607843, 1)
+
+[node name="PortalOut1" parent="Props" unique_id=676313428 instance=ExtResource("37_pb15y")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 311.00003, 0, 323.22)
+color = Color(0.9254902, 0.50980395, 0.03529412, 1)
+
+[node name="Crate1" parent="Props" unique_id=2110870396 instance=ExtResource("11_6kktk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 141.56, 0, 265)
+
+[node name="Gravel1" parent="Props" unique_id=686202446 instance=ExtResource("12_b21cr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 151.56, 0, 253)
+
+[node name="Crate2" parent="Props" unique_id=267356147 instance=ExtResource("11_6kktk")]
+transform = Transform3D(0.94279385, 0, -0.33337638, 0, 1, 0, 0.33337638, 0, 0.94279385, 152.45189, 0, 242.83565)
+
+[node name="Gravel2" parent="Props" unique_id=688426509 instance=ExtResource("12_b21cr")]
+transform = Transform3D(0.8298477, 0, -0.55799, 0, 1, 0, 0.55799, 0, 0.8298477, 148.97021, 0, 227.7447)
+
+[node name="Barrier1" parent="Props" unique_id=653903715 instance=ExtResource("27_sfikw")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 180.51424, 0, 226.51999)
+
+[node name="BoostPad1" parent="Props" unique_id=612440355 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 190.51427, 0, 221.52)
+
+[node name="BoostPad2" parent="Props" unique_id=528071281 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 193.51424, 0, 221.52)
+
+[node name="BoostPad3" parent="Props" unique_id=209040970 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 196.51425, 0, 221.52)
+
+[node name="BoostPad4" parent="Props" unique_id=2096794591 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 199.51425, 0, 221.52002)
+
+[node name="Gravel3" parent="Props" unique_id=615616577 instance=ExtResource("12_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 203.51422, 0, 229.02)
+
+[node name="Crate3" parent="Props" unique_id=907115218 instance=ExtResource("11_6kktk")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 212.51425, 0, 229.02)
+
+[node name="ItemBoxSpot1" type="Marker3D" parent="Props" unique_id=1839598972 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 225.51425, 0, 218.02)
+
+[node name="ItemBoxSpot2" type="Marker3D" parent="Props" unique_id=374645498 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 225.51425, 0, 222.02)
+
+[node name="ItemBoxSpot3" type="Marker3D" parent="Props" unique_id=998513276 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 225.51425, 0, 226.02)
+
+[node name="ItemBoxSpot4" type="Marker3D" parent="Props" unique_id=772124323 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 225.51425, 0, 230.02)
+
+[node name="Block1" parent="Props" unique_id=700356406 instance=ExtResource("31_xvut5")]
+transform = Transform3D(0.54929, 0, -0.8356318, 0, 1, 0, 0.8356318, 0, 0.54929, 242.66151, 0, 226.12881)
+
+[node name="Crate4" parent="Props" unique_id=628381081 instance=ExtResource("11_6kktk")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 245.88338, 0, 210.73262)
+
+[node name="Barrier2" parent="Props" unique_id=531303587 instance=ExtResource("27_sfikw")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 257.4202, 0, 207.14088)
+
+[node name="Block2" parent="Props" unique_id=698804619 instance=ExtResource("31_xvut5")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 262.6328, 0, 196.46011)
+
+[node name="Crate5" parent="Props" unique_id=1070845258 instance=ExtResource("11_6kktk")]
+transform = Transform3D(0.45783854, 0, -0.88903534, 0, 1, 0, 0.88903534, 0, 0.45783854, 276.58542, 0, 197.58511)
+
+[node name="Barrier3" parent="Props" unique_id=1864907314 instance=ExtResource("27_sfikw")]
+transform = Transform3D(0.16727343, 0, -0.98591053, 0, 1, 0, 0.98591053, 0, 0.16727343, 284.66553, 0, 191.0073)
+
+[node name="Crate6" parent="Props" unique_id=53290110 instance=ExtResource("11_6kktk")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 295.23923, 0, 183.39998)
+
+[node name="Crate7" parent="Props" unique_id=1719185529 instance=ExtResource("11_6kktk")]
+transform = Transform3D(-0.46307287, 0, -0.88632023, 0, 1, 0, 0.88632023, 0, -0.46307287, 305.58337, 0, 194.60735)
+
+[node name="Gravel4" parent="Props" unique_id=465157897 instance=ExtResource("12_b21cr")]
+transform = Transform3D(-0.9087404, 0, -0.4173618, 0, 1, 0, 0.4173618, 0, -0.9087404, 320.36752, 0, 193.82709)
+
+[node name="Crate8" parent="Props" unique_id=118723189 instance=ExtResource("11_6kktk")]
+transform = Transform3D(-0.7926144, 0, 0.6097232, 0, 1, 0, -0.6097232, 0, -0.7926144, 309.31418, 0, 221.51816)
+
+[node name="Block3" parent="Props" unique_id=263310493 instance=ExtResource("31_xvut5")]
+transform = Transform3D(-0.7926144, 0, 0.6097232, 0, 1, 0, -0.6097232, 0, -0.7926144, 295.0775, 0, 224.44466)
+
+[node name="ItemBoxSpot5" type="Marker3D" parent="Props" unique_id=1543931780 groups=["item_box_spots"]]
+transform = Transform3D(-0.79262733, 0, 0.6097064, 0, 1, 0, -0.6097064, 0, -0.79262733, 289.37674, 0, 249.077)
+
+[node name="ItemBoxSpot6" type="Marker3D" parent="Props" unique_id=77727229 groups=["item_box_spots"]]
+transform = Transform3D(-0.79262733, 0, 0.6097064, 0, 1, 0, -0.6097064, 0, -0.79262733, 286.99884, 0, 247.24788)
+
+[node name="ItemBoxSpot7" type="Marker3D" parent="Props" unique_id=390136934 groups=["item_box_spots"]]
+transform = Transform3D(-0.79262733, 0, 0.6097064, 0, 1, 0, -0.6097064, 0, -0.79262733, 284.62097, 0, 245.41876)
+
+[node name="ItemBoxSpot8" type="Marker3D" parent="Props" unique_id=1821741490 groups=["item_box_spots"]]
+transform = Transform3D(-0.79262733, 0, 0.6097064, 0, 1, 0, -0.6097064, 0, -0.79262733, 282.2431, 0, 243.58965)
+
+[node name="Barrier4" parent="Props" unique_id=1145385351 instance=ExtResource("27_sfikw")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 277.98337, 0, 258.64975)
+
+[node name="BoostPad5" parent="Props" unique_id=554375104 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 273.30533, 0, 263.88095)
+
+[node name="BoostPad6" parent="Props" unique_id=993323106 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 271.1513, 0, 265.9691)
+kind = 1
+
+[node name="BoostPad7" parent="Props" unique_id=193258280 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 268.9973, 0, 268.05713)
+kind = 1
+
+[node name="BoostPad8" parent="Props" unique_id=1109379143 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 266.84335, 0, 270.14514)
+
+[node name="Gravel5" parent="Props" unique_id=165598987 instance=ExtResource("12_b21cr")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 264.49503, 0, 261.97604)
+
+[node name="Barrier5" parent="Props" unique_id=1821426823 instance=ExtResource("27_sfikw")]
+transform = Transform3D(-0.4228679, 0, 0.90619135, 0, 1, 0, -0.90619135, 0, -0.4228679, 255.1342, 0, 269.57855)
+
+[node name="BoostPad9" parent="Props" unique_id=1236349339 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 248.70961, 0, 274.48993)
+
+[node name="BoostPad10" parent="Props" unique_id=1871861510 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 245.70978, 0, 274.5)
+
+[node name="Crate9" parent="Props" unique_id=460693635 instance=ExtResource("11_6kktk")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 237.70976, 0, 279.5)
+
+[node name="Gravel6" parent="Props" unique_id=2012739723 instance=ExtResource("12_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 233.70976, 0, 269.5)
+
+[node name="Crate10" parent="Props" unique_id=770504018 instance=ExtResource("11_6kktk")]
+transform = Transform3D(-0.19127263, 0, 0.9815369, 0, 1, 0, -0.9815369, 0, -0.19127263, 223.72176, 0, 274.6858)
+
+[node name="BoostPad11" parent="Props" unique_id=1027959602 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(0.51168597, 0, 0.8591726, 0, 1, 0, -0.8591726, 0, 0.51168597, 205.04239, 0, 279.33746)
+kind = 1
+
+[node name="BoostPad12" parent="Props" unique_id=253962462 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 306.83948, 0, 320.72)
+
+[node name="BoostPad13" parent="Props" unique_id=1989521266 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 303.83942, 0, 320.72003)
+
+[node name="Gravel7" parent="Props" unique_id=304266646 instance=ExtResource("12_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 296.83942, 0, 328.21997)
+
+[node name="Gravel8" parent="Props" unique_id=1310259492 instance=ExtResource("12_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 284.83945, 0, 325.71997)
+
+[node name="Barrier6" parent="Props" unique_id=641929486 instance=ExtResource("27_sfikw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 274.83945, 0, 325.72)
+
+[node name="Gravel9" parent="Props" unique_id=157289885 instance=ExtResource("12_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 262.83945, 0, 320.71997)
+
+[node name="Block4" parent="Props" unique_id=906968305 instance=ExtResource("31_xvut5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 254.8395, 0, 327.72003)
+
+[node name="BoostPad14" parent="Props" unique_id=25635604 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 246.83946, 0, 325.71997)
+kind = 1
+
+[node name="Gravel10" parent="Props" unique_id=1237085296 instance=ExtResource("12_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 238.83946, 0, 320.72)
+
+[node name="BoostPad15" parent="Props" unique_id=150698414 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 232.83943, 0, 328.22)
+
+[node name="BoostPad16" parent="Props" unique_id=231979167 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 229.83954, 0, 328.22)
+
+[node name="BoostPad17" parent="Props" unique_id=1012386111 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 226.83937, 0, 328.22)
+
+[node name="Gravel11" parent="Props" unique_id=457305516 instance=ExtResource("12_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 216.83945, 0, 323.21997)
+
+[node name="Gravel12" parent="Props" unique_id=27418070 instance=ExtResource("12_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 206.83937, 0, 328.22)
+
+[node name="Barrier7" parent="Props" unique_id=33285225 instance=ExtResource("27_sfikw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 195.83943, 0, 327.72)
+
+[node name="Barrier8" parent="Props" unique_id=425718201 instance=ExtResource("27_sfikw")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 195.83943, 0, 318.72)
+
+[node name="BoostPad18" parent="Props" unique_id=665993217 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 191.83942, 0, 323.22)
+
+[node name="BoostPad19" parent="Props" unique_id=971433268 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 188.83945, 0, 323.22003)
+kind = 1
+
+[node name="BoostPad20" parent="Props" unique_id=1306267336 instance=ExtResource("14_xdl0f")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 185.83942, 0, 323.22)
+
+[node name="Block5" parent="Props" unique_id=1385977390 instance=ExtResource("31_xvut5")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 174.83945, 0, 318.72)
+
+[node name="Block6" parent="Props" unique_id=1533825649 instance=ExtResource("31_xvut5")]
+transform = Transform3D(0.5144755, 0, 0.857505, 0, 1, 0, -0.857505, 0, 0.5144755, 160.92957, 0, 325.1256)
+
+[node name="Gravel13" parent="Props" unique_id=866195172 instance=ExtResource("12_b21cr")]
+transform = Transform3D(0.56234586, 0, 0.8269021, 0, 1, 0, -0.8269021, 0, 0.56234586, 156.17648, 0, 313.89658)
+
+[node name="ItemBoxSpot10" type="Marker3D" parent="Props" unique_id=2021167208 groups=["item_box_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.57446, 0, 305.74475)
+
+[node name="ItemBoxSpot11" type="Marker3D" parent="Props" unique_id=824218193 groups=["item_box_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 143.57106, 0, 305.60205)
+
+[node name="ItemBoxSpot12" type="Marker3D" parent="Props" unique_id=245625221 groups=["item_box_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 146.56767, 0, 305.45938)
+
+[node name="ItemBoxSpot13" type="Marker3D" parent="Props" unique_id=169273385 groups=["item_box_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 149.56429, 0, 305.3167)
+
+[node name="ItemBoxSpot14" type="Marker3D" parent="Props" unique_id=1857864205 groups=["item_box_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 152.56088, 0, 305.174)
+
+[node name="Decor" type="Node3D" parent="." unique_id=581698666]
+
+[node name="MapKranBase1" type="Node3D" parent="Decor" unique_id=1979207192]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 251, 0, 103)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapKranBase1" unique_id=248467796]
+script = ExtResource("13_gcdwh")
+size = Vector3(10, 2.5, 10)
+base_name = "mapkranbase"
+
+[node name="MapHouseWindow1" type="Node3D" parent="Decor" unique_id=1089168708]
+transform = Transform3D(1.1924881e-08, 0, 1, 0, 1, 0, -1, 0, 1.1924881e-08, 183, 0, 260)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWindow1" unique_id=1491355210]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewindow"
+
+[node name="MapHouseWall1" type="Node3D" parent="Decor" unique_id=1931007980]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 178, 0, 260)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWall1" unique_id=364726788]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewall"
+
+[node name="MapHouseWall2" type="Node3D" parent="Decor" unique_id=1484728231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 188, 0, 260)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWall2" unique_id=2006235636]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewall"
+
+[node name="MapHouseWindow2" type="Node3D" parent="Decor" unique_id=1729205654]
+transform = Transform3D(1.1924881e-08, 0, 1, 0, 1, 0, -1, 0, 1.1924881e-08, 193, 0, 260)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWindow2" unique_id=1982260596]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewindow"
+
+[node name="MapHouseWall3" type="Node3D" parent="Decor" unique_id=1388871259]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 198, 0, 260)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWall3" unique_id=939450647]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewall"
+
+[node name="MapHouseWindow3" type="Node3D" parent="Decor" unique_id=193208848]
+transform = Transform3D(1.1924881e-08, 0, 1, 0, 1, 0, -1, 0, 1.1924881e-08, 203, 0, 260)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWindow3" unique_id=1291316024]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewindow"
+
+[node name="MapHouseWall4" type="Node3D" parent="Decor" unique_id=536200834]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 208, 0, 260)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWall4" unique_id=1685577246]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewall"
+
+[node name="MapHouseWindow4" type="Node3D" parent="Decor" unique_id=750349081]
+transform = Transform3D(1.1924881e-08, 0, 1, 0, 1, 0, -1, 0, 1.1924881e-08, 213, 0, 260)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWindow4" unique_id=1104616347]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewindow"
+
+[node name="MapHouseWall5" type="Node3D" parent="Decor" unique_id=109431610]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 218, 0, 260)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWall5" unique_id=1730433259]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewall"
+
+[node name="MapHouseWindow5" type="Node3D" parent="Decor" unique_id=165471733]
+transform = Transform3D(1.1924881e-08, 0, 1, 0, 1, 0, -1, 0, 1.1924881e-08, 223, 0, 260)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWindow5" unique_id=1357435676]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewindow"
+
+[node name="MapHouseWall6" type="Node3D" parent="Decor" unique_id=1125868976]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 228, 0, 260)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWall6" unique_id=915988196]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewall"
+
+[node name="MapHouseWindow6" type="Node3D" parent="Decor" unique_id=1333830417]
+transform = Transform3D(1.1924881e-08, 0, 1, 0, 1, 0, -1, 0, 1.1924881e-08, 178, 0, 265)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWindow6" unique_id=803303433]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewindow"
+
+[node name="MapHouseWindow7" type="Node3D" parent="Decor" unique_id=1812957014]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 178, 0, 275)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWindow7" unique_id=1542573886]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewindow"
+
+[node name="MapHouseWall7" type="Node3D" parent="Decor" unique_id=1025254072]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 178, 0, 270)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWall7" unique_id=100960716]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewall"
+
+[node name="MapHouseWindow8" type="Node3D" parent="Decor" unique_id=1340527424]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 178, 0, 285)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWindow8" unique_id=784962085]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewindow"
+
+[node name="MapHouseWall8" type="Node3D" parent="Decor" unique_id=1866963940]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 178, 0, 280)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWall8" unique_id=1157191040]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewall"
+
+[node name="MapHouseWall9" type="Node3D" parent="Decor" unique_id=1828552550]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 178, 0, 290)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWall9" unique_id=1594897899]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewall"
+
+[node name="MapHouseWindow9" type="Node3D" parent="Decor" unique_id=2014269887]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 183, 0, 290)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWindow9" unique_id=917117453]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewindow"
+
+[node name="MapHouseWindow10" type="Node3D" parent="Decor" unique_id=891675191]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 193, 0, 290)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWindow10" unique_id=1680976532]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewindow"
+
+[node name="MapHouseWall10" type="Node3D" parent="Decor" unique_id=2039558048]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 188, 0, 290)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWall10" unique_id=139832462]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewall"
+
+[node name="MapHouseWall14" type="Node3D" parent="Decor" unique_id=1409872024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 228, 0, 290)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapHouseWall14" unique_id=1058398640]
+script = ExtResource("13_gcdwh")
+size = Vector3(5, 6.25, 5)
+base_name = "maphousewall"
+
+[node name="MapKranMetal1" type="Node3D" parent="Decor" unique_id=1043890999]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 251, 0, 101)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapKranMetal1" unique_id=1562030644]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+script = ExtResource("13_gcdwh")
+size = Vector3(3, 12.5, 3)
+base_name = "mapkranmetal"
+
+[node name="MapKranMetal2" type="Node3D" parent="Decor" unique_id=985100579]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 251, 0, 191)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapKranMetal2" unique_id=1381336970]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.625, 0)
+script = ExtResource("13_gcdwh")
+size = Vector3(1, 10, 1)
+base_name = "mapkranmetal"
+
+[node name="Fence4" parent="Decor" unique_id=1822673730 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 165.51425, 0, 246.82)
+metadata/layout_decor = true
+
+[node name="Fence5" parent="Decor" unique_id=336678852 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 170.51425, 0, 246.81999)
+metadata/layout_decor = true
+
+[node name="Fence6" parent="Decor" unique_id=1275934447 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-7.673106e-06, 0, -1, 0, 1, 0, 1, 0, -7.673106e-06, 175.51408, 0, 246.82002)
+metadata/layout_decor = true
+
+[node name="Fence7" parent="Decor" unique_id=1576151781 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-7.673106e-06, 0, -1, 0, 1, 0, 1, 0, -7.673106e-06, 180.51408, 0, 246.81999)
+metadata/layout_decor = true
+
+[node name="Fence8" parent="Decor" unique_id=326233883 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 185.51425, 0, 246.82)
+metadata/layout_decor = true
+
+[node name="Fence9" parent="Decor" unique_id=1341246736 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-7.673106e-06, 0, -1, 0, 1, 0, 1, 0, -7.673106e-06, 190.51408, 0, 246.82)
+metadata/layout_decor = true
+
+[node name="Fence10" parent="Decor" unique_id=550526695 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 195.51425, 0, 246.82)
+metadata/layout_decor = true
+
+[node name="Fence11" parent="Decor" unique_id=1698953388 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, -1, 0, 1, 0, 1, 0, 1.5215078e-05, 200.5146, 0, 246.82)
+metadata/layout_decor = true
+
+[node name="Fence12" parent="Decor" unique_id=1195707154 instance=ExtResource("32_b21cr")]
+transform = Transform3D(7.5856833e-06, 0, -1, 0, 1, 0, 1, 0, 7.5856833e-06, 205.51442, 0, 246.82)
+metadata/layout_decor = true
+
+[node name="Fence13" parent="Decor" unique_id=376897647 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-7.673106e-06, 0, -1, 0, 1, 0, 1, 0, -7.673106e-06, 210.51408, 0, 246.82)
+metadata/layout_decor = true
+
+[node name="Fence14" parent="Decor" unique_id=1141355395 instance=ExtResource("32_b21cr")]
+transform = Transform3D(7.5856833e-06, 0, -1, 0, 1, 0, 1, 0, 7.5856833e-06, 215.51442, 0, 246.82)
+metadata/layout_decor = true
+
+[node name="Fence15" parent="Decor" unique_id=524744363 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-7.673106e-06, 0, -1, 0, 1, 0, 1, 0, -7.673106e-06, 220.51408, 0, 246.81999)
+metadata/layout_decor = true
+
+[node name="Fence16" parent="Decor" unique_id=1289723408 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 225.51425, 0, 246.82)
+metadata/layout_decor = true
+
+[node name="Fence17" parent="Decor" unique_id=1333010876 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 230.51425, 0, 246.82)
+metadata/layout_decor = true
+
+[node name="Fence18" parent="Decor" unique_id=603073710 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 235.10739, 0, 246.82)
+metadata/layout_decor = true
+
+[node name="Fence19" parent="Decor" unique_id=696406870 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 240.08502, 0, 246.82)
+metadata/layout_decor = true
+
+[node name="Fence66" parent="Decor" unique_id=1772596718 instance=ExtResource("32_b21cr")]
+transform = Transform3D(0.37203315, 0, -0.92821944, 0, 1, 0, 0.92821944, 0, 0.37203315, 244.79317, 0, 245.92966)
+metadata/layout_decor = true
+
+[node name="Fence67" parent="Decor" unique_id=901611503 instance=ExtResource("32_b21cr")]
+transform = Transform3D(0.37203315, 0, -0.92821944, 0, 1, 0, 0.92821944, 0, 0.37203315, 249.3692, 0, 244.10112)
+metadata/layout_decor = true
+
+[node name="Fence68" parent="Decor" unique_id=1202895007 instance=ExtResource("32_b21cr")]
+transform = Transform3D(0.5223466, 0, -0.85273325, 0, 1, 0, 0.85273325, 0, 0.5223466, 253.77473, 0.0064702034, 241.84418)
+metadata/layout_decor = true
+
+[node name="Fence69" parent="Decor" unique_id=1164602901 instance=ExtResource("32_b21cr")]
+transform = Transform3D(0.5223466, 0, -0.85273325, 0, 1, 0, 0.85273325, 0, 0.5223466, 257.99402, 0.0064702034, 239.2509)
+metadata/layout_decor = true
+
+[node name="Fence20" parent="Decor" unique_id=1254799330 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 306.83978, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence21" parent="Decor" unique_id=1767345867 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 301.83942, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence22" parent="Decor" unique_id=732018 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 296.83942, 0, 300.41998)
+metadata/layout_decor = true
+
+[node name="Fence23" parent="Decor" unique_id=1036681879 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 291.83945, 0, 300.41998)
+metadata/layout_decor = true
+
+[node name="Fence24" parent="Decor" unique_id=737432238 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-1.5302501e-05, 0, 1, 0, 1, 0, -1, 0, -1.5302501e-05, 286.83908, 0, 300.41998)
+metadata/layout_decor = true
+
+[node name="Fence25" parent="Decor" unique_id=1106496735 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 281.83975, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence26" parent="Decor" unique_id=124811485 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 276.83978, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence27" parent="Decor" unique_id=731552282 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 271.83942, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence28" parent="Decor" unique_id=1820402034 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 266.83942, 0, 300.41998)
+metadata/layout_decor = true
+
+[node name="Fence29" parent="Decor" unique_id=860081279 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-3.056129e-05, 0, 1, 0, 1, 0, -1, 0, -3.056129e-05, 261.8387, 0, 300.41998)
+metadata/layout_decor = true
+
+[node name="Fence30" parent="Decor" unique_id=1957344118 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 256.83975, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence31" parent="Decor" unique_id=1458275842 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 251.83945, 0, 300.42004)
+metadata/layout_decor = true
+
+[node name="Fence32" parent="Decor" unique_id=700298656 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 246.83946, 0, 300.41998)
+metadata/layout_decor = true
+
+[node name="Fence33" parent="Decor" unique_id=2065624244 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 241.8398, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence34" parent="Decor" unique_id=1695870603 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-1.5302501e-05, 0, 1, 0, 1, 0, -1, 0, -1.5302501e-05, 236.83911, 0, 300.41998)
+metadata/layout_decor = true
+
+[node name="Fence35" parent="Decor" unique_id=1437703842 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 231.8398, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence36" parent="Decor" unique_id=919433200 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 226.8398, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence37" parent="Decor" unique_id=769363540 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 221.83943, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence38" parent="Decor" unique_id=1633390563 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 216.83945, 0, 300.41998)
+metadata/layout_decor = true
+
+[node name="Fence39" parent="Decor" unique_id=1583038867 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 211.83942, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence40" parent="Decor" unique_id=739877276 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 206.8398, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence41" parent="Decor" unique_id=1398378077 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-1.5302501e-05, 0, 1, 0, 1, 0, -1, 0, -1.5302501e-05, 201.8391, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence42" parent="Decor" unique_id=750354475 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 196.83942, 0, 300.42)
+metadata/layout_decor = true
+
+[node name="Fence43" parent="Decor" unique_id=751650261 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 306.8391, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence44" parent="Decor" unique_id=872810261 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 301.83942, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence45" parent="Decor" unique_id=473067639 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 296.83942, 0, 346.01996)
+metadata/layout_decor = true
+
+[node name="Fence46" parent="Decor" unique_id=518956986 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 291.83945, 0, 346.01996)
+metadata/layout_decor = true
+
+[node name="Fence47" parent="Decor" unique_id=141406557 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-1.5302501e-05, 0, 1, 0, 1, 0, -1, 0, -1.5302501e-05, 286.83975, 0, 346.01996)
+metadata/layout_decor = true
+
+[node name="Fence48" parent="Decor" unique_id=294690328 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 281.83908, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence49" parent="Decor" unique_id=1457195388 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 276.8391, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence50" parent="Decor" unique_id=450951402 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 271.83942, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence51" parent="Decor" unique_id=1153066316 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 266.83942, 0, 346.01996)
+metadata/layout_decor = true
+
+[node name="Fence52" parent="Decor" unique_id=52262602 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-3.056129e-05, 0, 1, 0, 1, 0, -1, 0, -3.056129e-05, 261.84012, 0, 346.01996)
+metadata/layout_decor = true
+
+[node name="Fence53" parent="Decor" unique_id=601864400 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 256.83908, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence54" parent="Decor" unique_id=817662580 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 251.83945, 0, 346.02002)
+metadata/layout_decor = true
+
+[node name="Fence55" parent="Decor" unique_id=29302702 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 246.83946, 0, 346.01996)
+metadata/layout_decor = true
+
+[node name="Fence56" parent="Decor" unique_id=988819909 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 241.8391, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence57" parent="Decor" unique_id=1138051765 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-1.5302501e-05, 0, 1, 0, 1, 0, -1, 0, -1.5302501e-05, 236.83981, 0, 346.01996)
+metadata/layout_decor = true
+
+[node name="Fence58" parent="Decor" unique_id=1828434780 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 231.8391, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence59" parent="Decor" unique_id=585144003 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 226.8391, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence60" parent="Decor" unique_id=976546575 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 221.83943, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence61" parent="Decor" unique_id=1486360454 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 216.83945, 0, 346.01996)
+metadata/layout_decor = true
+
+[node name="Fence62" parent="Decor" unique_id=554651244 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 211.83942, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence63" parent="Decor" unique_id=903905471 instance=ExtResource("32_b21cr")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 206.8391, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence64" parent="Decor" unique_id=1270515376 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-1.5302501e-05, 0, 1, 0, 1, 0, -1, 0, -1.5302501e-05, 201.8398, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Fence65" parent="Decor" unique_id=840070583 instance=ExtResource("32_b21cr")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 196.83942, 0, 346.02)
+metadata/layout_decor = true
+
+[node name="Crate1" parent="Decor" unique_id=583719985 instance=ExtResource("11_6kktk")]
+transform = Transform3D(0.9396926, 0, 0.34202012, 0, 1, 0, -0.34202012, 0, 0.9396926, 130.56, 0, 259)
+metadata/layout_decor = true
+
+[node name="Gravel1" parent="Decor" unique_id=205285371 instance=ExtResource("12_b21cr")]
+transform = Transform3D(0.99265844, 0, -0.12095151, 0, 1, 0, 0.12095151, 0, 0.99265844, 131.74504, 0, 243.18875)
+metadata/layout_decor = true
+
+[node name="Crate2" parent="Decor" unique_id=1816353167 instance=ExtResource("11_6kktk")]
+transform = Transform3D(-0.2588264, 0, -0.96592385, 0, 1, 0, 0.96592385, 0, -0.2588264, 210.51413, 0, 241.02)
+metadata/layout_decor = true
+
+[node name="Gravel2" parent="Decor" unique_id=1920360282 instance=ExtResource("12_b21cr")]
+transform = Transform3D(0.26527402, 0, -0.9641731, 0, 1, 0, 0.9641731, 0, 0.26527402, 287.51575, 0, 204.18509)
+metadata/layout_decor = true
+
+[node name="Gravel3" parent="Decor" unique_id=632674832 instance=ExtResource("12_b21cr")]
+transform = Transform3D(-0.69605076, 0, 0.71799254, 0, 1, 0, -0.71799254, 0, -0.69605076, 274.4999, 0, 278.04306)
+metadata/layout_decor = true
+
+[node name="Crate3" parent="Decor" unique_id=1637716702 instance=ExtResource("11_6kktk")]
+transform = Transform3D(-0.17363316, 0, 0.9848104, 0, 1, 0, -0.9848104, 0, -0.17363316, 276.83917, 0, 340.22)
+metadata/layout_decor = true
+
+[node name="Gravel4" parent="Decor" unique_id=1712261045 instance=ExtResource("12_b21cr")]
+transform = Transform3D(-1.5302501e-05, 0, 1, 0, 1, 0, -1, 0, -1.5302501e-05, 236.83922, 0, 307.21997)
+metadata/layout_decor = true
+
+[node name="Crate4" parent="Decor" unique_id=785552466 instance=ExtResource("11_6kktk")]
+transform = Transform3D(0.920732, 0, 0.39019555, 0, 1, 0, -0.39019555, 0, 0.920732, 138.48296, 0, 325.1414)
+metadata/layout_decor = true

@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/map_zone.gd" id="1_zone"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/conveyor.png" id="2_conv"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/aquaslider.png" id="3_slide"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/ice-000.png" id="4_ice"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/conveyor.wav" id="5_conv_snd"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/aquasliderriver.wav" id="6_slide_snd"]
+
+[node name="MapZone" type="Area3D"]
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_zone")
+conveyor_texture = ExtResource("2_conv")
+slider_texture = ExtResource("3_slide")
+ice_texture = ExtResource("4_ice")
+conveyor_sound = ExtResource("5_conv_snd")
+slider_sound = ExtResource("6_slide_snd")

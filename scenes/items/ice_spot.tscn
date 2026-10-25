@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/items/ice_spot.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/ice-000.png" id="2_ice"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ice"]
+height = 2.0
+radius = 4.5
+
+[node name="IceSpot" type="Area3D"]
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_script")
+fade_in_time = 0.1
+wait_time = 7.0
+fade_out_time = 0.9
+parryable = false
+other_texture = ExtResource("2_ice")
+drop_to_ground = true
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1, 0)
+shape = SubResource("CylinderShape3D_ice")
+
+[node name="Visual" type="Sprite3D" parent="."]
+position = Vector3(0, 0.03, 0)
+modulate = Color(1, 0.9647059, 0.5803922, 0.75)
+pixel_size = 0.15625
+axis = 1
+texture_filter = 0
+texture = ExtResource("2_ice")

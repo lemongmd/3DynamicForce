@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/crabanime-000.png" id="1_f0"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/crabanime-001.png" id="2_f1"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/crabanime-002.png" id="3_f2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+size = Vector3(4, 3, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_crab"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_f0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_f1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_f2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[node name="Crab" type="StaticBody3D"]
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.5, 0)
+shape = SubResource("BoxShape3D_1")
+
+[node name="Visual" type="AnimatedSprite3D" parent="."]
+position = Vector3(0, 1.3333334, 0)
+pixel_size = 0.083333336
+cast_shadow = 0
+billboard = 2
+alpha_cut = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_crab")
+autoplay = "default"

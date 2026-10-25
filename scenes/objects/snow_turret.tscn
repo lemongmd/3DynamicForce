@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/snow_turret.gd" id="1_turret"]
+[ext_resource type="Script" path="res://scripts/props/c3_box_visual.gd" id="2_box"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/snowball.tscn" id="3_ball"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_turret"]
+size = Vector3(2, 3, 2)
+
+[node name="SnowTurret" type="StaticBody3D"]
+script = ExtResource("1_turret")
+snowball_scene = ExtResource("3_ball")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.5, 0)
+shape = SubResource("BoxShape3D_turret")
+
+[node name="Visual" type="MeshInstance3D" parent="."]
+script = ExtResource("2_box")
+size = Vector3(2, 3, 2)
+folder = "objects"
+base_name = "snowturret"

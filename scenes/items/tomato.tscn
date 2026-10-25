@@ -1,0 +1,81 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/items/thrown_object.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/textures/items/tomato_splat.png" id="2_other"]
+[ext_resource type="Texture2D" path="res://assets/textures/items/tomato_splat_own.png" id="3_own"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stocksplat.wav" id="4_splat"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stockpain.wav" id="5_pain"]
+[ext_resource type="Texture2D" path="res://assets/textures/items/tomato_ball.png" id="6_ball"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tomato"]
+size = Vector3(4, 2, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_red"]
+albedo_texture = ExtResource("6_ball")
+roughness = 0.3
+texture_filter = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_tomato"]
+material = SubResource("StandardMaterial3D_red")
+radius = 0.6
+height = 1.02
+radial_segments = 12
+rings = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stem"]
+albedo_color = Color(0.07450981, 0.29803923, 0.29803923, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_stem"]
+material = SubResource("StandardMaterial3D_stem")
+top_radius = 0.06
+bottom_radius = 0.1
+height = 0.28
+radial_segments = 6
+rings = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_outline"]
+cull_mode = 1
+shading_mode = 0
+albedo_color = Color(1, 0.3, 0.78, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_outline"]
+material = SubResource("StandardMaterial3D_outline")
+radius = 0.72
+height = 1.24
+radial_segments = 12
+rings = 6
+
+[node name="Tomato" type="Area3D"]
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_script")
+wait_time = 14.0
+fade_out_time = 0.8
+hit_sounds = Array[AudioStream]([ExtResource("4_splat"), ExtResource("5_pain")])
+other_texture = ExtResource("2_other")
+own_texture = ExtResource("3_own")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1, 0)
+shape = SubResource("BoxShape3D_tomato")
+
+[node name="Visual" type="Sprite3D" parent="."]
+position = Vector3(0, 0.06, 0)
+pixel_size = 0.15625
+axis = 1
+texture_filter = 0
+texture = ExtResource("2_other")
+
+[node name="Ball" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Ball"]
+mesh = SubResource("SphereMesh_tomato")
+
+[node name="Stem" type="MeshInstance3D" parent="Ball"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+mesh = SubResource("CylinderMesh_stem")
+
+[node name="Outline" type="MeshInstance3D" parent="Ball"]
+cast_shadow = 0
+mesh = SubResource("SphereMesh_outline")

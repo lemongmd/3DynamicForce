@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemFlash" format=3]
+
+[ext_resource type="Script" path="res://scripts/items/item_flash.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-flash-000.png" id="2_icon"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/ui/curitem-flash-001.png" id="3_icon"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/damage4.wav" id="4_sound"]
+
+[resource]
+script = ExtResource("1_script")
+id = &"flash"
+display_name = "Флешка"
+icon_frames = Array[Texture2D]([ExtResource("2_icon"), ExtResource("3_icon")])
+icon_fps = 16.0
+use_sounds = Array[AudioStream]([ExtResource("4_sound")])
+use_emote = &"hehe"
+others_hear = true

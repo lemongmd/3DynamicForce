@@ -1,0 +1,6 @@
+# Нормализация переносов строк для текстовых файлов Godot
+* text=auto eol=lf
+
+*.png binary
+*.glb binary
+*.blend binary

@@ -1,0 +1,410 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/track/track.gd" id="1_ibi6t"]
+[ext_resource type="PackedScene" path="res://scenes/props/column.tscn" id="2_0t0vi"]
+[ext_resource type="Material" path="res://assets/materials/road.tres" id="3_wsj5q"]
+[ext_resource type="Material" path="res://assets/materials/wall.tres" id="4_1r146"]
+[ext_resource type="Material" path="res://assets/materials/background_acid.tres" id="5_5ripb"]
+[ext_resource type="Material" path="res://assets/materials/checker.tres" id="6_ky74f"]
+[ext_resource type="PackedScene" path="res://scenes/props/start_gate.tscn" id="7_54vpt"]
+[ext_resource type="PackedScene" path="res://scenes/objects/boost_pad.tscn" id="8_48wwt"]
+[ext_resource type="Script" path="res://scripts/objects/boost_pad.gd" id="9_tvgsu"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-plusspeed-000.png" id="10_sifd3"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-plusspeed-001.png" id="11_su0o5"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-plusspeed-002.png" id="12_c8nrj"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-superspeed-000.png" id="13_cc6va"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-superspeed-001.png" id="14_68ld5"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-superspeed-002.png" id="15_s06cs"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-maxspeed-000.png" id="16_qgeh4"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-maxspeed-001.png" id="17_x073g"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-maxspeed-002.png" id="18_nyxw4"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/boostpad.wav" id="19_bjuu2"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/bassjump.wav" id="20_a4wc0"]
+[ext_resource type="PackedScene" path="res://scenes/props/barrel.tscn" id="21_o0jvx"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/barrier_parry.tscn" id="22_al4sy"]
+[ext_resource type="Script" path="res://scripts/hazards/parry_hazard.gd" id="23_rg88u"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stocksplat.wav" id="24_45o1m"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stockpain.wav" id="25_qimtd"]
+[ext_resource type="AudioStream" path="res://assets/original/music/ghosttown.ogg" id="90_music"]
+
+[sub_resource type="Curve3D" id="Curve3D_oe756"]
+closed = true
+bake_interval = 0.5
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 145.93576, 0, 288.86423, 0, 0, 0, 0, 0, 0, 145.93576, 0, 157.98, 0, 0, 0, 0, 0, 0, 157.5, 0, 153.54001, 0, 0, 0, 0, 0, 0, 220.5, 0, 153.54001, 0, 0, 0, 0, 0, 0, 234.3, 0, 166.5, 0, 0, 0, 0, 0, 0, 238.71, 0, 178.5, 0, 0, 0, 0, 0, 0, 238.71, 0, 271.5, 0, 0, 0, 0, 0, 0, 235.38, 0, 292.5, 0, 0, 0, 0, 0, 0, 217.5, 0, 312.30002, 0, 0, 0, 0, 0, 0, 208.5, 0, 314.54, 0, 0, 0, 0, 0, 0, 157.5, 0, 314.54, 0, 0, 0, 0, 0, 0, 145.93576, 0, 301.5),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 12
+
+[node name="MapA" type="Node3D" unique_id=2039339776]
+script = ExtResource("1_ibi6t")
+road_width = 13.5
+background_scroll = Vector2(1, -2)
+surround_width = 3.0
+haze_color = Color(0.7, 0.9, 0.55, 1)
+background_depth = 6.0
+support_scene = ExtResource("2_0t0vi")
+portal_gaps = PackedInt32Array()
+road_material = ExtResource("3_wsj5q")
+wall_material = ExtResource("4_1r146")
+background_material = ExtResource("5_5ripb")
+start_line_material = ExtResource("6_ky74f")
+start_gate_scene = ExtResource("7_54vpt")
+music = ExtResource("90_music")
+
+[node name="Path" type="Path3D" parent="." unique_id=1750749970]
+curve = SubResource("Curve3D_oe756")
+
+[node name="Props" type="Node3D" parent="." unique_id=2039456059]
+
+[node name="Barrel1" type="StaticBody3D" parent="Props" unique_id=1054870215 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 141.43576, 0, 268.86423)
+
+[node name="Barrel2" type="StaticBody3D" parent="Props" unique_id=195743771 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150.43576, 0, 261.86423)
+
+[node name="BoostPad1" type="Area3D" parent="Props" unique_id=137616341 instance=ExtResource("8_48wwt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 141.43576, 0, 255.8642)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="BoostPad2" type="Area3D" parent="Props" unique_id=1504323678 instance=ExtResource("8_48wwt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 141.43576, 0, 252.86423)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="Barrel3" type="StaticBody3D" parent="Props" unique_id=1045790222 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 148.18576, 0, 251.86424)
+
+[node name="Barrel4" type="StaticBody3D" parent="Props" unique_id=267675654 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 148.18575, 0, 240.86421)
+
+[node name="Barrel5" type="StaticBody3D" parent="Props" unique_id=141925205 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 143.68576, 0, 220.86421)
+
+[node name="Barrel6" type="StaticBody3D" parent="Props" unique_id=629531944 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 141.43576, 0, 196.86423)
+
+[node name="Barrel7" type="StaticBody3D" parent="Props" unique_id=868723835 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 148.18576, 0, 190.86423)
+
+[node name="Barrel8" type="StaticBody3D" parent="Props" unique_id=1435008299 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 148.18576, 0, 176.86423)
+
+[node name="Barrel9" type="StaticBody3D" parent="Props" unique_id=64172820 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 150.43576, 0, 176.86423)
+
+[node name="Barrel10" type="StaticBody3D" parent="Props" unique_id=1369842824 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(0.94566184, 0, -0.3251518, 0, 1, 0, 0.3251518, 0, 0.94566184, 142.12299, 0, 159.45026)
+
+[node name="ItemBoxSpot1" type="Marker3D" parent="Props" unique_id=1951569173 groups=["item_box_spots"]]
+transform = Transform3D(0.3584294, 0, -0.93355685, 0, 1, 0, 0.93355685, 0, 0.3584294, 153.36804, 0, 150.84175)
+
+[node name="ItemBoxSpot2" type="Marker3D" parent="Props" unique_id=1940669085 groups=["item_box_spots"]]
+transform = Transform3D(0.3584294, 0, -0.93355685, 0, 1, 0, 0.93355685, 0, 0.3584294, 154.80176, 0, 154.57597)
+
+[node name="ItemBoxSpot3" type="Marker3D" parent="Props" unique_id=1467133377 groups=["item_box_spots"]]
+transform = Transform3D(0.3584294, 0, -0.93355685, 0, 1, 0, 0.93355685, 0, 0.3584294, 156.23547, 0, 158.3102)
+
+[node name="Barrier1" type="Area3D" parent="Props" unique_id=1057220769 instance=ExtResource("22_al4sy")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 166.65163, 0, 149.79)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("23_rg88u")
+hit_sounds = Array[AudioStream]([ExtResource("24_45o1m"), ExtResource("25_qimtd")])
+
+[node name="Barrel11" type="StaticBody3D" parent="Props" unique_id=1951782082 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 166.65167, 0, 155.79)
+
+[node name="BoostPad3" type="Area3D" parent="Props" unique_id=470768967 instance=ExtResource("8_48wwt")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 172.65163, 0, 149.04001)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="BoostPad4" type="Area3D" parent="Props" unique_id=2141303656 instance=ExtResource("8_48wwt")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 172.65164, 0, 152.04001)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="BoostPad5" type="Area3D" parent="Props" unique_id=1615505349 instance=ExtResource("8_48wwt")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 175.65166, 0, 149.04)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+kind = 1
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="BoostPad6" type="Area3D" parent="Props" unique_id=1893843692 instance=ExtResource("8_48wwt")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 175.65166, 0, 152.04)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+kind = 1
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="Barrel12" type="StaticBody3D" parent="Props" unique_id=1783315454 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 181.65166, 0, 158.04001)
+
+[node name="Barrel13" type="StaticBody3D" parent="Props" unique_id=1777580518 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 188.65166, 0, 155.79001)
+
+[node name="Barrel14" type="StaticBody3D" parent="Props" unique_id=377864653 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 195.65166, 0, 149.04001)
+
+[node name="Barrel15" type="StaticBody3D" parent="Props" unique_id=87754856 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.70710677, 223.72054, 0, 159.65117)
+
+[node name="Barrel16" type="StaticBody3D" parent="Props" unique_id=408353130 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.70710677, 234.9019, 0, 160.89195)
+
+[node name="Barrier2" type="Area3D" parent="Props" unique_id=1385405275 instance=ExtResource("22_al4sy")]
+transform = Transform3D(-0.9386218, 0, -0.34494787, 0, 1, 0, 0.34494787, 0, -0.9386218, 232.39632, 0, 172.19121)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("23_rg88u")
+hit_sounds = Array[AudioStream]([ExtResource("24_45o1m"), ExtResource("25_qimtd")])
+
+[node name="ItemBoxSpot4" type="Marker3D" parent="Props" unique_id=1931435835 groups=["item_box_spots"]]
+transform = Transform3D(-0.9829405, 0, -0.1839239, 0, 1, 0, 0.1839239, 0, -0.9829405, 242.4712, 0, 177.71251)
+
+[node name="ItemBoxSpot5" type="Marker3D" parent="Props" unique_id=750254752 groups=["item_box_spots"]]
+transform = Transform3D(-0.9829405, 0, -0.1839239, 0, 1, 0, 0.1839239, 0, -0.9829405, 238.53944, 0, 178.44821)
+
+[node name="ItemBoxSpot6" type="Marker3D" parent="Props" unique_id=436978339 groups=["item_box_spots"]]
+transform = Transform3D(-0.9829405, 0, -0.1839239, 0, 1, 0, 0.1839239, 0, -0.9829405, 234.60768, 0, 179.18391)
+
+[node name="Barrel17" type="StaticBody3D" parent="Props" unique_id=1935869410 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 243.21, 0, 186.43771)
+
+[node name="Barrel18" type="StaticBody3D" parent="Props" unique_id=2095855566 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 243.21, 0, 208.43768)
+
+[node name="BoostPad7" type="Area3D" parent="Props" unique_id=1688741211 instance=ExtResource("8_48wwt")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 237.21, 0, 228.4377)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="BoostPad8" type="Area3D" parent="Props" unique_id=1571992444 instance=ExtResource("8_48wwt")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 237.21, 0, 231.4377)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="Barrel19" type="StaticBody3D" parent="Props" unique_id=1355802327 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 234.21, 0, 231.43771)
+
+[node name="Barrel20" type="StaticBody3D" parent="Props" unique_id=1244235843 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 240.95999, 0, 235.43768)
+
+[node name="Barrel21" type="StaticBody3D" parent="Props" unique_id=1589492168 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 243.21, 0, 255.43771)
+
+[node name="Barrel22" type="StaticBody3D" parent="Props" unique_id=696803583 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 236.45999, 0, 266.43768)
+
+[node name="Barrel23" type="StaticBody3D" parent="Props" unique_id=1896192031 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-0.9903776, 0, 0.13839164, 0, 1, 0, -0.13839164, 0, -0.9903776, 243.01932, 0, 273.0522)
+
+[node name="ItemBoxSpot7" type="Marker3D" parent="Props" unique_id=844771738 groups=["item_box_spots"]]
+transform = Transform3D(-0.98765945, 0, 0.1566167, 0, 1, 0, -0.1566167, 0, -0.98765945, 241.57358, 0, 278.98184)
+
+[node name="ItemBoxSpot8" type="Marker3D" parent="Props" unique_id=218702209 groups=["item_box_spots"]]
+transform = Transform3D(-0.98765945, 0, 0.1566167, 0, 1, 0, -0.1566167, 0, -0.98765945, 237.62294, 0, 278.35538)
+
+[node name="ItemBoxSpot9" type="Marker3D" parent="Props" unique_id=981152117 groups=["item_box_spots"]]
+transform = Transform3D(-0.98765945, 0, 0.1566167, 0, 1, 0, -0.1566167, 0, -0.98765945, 233.6723, 0, 277.7289)
+
+[node name="Barrier3" type="Area3D" parent="Props" unique_id=932951106 instance=ExtResource("22_al4sy")]
+transform = Transform3D(-0.81244415, 0, 0.58303905, 0, 1, 0, -0.58303905, 0, -0.81244415, 237.14139, 0, 296.01456)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("23_rg88u")
+hit_sounds = Array[AudioStream]([ExtResource("24_45o1m"), ExtResource("25_qimtd")])
+
+[node name="Barrel24" type="StaticBody3D" parent="Props" unique_id=1106376786 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 228.782, 0, 299.80652)
+
+[node name="Barrel25" type="StaticBody3D" parent="Props" unique_id=519430994 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 227.1121, 0, 298.29855)
+
+[node name="BoostPad9" type="Area3D" parent="Props" unique_id=651811598 instance=ExtResource("8_48wwt")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 224.42003, 0, 307.99408)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="BoostPad10" type="Area3D" parent="Props" unique_id=1408309574 instance=ExtResource("8_48wwt")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 221.73616, 0, 310.96616)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="BoostPad11" type="Area3D" parent="Props" unique_id=731844101 instance=ExtResource("8_48wwt")]
+transform = Transform3D(-0.491419, 0, 0.8709233, 0, 1, 0, -0.8709233, 0, -0.491419, 218.14935, 0, 313.99686)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="Barrel26" type="StaticBody3D" parent="Props" unique_id=5081209 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 205.41602, 0, 312.29004)
+
+[node name="Barrel27" type="StaticBody3D" parent="Props" unique_id=706759516 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 199.41599, 0, 310.04004)
+
+[node name="ItemBoxSpot10" type="Marker3D" parent="Props" unique_id=996710939 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 186.41605, 0, 318.54004)
+
+[node name="ItemBoxSpot11" type="Marker3D" parent="Props" unique_id=678589451 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 186.41605, 0, 314.54004)
+
+[node name="ItemBoxSpot12" type="Marker3D" parent="Props" unique_id=1521035942 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 186.41605, 0, 310.54004)
+
+[node name="Barrel28" type="StaticBody3D" parent="Props" unique_id=501855279 instance=ExtResource("21_o0jvx")]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 150.40016, 0, 313.3163)
+
+[node name="BoostPad12" type="Area3D" parent="Props" unique_id=1987459526 instance=ExtResource("8_48wwt")]
+transform = Transform3D(0.9103714, 0, 0.413792, 0, 1, 0, -0.413792, 0, 0.9103714, 142.73592, 0, 303.69983)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="BoostPad13" type="Area3D" parent="Props" unique_id=700741537 instance=ExtResource("8_48wwt")]
+transform = Transform3D(0.9921949, 0, 0.12469691, 0, 1, 0, -0.12469691, 0, 0.9921949, 141.5522, 0, 299.524)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="BoostPad14" type="Area3D" parent="Props" unique_id=1520310009 instance=ExtResource("8_48wwt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 141.43575, 0, 295.96628)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="BoostPad15" type="Area3D" parent="Props" unique_id=946164037 instance=ExtResource("8_48wwt")]
+transform = Transform3D(0.9103714, 0, 0.413792, 0, 1, 0, -0.413792, 0, 0.9103714, 145.46703, 0, 302.45847)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="BoostPad16" type="Area3D" parent="Props" unique_id=354559727 instance=ExtResource("8_48wwt")]
+transform = Transform3D(0.9921949, 0, 0.12469691, 0, 1, 0, -0.12469691, 0, 0.9921949, 144.52878, 0, 299.1499)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="BoostPad17" type="Area3D" parent="Props" unique_id=1223875300 instance=ExtResource("8_48wwt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 144.43575, 0, 295.9663)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_tvgsu")
+plus_frames = Array[Texture2D]([ExtResource("10_sifd3"), ExtResource("11_su0o5"), ExtResource("12_c8nrj")])
+super_frames = Array[Texture2D]([ExtResource("13_cc6va"), ExtResource("14_68ld5"), ExtResource("15_s06cs")])
+max_frames = Array[Texture2D]([ExtResource("16_qgeh4"), ExtResource("17_x073g"), ExtResource("18_nyxw4")])
+enter_sound = ExtResource("19_bjuu2")
+max_speed_sound = ExtResource("20_a4wc0")
+
+[node name="Decor" type="Node3D" parent="." unique_id=1299833633]

@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/item_box.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://assets/models/props/item_box.glb" id="2_model"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/tidin.wav" id="3_tidin"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_box"]
+size = Vector3(2, 3, 2)
+
+[node name="ItemBox" type="Area3D"]
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_script")
+pickup_sound = ExtResource("3_tidin")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.5, 0)
+shape = SubResource("BoxShape3D_box")
+
+[node name="Model" type="Node3D" parent="."]
+position = Vector3(0, 2, 0)
+
+[node name="Cube" parent="Model" instance=ExtResource("2_model")]
+position = Vector3(0, -1, 0)

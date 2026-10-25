@@ -1,0 +1,31 @@
+# Картинки, которые перерисовал вручную Mace Dev (автор оригинала).
+# Скрипты-генераторы (blender/*.py, scripts/tools/build_*.gd) эти файлы НЕ перезаписывают:
+# пропускают их, а атлас модели берут из файла. Чтобы снова рисовать скриптом — убрать строку.
+# Путь — от корня проекта.
+assets/textures/beach_ball.png
+assets/textures/bomb_ball.png
+assets/textures/fx/fx_flame.png
+assets/textures/fx/fx_puff.png
+assets/textures/fx/fx_puff_hd.png
+assets/textures/fx/fx_ring.png
+assets/textures/fx/fx_ring_hd.png
+assets/textures/fx/fx_spark.png
+assets/textures/fx/fx_spark_hd.png
+assets/textures/fx/fx_star.png
+assets/textures/items/curitem_tomato.png
+assets/textures/items/tomato_splat.png
+assets/textures/items/tomato_splat_own.png
+assets/textures/maps/remake_01.png
+assets/textures/ui/key_q.png
+assets/textures/asphalt.png
+assets/textures/checker.png
+assets/textures/crate.png
+assets/textures/grass.png
+assets/textures/hazard.png
+assets/models/props/barrel_barrel.png
+assets/models/props/column_column.png
+assets/models/props/item_box_item_box.png
+assets/models/props/ramp_ramp.png
+assets/original/textures/levelobj/barrierblock-005.png
+assets/original/textures/levelobj/maplifering-001.png
+assets/original/textures/ui/text.png

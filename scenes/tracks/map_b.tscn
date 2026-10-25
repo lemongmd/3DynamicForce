@@ -1,0 +1,437 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/track/track.gd" id="1_ayr07"]
+[ext_resource type="Material" path="res://assets/materials/road.tres" id="2_ne5ps"]
+[ext_resource type="Material" path="res://assets/materials/wall_snow.tres" id="3_n8vo8"]
+[ext_resource type="Material" path="res://assets/materials/background_snow.tres" id="4_nw453"]
+[ext_resource type="Material" path="res://assets/materials/checker.tres" id="5_i1j4j"]
+[ext_resource type="PackedScene" path="res://scenes/props/start_gate.tscn" id="6_6atom"]
+[ext_resource type="AudioStream" path="res://assets/original/music/sylvaniacastle.ogg" id="7_ii70n"]
+[ext_resource type="PackedScene" path="res://scenes/objects/map_zone.tscn" id="8_b4bib"]
+[ext_resource type="Script" path="res://scripts/objects/map_zone.gd" id="9_x675j"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/conveyor.png" id="10_5tmgf"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/aquaslider.png" id="11_kqkja"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/ice-000.png" id="12_q75n7"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/conveyor.wav" id="13_rceut"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/aquasliderriver.wav" id="14_s1ein"]
+[ext_resource type="PackedScene" path="res://scenes/objects/snow_turret.tscn" id="15_ayw5g"]
+[ext_resource type="Script" path="res://scripts/objects/snow_turret.gd" id="16_ddpcg"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/snowball.tscn" id="17_aok4y"]
+[ext_resource type="PackedScene" path="res://scenes/objects/boost_pad.tscn" id="18_m4h4y"]
+[ext_resource type="Script" path="res://scripts/objects/boost_pad.gd" id="19_i32aq"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-plusspeed-000.png" id="20_1rmul"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-plusspeed-001.png" id="21_27p5g"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-plusspeed-002.png" id="22_i04hj"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-superspeed-000.png" id="23_ibe2i"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-superspeed-001.png" id="24_f105t"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-superspeed-002.png" id="25_w6w2l"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-maxspeed-000.png" id="26_c6ygi"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-maxspeed-001.png" id="27_lurud"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-maxspeed-002.png" id="28_0cw7e"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/boostpad.wav" id="29_taf52"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/bassjump.wav" id="30_mq15f"]
+[ext_resource type="PackedScene" path="res://scenes/props/ramp.tscn" id="31_ayr07"]
+[ext_resource type="Script" path="res://scripts/props/c3_box_visual.gd" id="32_u5ayy"]
+
+[sub_resource type="Curve3D" id="Curve3D_eupke"]
+closed = true
+bake_interval = 0.5
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 147.10225, 0, 226.00742, 0, 0, 0, 0, 0, 0, 147.10225, 0, 169.5, 0, 0, 0, 0, 0, 0, 151.62, 0, 160.62, 0, 0, 0, 0, 0, 0, 160.5, 0, 154.44, 0, 0, 0, 0, 0, 0, 175.5, 0, 154.44, 0, 0, 0, 0, 0, 0, 187.5, 0, 160.98001, 0, 0, 0, 0, 0, 0, 201.6, 0, 175.5, 0, 0, 0, 0, 0, 0, 201.6, 0, 208.5, 0, 0, 0, 0, 0, 0, 211.62, 0, 220.01999, 0, 0, 0, 0, 0, 0, 232.5, 0, 227.82, 0, 0, 0, 0, 0, 0, 262.5, 0, 227.82, 0, 0, 0, 0, 0, 0, 271.5, 0, 230.7, 0, 0, 0, 0, 0, 0, 296.64, 0, 263.7, 0, 0, 0, 0, 0, 0, 296.64, 0, 271.5, 0, 0, 0, 0, 0, 0, 289.38, 0, 282.42, 0, 0, 0, 0, 0, 0, 250.5, 0, 315.12, 0, 0, 0, 0, 0, 0, 151.5, 0, 315.12, 0, 0, 0, 0, 0, 0, 143.7, 0, 313.02, 0, 0, 0, 0, 0, 0, 140.69998, 0, 304.5, 0, 0, 0, 0, 0, 0, 140.69998, 0, 274.5, 0, 0, 0, 0, 0, 0, 147.10225, 0, 250.5),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 21
+
+[node name="MapB" type="Node3D" unique_id=152809136]
+script = ExtResource("1_ayr07")
+haze_color = Color(0.88, 0.93, 1, 1)
+portal_gaps = PackedInt32Array()
+road_material = ExtResource("2_ne5ps")
+wall_material = ExtResource("3_n8vo8")
+background_material = ExtResource("4_nw453")
+start_line_material = ExtResource("5_i1j4j")
+start_gate_scene = ExtResource("6_6atom")
+music = ExtResource("7_ii70n")
+
+[node name="Path" type="Path3D" parent="." unique_id=1648378399]
+curve = SubResource("Curve3D_eupke")
+
+[node name="Props" type="Node3D" parent="." unique_id=1383079800]
+
+[node name="ItemBoxSpot1" type="Marker3D" parent="Props" unique_id=1202784935 groups=["item_box_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 142.60225, 0, 206.00742)
+
+[node name="ItemBoxSpot2" type="Marker3D" parent="Props" unique_id=592493290 groups=["item_box_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 145.60225, 0, 206.00742)
+
+[node name="ItemBoxSpot3" type="Marker3D" parent="Props" unique_id=479521622 groups=["item_box_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 148.60225, 0, 206.00742)
+
+[node name="ItemBoxSpot4" type="Marker3D" parent="Props" unique_id=134204486 groups=["item_box_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 151.60225, 0, 206.00742)
+
+[node name="SnowTurret1" type="StaticBody3D" parent="Props" unique_id=1135298940 instance=ExtResource("15_ayw5g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 139.60225, 0, 176.00742)
+script = ExtResource("16_ddpcg")
+snowball_scene = ExtResource("17_aok4y")
+
+[node name="Ice1" type="Area3D" parent="Props" unique_id=1465882106 instance=ExtResource("8_b4bib")]
+transform = Transform3D(0.8761032, 0, -0.4821236, 0, 1, 0, 0.4821236, 0, 0.8761032, 148.78966, 0, 161.77933)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_x675j")
+kind = 2
+size = Vector2(8, 10)
+tint = Color(0.5, 0.81, 1, 1)
+conveyor_texture = ExtResource("10_5tmgf")
+slider_texture = ExtResource("11_kqkja")
+ice_texture = ExtResource("12_q75n7")
+conveyor_sound = ExtResource("13_rceut")
+slider_sound = ExtResource("14_s1ein")
+
+[node name="Ice2" type="Area3D" parent="Props" unique_id=2040543108 instance=ExtResource("8_b4bib")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 163.54091, 0, 152.44156)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_x675j")
+kind = 2
+size = Vector2(8, 10)
+tint = Color(0.5, 0.81, 1, 1)
+conveyor_texture = ExtResource("10_5tmgf")
+slider_texture = ExtResource("11_kqkja")
+ice_texture = ExtResource("12_q75n7")
+conveyor_sound = ExtResource("13_rceut")
+slider_sound = ExtResource("14_s1ein")
+
+[node name="BoostPad1" type="Area3D" parent="Props" unique_id=81720613 instance=ExtResource("18_m4h4y")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 165.59647, 0, 152.44)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("19_i32aq")
+plus_frames = Array[Texture2D]([ExtResource("20_1rmul"), ExtResource("21_27p5g"), ExtResource("22_i04hj")])
+super_frames = Array[Texture2D]([ExtResource("23_ibe2i"), ExtResource("24_f105t"), ExtResource("25_w6w2l")])
+max_frames = Array[Texture2D]([ExtResource("26_c6ygi"), ExtResource("27_lurud"), ExtResource("28_0cw7e")])
+enter_sound = ExtResource("29_taf52")
+max_speed_sound = ExtResource("30_mq15f")
+
+[node name="BoostPad2" type="Area3D" parent="Props" unique_id=230171539 instance=ExtResource("18_m4h4y")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 168.59647, 0, 152.44)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("19_i32aq")
+plus_frames = Array[Texture2D]([ExtResource("20_1rmul"), ExtResource("21_27p5g"), ExtResource("22_i04hj")])
+super_frames = Array[Texture2D]([ExtResource("23_ibe2i"), ExtResource("24_f105t"), ExtResource("25_w6w2l")])
+max_frames = Array[Texture2D]([ExtResource("26_c6ygi"), ExtResource("27_lurud"), ExtResource("28_0cw7e")])
+enter_sound = ExtResource("29_taf52")
+max_speed_sound = ExtResource("30_mq15f")
+
+[node name="BoostPad3" type="Area3D" parent="Props" unique_id=191032041 instance=ExtResource("18_m4h4y")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 171.59647, 0, 152.44)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("19_i32aq")
+plus_frames = Array[Texture2D]([ExtResource("20_1rmul"), ExtResource("21_27p5g"), ExtResource("22_i04hj")])
+super_frames = Array[Texture2D]([ExtResource("23_ibe2i"), ExtResource("24_f105t"), ExtResource("25_w6w2l")])
+max_frames = Array[Texture2D]([ExtResource("26_c6ygi"), ExtResource("27_lurud"), ExtResource("28_0cw7e")])
+enter_sound = ExtResource("29_taf52")
+max_speed_sound = ExtResource("30_mq15f")
+
+[node name="Ice3" type="Area3D" parent="Props" unique_id=316629810 instance=ExtResource("8_b4bib")]
+transform = Transform3D(-0.2614356, 0, -0.9652209, 0, 1, 0, 0.9652209, 0, -0.2614356, 176.08841, 0, 152.85841)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_x675j")
+kind = 2
+size = Vector2(8, 10)
+tint = Color(0.5, 0.81, 1, 1)
+conveyor_texture = ExtResource("10_5tmgf")
+slider_texture = ExtResource("11_kqkja")
+ice_texture = ExtResource("12_q75n7")
+conveyor_sound = ExtResource("13_rceut")
+slider_sound = ExtResource("14_s1ein")
+
+[node name="Ice4" type="Area3D" parent="Props" unique_id=1719979366 instance=ExtResource("8_b4bib")]
+transform = Transform3D(-0.5031993, 0, -0.8641704, 0, 1, 0, 0.8641704, 0, -0.5031993, 187.22078, 0, 158.55215)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_x675j")
+kind = 2
+size = Vector2(8, 10)
+tint = Color(0.5, 0.81, 1, 1)
+conveyor_texture = ExtResource("10_5tmgf")
+slider_texture = ExtResource("11_kqkja")
+ice_texture = ExtResource("12_q75n7")
+conveyor_sound = ExtResource("13_rceut")
+slider_sound = ExtResource("14_s1ein")
+
+[node name="SnowTurret2" type="StaticBody3D" parent="Props" unique_id=1136709700 instance=ExtResource("15_ayw5g")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 209.1, 0, 190.22633)
+script = ExtResource("16_ddpcg")
+snowball_scene = ExtResource("17_aok4y")
+
+[node name="ItemBoxSpot5" type="Marker3D" parent="Props" unique_id=1108403081 groups=["item_box_spots"]]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 206.10449, 0, 204.97993)
+
+[node name="ItemBoxSpot6" type="Marker3D" parent="Props" unique_id=478524627 groups=["item_box_spots"]]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 203.109, 0, 205.1441)
+
+[node name="ItemBoxSpot7" type="Marker3D" parent="Props" unique_id=1176310456 groups=["item_box_spots"]]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 200.11348, 0, 205.30829)
+
+[node name="ItemBoxSpot8" type="Marker3D" parent="Props" unique_id=328926348 groups=["item_box_spots"]]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 197.11798, 0, 205.47246)
+
+[node name="Ice5" type="Area3D" parent="Props" unique_id=758506836 instance=ExtResource("8_b4bib")]
+transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.70710677, 209.56174, 0, 220.54028)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_x675j")
+kind = 2
+size = Vector2(8, 10)
+tint = Color(0.5, 0.81, 1, 1)
+conveyor_texture = ExtResource("10_5tmgf")
+slider_texture = ExtResource("11_kqkja")
+ice_texture = ExtResource("12_q75n7")
+conveyor_sound = ExtResource("13_rceut")
+slider_sound = ExtResource("14_s1ein")
+
+[node name="Ice6" type="Area3D" parent="Props" unique_id=2142375000 instance=ExtResource("8_b4bib")]
+transform = Transform3D(-0.3499526, 0, -0.9367674, 0, 1, 0, 0.9367674, 0, -0.3499526, 221.11832, 0, 225.70322)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_x675j")
+kind = 2
+size = Vector2(8, 10)
+tint = Color(0.5, 0.81, 1, 1)
+conveyor_texture = ExtResource("10_5tmgf")
+slider_texture = ExtResource("11_kqkja")
+ice_texture = ExtResource("12_q75n7")
+conveyor_sound = ExtResource("13_rceut")
+slider_sound = ExtResource("14_s1ein")
+
+[node name="ItemBoxSpot9" type="Marker3D" parent="Props" unique_id=1611348049 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 261.28058, 0, 223.82645)
+
+[node name="ItemBoxSpot10" type="Marker3D" parent="Props" unique_id=1230426096 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 261.13608, 0, 227.82384)
+
+[node name="SnowTurret3" type="StaticBody3D" parent="Props" unique_id=335653327 instance=ExtResource("15_ayw5g")]
+transform = Transform3D(-0.34932494, 0, -0.93700165, 0, 1, 0, 0.93700165, 0, -0.34932494, 271.46213, 0, 222.82925)
+script = ExtResource("16_ddpcg")
+snowball_scene = ExtResource("17_aok4y")
+
+[node name="SnowTurret4" type="StaticBody3D" parent="Props" unique_id=232096731 instance=ExtResource("15_ayw5g")]
+transform = Transform3D(-0.78695554, 0, -0.6170097, 0, 1, 0, 0.6170097, 0, -0.78695554, 279.4678, 0, 228.78384)
+script = ExtResource("16_ddpcg")
+snowball_scene = ExtResource("17_aok4y")
+
+[node name="SnowTurret5" type="StaticBody3D" parent="Props" unique_id=1164939554 instance=ExtResource("15_ayw5g")]
+transform = Transform3D(-0.79547304, 0, -0.605989, 0, 1, 0, 0.605989, 0, -0.79547304, 283.16766, 0, 233.6393)
+script = ExtResource("16_ddpcg")
+snowball_scene = ExtResource("17_aok4y")
+
+[node name="BoostPad4" type="Area3D" parent="Props" unique_id=610253704 instance=ExtResource("18_m4h4y")]
+transform = Transform3D(-0.7954703, 0, -0.60599256, 0, 1, 0, 0.60599256, 0, -0.7954703, 286.29163, 0, 250.1162)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("19_i32aq")
+plus_frames = Array[Texture2D]([ExtResource("20_1rmul"), ExtResource("21_27p5g"), ExtResource("22_i04hj")])
+super_frames = Array[Texture2D]([ExtResource("23_ibe2i"), ExtResource("24_f105t"), ExtResource("25_w6w2l")])
+max_frames = Array[Texture2D]([ExtResource("26_c6ygi"), ExtResource("27_lurud"), ExtResource("28_0cw7e")])
+enter_sound = ExtResource("29_taf52")
+max_speed_sound = ExtResource("30_mq15f")
+
+[node name="BoostPad5" type="Area3D" parent="Props" unique_id=796803864 instance=ExtResource("18_m4h4y")]
+transform = Transform3D(-0.79547596, 0, -0.60598516, 0, 1, 0, 0.60598516, 0, -0.79547596, 288.10962, 0, 252.50261)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("19_i32aq")
+plus_frames = Array[Texture2D]([ExtResource("20_1rmul"), ExtResource("21_27p5g"), ExtResource("22_i04hj")])
+super_frames = Array[Texture2D]([ExtResource("23_ibe2i"), ExtResource("24_f105t"), ExtResource("25_w6w2l")])
+max_frames = Array[Texture2D]([ExtResource("26_c6ygi"), ExtResource("27_lurud"), ExtResource("28_0cw7e")])
+enter_sound = ExtResource("29_taf52")
+max_speed_sound = ExtResource("30_mq15f")
+
+[node name="BoostPad6" type="Area3D" parent="Props" unique_id=2072076437 instance=ExtResource("18_m4h4y")]
+transform = Transform3D(-0.7954703, 0, -0.60599256, 0, 1, 0, 0.60599256, 0, -0.7954703, 289.92764, 0, 254.88898)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("19_i32aq")
+plus_frames = Array[Texture2D]([ExtResource("20_1rmul"), ExtResource("21_27p5g"), ExtResource("22_i04hj")])
+super_frames = Array[Texture2D]([ExtResource("23_ibe2i"), ExtResource("24_f105t"), ExtResource("25_w6w2l")])
+max_frames = Array[Texture2D]([ExtResource("26_c6ygi"), ExtResource("27_lurud"), ExtResource("28_0cw7e")])
+enter_sound = ExtResource("29_taf52")
+max_speed_sound = ExtResource("30_mq15f")
+
+[node name="Ice7" type="Area3D" parent="Props" unique_id=881893839 instance=ExtResource("8_b4bib")]
+transform = Transform3D(-0.6436478, 0, 0.7653218, 0, 1, 0, -0.7653218, 0, -0.6436478, 280.621, 0, 289.78677)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_x675j")
+kind = 2
+size = Vector2(10, 10)
+tint = Color(0.5, 0.81, 1, 1)
+conveyor_texture = ExtResource("10_5tmgf")
+slider_texture = ExtResource("11_kqkja")
+ice_texture = ExtResource("12_q75n7")
+conveyor_sound = ExtResource("13_rceut")
+slider_sound = ExtResource("14_s1ein")
+
+[node name="Ice8" type="Area3D" parent="Props" unique_id=1767338619 instance=ExtResource("8_b4bib")]
+transform = Transform3D(-0.64365673, 0, 0.7653143, 0, 1, 0, -0.7653143, 0, -0.64365673, 271.4373, 0, 297.51074)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("9_x675j")
+kind = 2
+size = Vector2(10, 12)
+tint = Color(0.5, 0.81, 1, 1)
+conveyor_texture = ExtResource("10_5tmgf")
+slider_texture = ExtResource("11_kqkja")
+ice_texture = ExtResource("12_q75n7")
+conveyor_sound = ExtResource("13_rceut")
+slider_sound = ExtResource("14_s1ein")
+
+[node name="ItemBoxSpot11" type="Marker3D" parent="Props" unique_id=695576831 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 242.55779, 0, 319.11996)
+
+[node name="ItemBoxSpot12" type="Marker3D" parent="Props" unique_id=319081527 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 242.55779, 0, 315.11996)
+
+[node name="ItemBoxSpot13" type="Marker3D" parent="Props" unique_id=294081763 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 242.55779, 0, 311.11996)
+
+[node name="SnowTurret6" type="StaticBody3D" parent="Props" unique_id=968820517 instance=ExtResource("15_ayw5g")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 215.55777, 0, 307.62003)
+script = ExtResource("16_ddpcg")
+snowball_scene = ExtResource("17_aok4y")
+
+[node name="SnowTurret7" type="StaticBody3D" parent="Props" unique_id=199240164 instance=ExtResource("15_ayw5g")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 206.55766, 0, 307.62)
+script = ExtResource("16_ddpcg")
+snowball_scene = ExtResource("17_aok4y")
+
+[node name="SnowTurret8" type="StaticBody3D" parent="Props" unique_id=2074900782 instance=ExtResource("15_ayw5g")]
+transform = Transform3D(1.1924881e-08, 0, -1, 0, 1, 0, 1, 0, 1.1924881e-08, 197.55789, 0, 307.62)
+script = ExtResource("16_ddpcg")
+snowball_scene = ExtResource("17_aok4y")
+
+[node name="ItemBoxSpot14" type="Marker3D" parent="Props" unique_id=1171775202 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 179.55777, 0, 317.12)
+
+[node name="ItemBoxSpot15" type="Marker3D" parent="Props" unique_id=1238364 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 179.55777, 0, 313.12)
+
+[node name="BoostPad7" type="Area3D" parent="Props" unique_id=775606216 instance=ExtResource("18_m4h4y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 138.69998, 0, 297.04068)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("19_i32aq")
+plus_frames = Array[Texture2D]([ExtResource("20_1rmul"), ExtResource("21_27p5g"), ExtResource("22_i04hj")])
+super_frames = Array[Texture2D]([ExtResource("23_ibe2i"), ExtResource("24_f105t"), ExtResource("25_w6w2l")])
+max_frames = Array[Texture2D]([ExtResource("26_c6ygi"), ExtResource("27_lurud"), ExtResource("28_0cw7e")])
+enter_sound = ExtResource("29_taf52")
+max_speed_sound = ExtResource("30_mq15f")
+
+[node name="BoostPad8" type="Area3D" parent="Props" unique_id=973650796 instance=ExtResource("18_m4h4y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 138.69998, 0, 294.04065)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("19_i32aq")
+plus_frames = Array[Texture2D]([ExtResource("20_1rmul"), ExtResource("21_27p5g"), ExtResource("22_i04hj")])
+super_frames = Array[Texture2D]([ExtResource("23_ibe2i"), ExtResource("24_f105t"), ExtResource("25_w6w2l")])
+max_frames = Array[Texture2D]([ExtResource("26_c6ygi"), ExtResource("27_lurud"), ExtResource("28_0cw7e")])
+enter_sound = ExtResource("29_taf52")
+max_speed_sound = ExtResource("30_mq15f")
+
+[node name="BoostPad9" type="Area3D" parent="Props" unique_id=2007547529 instance=ExtResource("18_m4h4y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 138.69998, 0, 291.04068)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("19_i32aq")
+plus_frames = Array[Texture2D]([ExtResource("20_1rmul"), ExtResource("21_27p5g"), ExtResource("22_i04hj")])
+super_frames = Array[Texture2D]([ExtResource("23_ibe2i"), ExtResource("24_f105t"), ExtResource("25_w6w2l")])
+max_frames = Array[Texture2D]([ExtResource("26_c6ygi"), ExtResource("27_lurud"), ExtResource("28_0cw7e")])
+enter_sound = ExtResource("29_taf52")
+max_speed_sound = ExtResource("30_mq15f")
+
+[node name="Ramp1" type="StaticBody3D" parent="Props" unique_id=1491802521 groups=["ramps"] instance=ExtResource("31_ayr07")]
+transform = Transform3D(0.9662135, 0, -0.2577429, 0, 1, 0, 0.2577429, 0, 0.9662135, 143.9152, 0, 262.44717)
+
+[node name="Decor" type="Node3D" parent="." unique_id=1346028964]
+
+[node name="MapDecor1" type="Node3D" parent="Decor" unique_id=395131725]
+transform = Transform3D(-0.6632383, 0, -0.7484083, 0, 1, 0, 0.7484083, 0, -0.6632383, 129.29718, 0, 120.21442)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapDecor1" unique_id=745034133]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+script = ExtResource("32_u5ayy")
+size = Vector3(52, 0, 52)
+base_name = "mapdecor"
+flat = true
+frame = 3
+peak = 14.0
+
+[node name="MapDecor2" type="Node3D" parent="Decor" unique_id=1631163768]
+transform = Transform3D(0.9659258, 0, -0.25881904, 0, 1, 0, 0.25881904, 0, 0.9659258, 198.67767, 0, 257.61862)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapDecor2" unique_id=582304837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+script = ExtResource("32_u5ayy")
+size = Vector3(50, 0, 50)
+base_name = "mapdecor"
+flat = true
+frame = 3
+peak = 14.0
+
+[node name="MapDecor3" type="Node3D" parent="Decor" unique_id=804547782]
+transform = Transform3D(-0.6632383, 0, -0.7484083, 0, 1, 0, 0.7484083, 0, -0.6632383, 314.29718, 0, 323.21442)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapDecor3" unique_id=766406440]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+script = ExtResource("32_u5ayy")
+size = Vector3(52, 0, 52)
+base_name = "mapdecor"
+flat = true
+frame = 3
+peak = 14.0
+
+[node name="MapDecor4" type="Node3D" parent="Decor" unique_id=1235023633]
+transform = Transform3D(0.9396926, 0, -0.34202012, 0, 1, 0, 0.34202012, 0, 0.9396926, 82.53949, 0, 250.32452)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapDecor4" unique_id=1650409983]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+script = ExtResource("32_u5ayy")
+size = Vector3(52, 0, 52)
+base_name = "mapdecor"
+flat = true
+frame = 3
+peak = 14.0
+
+[node name="MapDecor5" type="Node3D" parent="Decor" unique_id=1805325927]
+transform = Transform3D(0.93969256, 0, 0.34202036, 0, 1, 0, -0.34202036, 0, 0.93969256, 265.32452, 0, 163.53947)
+
+[node name="Visual" type="MeshInstance3D" parent="Decor/MapDecor5" unique_id=1406997475]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+script = ExtResource("32_u5ayy")
+size = Vector3(52, 0, 52)
+base_name = "mapdecor"
+flat = true
+frame = 3
+peak = 14.0

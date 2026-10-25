@@ -1,0 +1,434 @@
+[gd_scene format=3 uid="uid://biwi7q0oiyeim"]
+
+[ext_resource type="Script" uid="uid://dh744xfvvu0dm" path="res://scripts/track/track.gd" id="1_tv4y5"]
+[ext_resource type="PackedScene" path="res://scenes/props/column.tscn" id="2_y3ih7"]
+[ext_resource type="Material" path="res://assets/materials/road.tres" id="3_wtosl"]
+[ext_resource type="Material" path="res://assets/materials/wall_concrete.tres" id="4_73re2"]
+[ext_resource type="Material" path="res://assets/materials/background_oil.tres" id="5_drb0x"]
+[ext_resource type="Material" path="res://assets/materials/checker.tres" id="6_5rw0e"]
+[ext_resource type="PackedScene" path="res://scenes/props/start_gate.tscn" id="7_ouc5j"]
+[ext_resource type="AudioStream" uid="uid://bm4ui2uork42x" path="res://assets/original/music/lolizoneact2.ogg" id="8_56rwv"]
+[ext_resource type="PackedScene" path="res://scenes/objects/map_zone.tscn" id="9_jnong"]
+[ext_resource type="PackedScene" path="res://scenes/props/tire.tscn" id="16_wtosl"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/barrier_parry.tscn" id="17_73re2"]
+[ext_resource type="PackedScene" path="res://scenes/objects/boost_pad.tscn" id="21_56rwv"]
+
+[sub_resource type="Curve3D" id="Curve3D_jnong"]
+closed = true
+bake_interval = 0.5
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 129.8, 0, 284.1, 0, 0, 0, 0, 0, 0, 144.8, 0, 238.5, 0, 0, 0, 0, 0, 0, 144.8, 0, 158, 0, 0, 0, 0, 0, 0, 152, 0, 152.7, 0, 0, 0, 0, 0, 0, 226.4, 0, 152.7, 0, 0, 0, 0, 0, 0, 231.6, 0, 163.5, 0, 0, 0, 0, 0, 0, 231.6, 0, 184.4, 0, 0, 0, 0, 0, 0, 249.7, 0, 200, 0, 0, 0, 0, 0, 0, 254.8, 0, 211.5, 0, 0, 0, 0, 0, 0, 254.8, 0, 220.4, 0, 0, 0, 0, 0, 0, 242.7, 0, 233.2, 0, 0, 0, 0, 0, 0, 239.6, 0, 241.5, 0, 0, 0, 0, 0, 0, 239.6, 0, 250.5, 0, 0, 0, 0, 0, 0, 250.4, 0, 278.7, 0, 0, 0, 0, 0, 0, 250.4, 0, 289.5, 0, 0, 0, 0, 0, 0, 232.5, 0, 306.7, 0, 0, 0, 0, 0, 0, 217.5, 0, 315.2, 0, 0, 0, 0, 0, 0, 119.7, 0, 315.2),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 18
+
+[node name="MapF" type="Node3D" unique_id=153272191]
+script = ExtResource("1_tv4y5")
+road_width = 13.5
+background_scroll = Vector2(1, -2)
+surround_width = 6.0
+haze_color = Color(1, 0.78, 0.45, 1)
+background_depth = 6.0
+support_scene = ExtResource("2_y3ih7")
+portal_gaps = PackedInt32Array()
+segment_widths = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+road_material = ExtResource("3_wtosl")
+wall_material = ExtResource("4_73re2")
+background_material = ExtResource("5_drb0x")
+start_line_material = ExtResource("6_5rw0e")
+start_gate_scene = ExtResource("7_ouc5j")
+music = ExtResource("8_56rwv")
+
+[node name="Path" type="Path3D" parent="." unique_id=319660175]
+curve = SubResource("Curve3D_jnong")
+metadata/_edit_lock_ = true
+
+[node name="Props" type="Node3D" parent="." unique_id=1958193187]
+
+[node name="Ice1" parent="Props" unique_id=1502236649 instance=ExtResource("9_jnong")]
+transform = Transform3D(0.9499271, 0, -0.3124716, 0, 1, 0, 0.3124716, 0, 0.9499271, 143.53091, 0, 257.17923)
+kind = 2
+size = Vector2(4.5, 7)
+tint = Color(1, 0.97, 0, 0.5)
+
+[node name="Ice10" parent="Props" unique_id=680779249 instance=ExtResource("9_jnong")]
+transform = Transform3D(0.9499271, 0, -0.3124716, 0, 1, 0, 0.3124716, 0, 0.9499271, 132.32188, 0, 271.39874)
+kind = 2
+size = Vector2(4.5, 7)
+tint = Color(1, 0.97, 0, 0.5)
+
+[node name="Tire1" parent="Props" unique_id=1391226122 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.6378054, 0, -0.77019775, 0, 1, 0, 0.77019775, 0, 0.6378054, 143.47037, 0, 258.9664)
+
+[node name="Tire14" parent="Props" unique_id=1256285960 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.99730825, 0, -0.07332319, 0, 1, 0, 0.07332319, 0, 0.99730825, 129.69354, 0, 270.83716)
+
+[node name="Tire15" parent="Props" unique_id=833821379 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.41011658, 0, 0.912033, 0, 1, 0, -0.912033, 0, 0.41011658, 132.30072, -0.07146466, 268.29407)
+
+[node name="Tire16" parent="Props" unique_id=2094610742 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.7189023, 0, 0.69511116, 0, 1, 0, -0.69511116, 0, 0.7189023, 130.7075, 1.3398829, 269.62027)
+
+[node name="Tire20" parent="Props" unique_id=1118974849 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.99730825, 0, -0.07332319, 0, 1, 0, 0.07332319, 0, 0.99730825, 129.69354, 0, 270.83716)
+
+[node name="Tire21" parent="Props" unique_id=1945530226 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.41011658, 0, 0.912033, 0, 1, 0, -0.912033, 0, 0.41011658, 132.30072, -0.07146466, 268.29407)
+
+[node name="Tire22" parent="Props" unique_id=1150284850 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.7189023, 0, 0.69511116, 0, 1, 0, -0.69511116, 0, 0.7189023, 130.7075, 1.3398829, 269.62027)
+
+[node name="Tire23" parent="Props" unique_id=268180456 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.03879519, 0, -0.99924713, 0, 1, 0, 0.99924713, 0, -0.03879519, 146.72333, 0, 229.78526)
+
+[node name="Tire24" parent="Props" unique_id=1391522828 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.9256684, 0, -0.37833583, 0, 1, 0, 0.37833583, 0, 0.9256684, 149.35504, -0.07146466, 232.30295)
+
+[node name="Tire25" parent="Props" unique_id=1986753908 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.7195532, 0, -0.6944374, 0, 1, 0, 0.6944374, 0, 0.7195532, 147.97455, 1.3398829, 230.75655)
+
+[node name="Tire17" parent="Props" unique_id=624358500 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.9743069, 0, 0.2252245, 0, 1, 0, -0.2252245, 0, -0.9743069, 143.61893, 0, 180.01988)
+
+[node name="Tire18" parent="Props" unique_id=1495083748 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.5449808, 0, -0.8384484, 0, 1, 0, 0.8384484, 0, -0.5449808, 140.65297, -0.23162746, 182.1336)
+
+[node name="Tire19" parent="Props" unique_id=1897270793 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.81689453, 0, -0.576787, 0, 1, 0, 0.576787, 0, -0.81689453, 142.43053, 1.3049889, 181.0671)
+
+[node name="Tire26" parent="Props" unique_id=1186810866 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.9743069, 0, 0.2252245, 0, 1, 0, -0.2252245, 0, -0.9743069, 146.89136, 0, 153.34401)
+
+[node name="Tire27" parent="Props" unique_id=1251639494 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.5449808, 0, -0.8384484, 0, 1, 0, 0.8384484, 0, -0.5449808, 143.9254, -0.23162746, 155.45773)
+
+[node name="Tire28" parent="Props" unique_id=1070842605 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.81689453, 0, -0.576787, 0, 1, 0, 0.576787, 0, -0.81689453, 145.70296, 1.3049889, 154.39122)
+
+[node name="Conveyor1" parent="Props" unique_id=1793310851 instance=ExtResource("9_jnong")]
+transform = Transform3D(0.31246242, 0, 0.94993013, 0, 1, 0, -0.94993013, 0, 0.31246242, 140.49034, 0, 250.70105)
+size = Vector2(12, 3)
+
+[node name="Ice3" parent="Props" unique_id=525251970 instance=ExtResource("9_jnong")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.30002, 0, 216.47653)
+kind = 2
+size = Vector2(4.5, 7)
+tint = Color(1, 0.97, 0, 0.5)
+
+[node name="Tire3" parent="Props" unique_id=1276997916 instance=ExtResource("16_wtosl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 140.29999, 0, 214.47653)
+
+[node name="Ice4" parent="Props" unique_id=1889815506 instance=ExtResource("9_jnong")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 147.05, 0, 197.47653)
+kind = 2
+size = Vector2(7, 7)
+tint = Color(1, 0.97, 0, 0.5)
+
+[node name="Tire4" parent="Props" unique_id=1740638691 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.8324211, 0, -0.5541436, 0, 1, 0, 0.5541436, 0, 0.8324211, 149.3, 0, 194.4765)
+
+[node name="Tire5" parent="Props" unique_id=393382035 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.35051626, 0, -0.93655676, 0, 1, 0, 0.93655676, 0, 0.35051626, 149.3, 1.511832, 194.4765)
+
+[node name="Tire6" parent="Props" unique_id=1048622259 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-3.4016274e-08, -0.19245702, -0.98130536, 2.7451389e-08, 0.98130536, -0.19245702, 1, -3.3484866e-08, -2.809714e-08, 151.2559, 0.4462105, 216.11526)
+
+[node name="Ice5" parent="Props" unique_id=2133723066 instance=ExtResource("9_jnong")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 142.55, 0, 182.47652)
+kind = 2
+size = Vector2(7, 7)
+tint = Color(1, 0.97, 0, 0.5)
+
+[node name="Tire7" parent="Props" unique_id=1724333209 instance=ExtResource("16_wtosl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 141.72179, 0, 169.47653)
+
+[node name="Ice6" parent="Props" unique_id=1664433054 instance=ExtResource("9_jnong")]
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, 145.81456, 0, 154.54216)
+kind = 2
+size = Vector2(9, 12)
+tint = Color(1, 0.97, 0, 0.5)
+
+[node name="ItemBoxSpot1" type="Marker3D" parent="Props" unique_id=634197745 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 160.40294, 0, 148.7)
+
+[node name="ItemBoxSpot2" type="Marker3D" parent="Props" unique_id=651640185 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 160.40294, 0, 152.7)
+
+[node name="ItemBoxSpot3" type="Marker3D" parent="Props" unique_id=1561439805 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 160.40294, 0, 156.7)
+
+[node name="Barrier2" parent="Props" unique_id=798347554 instance=ExtResource("17_73re2")]
+transform = Transform3D(-0.24351546, 0, -0.96989715, 0, 1, 0, 0.96989715, 0, -0.24351546, 178.9888, 0, 153.21286)
+
+[node name="Barrier5" parent="Props" unique_id=300165639 instance=ExtResource("17_73re2")]
+transform = Transform3D(0.29448444, 0, -0.9556563, 0, 1, 0, 0.9556563, 0, 0.29448444, 173.6149, 0, 149.37024)
+
+[node name="Barrier6" parent="Props" unique_id=415048063 instance=ExtResource("17_73re2")]
+transform = Transform3D(-0.46724045, 0, -0.8841303, 0, 1, 0, 0.8841303, 0, -0.46724045, 168.5402, 0, 156.15932)
+
+[node name="Conveyor2" parent="Props" unique_id=1565026737 instance=ExtResource("9_jnong")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 173.03673, 0, 152.72089)
+size = Vector2(15, 3)
+
+[node name="Tire8" parent="Props" unique_id=922800851 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 215.40294, 0, 157.19998)
+
+[node name="ItemBoxSpot4" type="Marker3D" parent="Props" unique_id=397100247 groups=["item_box_spots"]]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 235.59808, 0, 165.64172)
+
+[node name="ItemBoxSpot5" type="Marker3D" parent="Props" unique_id=242585155 groups=["item_box_spots"]]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 231.59955, 0, 165.74994)
+
+[node name="ItemBoxSpot6" type="Marker3D" parent="Props" unique_id=921352156 groups=["item_box_spots"]]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 227.60101, 0, 165.85815)
+
+[node name="Barrier3" parent="Props" unique_id=85754884 instance=ExtResource("17_73re2")]
+transform = Transform3D(-0.9105638, 0, -0.41336837, 0, 1, 0, 0.41336837, 0, -0.9105638, 235.34923, 0, 183.58054)
+
+[node name="Barrier8" parent="Props" unique_id=1893551645 instance=ExtResource("17_73re2")]
+transform = Transform3D(-0.8024348, 0, -0.59673953, 0, 1, 0, 0.59673953, 0, -0.8024348, 236.7308, 0, 185.82655)
+
+[node name="Barrier9" parent="Props" unique_id=522963494 instance=ExtResource("17_73re2")]
+transform = Transform3D(-0.6427876, 0, -0.7660444, 0, 1, 0, 0.7660444, 0, -0.6427876, 238.35513, 0, 187.7329)
+
+[node name="Barrier7" parent="Props" unique_id=384053869 instance=ExtResource("17_73re2")]
+transform = Transform3D(-0.98142785, 0, -0.19183165, 0, 1, 0, 0.19183165, 0, -0.98142785, 234.07368, 0, 181.0999)
+
+[node name="BoostPad1" parent="Props" unique_id=107993817 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 233.84999, 0, 171.74994)
+
+[node name="BoostPad2" parent="Props" unique_id=2127508869 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 233.85002, 0, 174.74994)
+
+[node name="BoostPad3" parent="Props" unique_id=991367955 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 233.85, 0, 177.74994)
+
+[node name="ItemBoxSpot7" type="Marker3D" parent="Props" unique_id=1294835532 groups=["item_box_spots"]]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 258.7999, 0, 214.05252)
+
+[node name="ItemBoxSpot8" type="Marker3D" parent="Props" unique_id=2077464092 groups=["item_box_spots"]]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 254.79999, 0, 214.08167)
+
+[node name="ItemBoxSpot9" type="Marker3D" parent="Props" unique_id=157220757 groups=["item_box_spots"]]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 250.8001, 0, 214.11081)
+
+[node name="Tire9" parent="Props" unique_id=1234221618 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 249.78114, 0, 232.25983)
+
+[node name="Tire10" parent="Props" unique_id=531940510 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.7633035, 0, 0.6460401, 0, 1, 0, -0.6460401, 0, -0.7633035, 240.33693, 0, 229.17609)
+
+[node name="BoostPad4" parent="Props" unique_id=882049043 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-0.9409556, 0, 0.35403764, 0, 1, 0, -0.35142618, 0, -0.94794786, 242.62402, -0.00072169304, 238.80667)
+kind = 1
+
+[node name="BoostPad6" parent="Props" unique_id=1167750029 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-0.92123014, 0, 0.35204443, 0, 1, 0, -0.34405917, 0, -0.942611, 239.84286, 0.03000009, 237.77187)
+
+[node name="Ice7" parent="Props" unique_id=804263376 instance=ExtResource("9_jnong")]
+transform = Transform3D(-0.94507164, 0, -0.32686335, 0, 1, 0, 0.32686335, 0, -0.94507164, 240.22041, 0, 252.1121)
+kind = 2
+size = Vector2(9, 8)
+tint = Color(1, 0.97, 0, 0.5)
+
+[node name="Ice8" parent="Props" unique_id=1863247161 instance=ExtResource("9_jnong")]
+transform = Transform3D(-0.9338551, 0, -0.35765156, 0, 1, 0, 0.35765156, 0, -0.9338551, 245.5378, 0, 259.71307)
+kind = 2
+size = Vector2(7, 7)
+tint = Color(1, 0.97, 0, 0.5)
+
+[node name="Tire11" parent="Props" unique_id=999230696 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.9338551, 0, -0.35765156, 0, 1, 0, 0.35765156, 0, -0.9338551, 239.23427, 0, 262.12723)
+
+[node name="Conveyor4" parent="Props" unique_id=1020770762 instance=ExtResource("9_jnong")]
+transform = Transform3D(-0.3576514, 0, 0.9338552, 0, 1, 0, -0.9338552, 0, -0.3576514, 250.1872, 0, 271.85324)
+size = Vector2(15, 6)
+
+[node name="Ice9" parent="Props" unique_id=1390166369 instance=ExtResource("9_jnong")]
+transform = Transform3D(-0.9338551, 0, -0.35765156, 0, 1, 0, 0.35765156, 0, -0.9338551, 243.88367, 0, 274.2674)
+kind = 2
+size = Vector2(4, 8)
+tint = Color(1, 0.97, 0, 0.5)
+
+[node name="BoostPad8" parent="Props" unique_id=617159544 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-0.9794557, 0, 0.20165929, 0, 1, 0, -0.20165929, 0, -0.9794557, 252.39818, 0, 287.71146)
+kind = 1
+
+[node name="BoostPad9" parent="Props" unique_id=1382118165 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-0.8761036, 0, 0.4821229, 0, 1, 0, -0.4821229, 0, -0.8761036, 251.13205, 0, 291.14694)
+kind = 1
+
+[node name="BoostPad10" parent="Props" unique_id=349767816 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 246.85725, 0, 299.145)
+
+[node name="BoostPad11" parent="Props" unique_id=652104741 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 244.694, 0, 301.22366)
+
+[node name="BoostPad12" parent="Props" unique_id=1215836594 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 242.5308, 0, 303.30225)
+
+[node name="BoostPad13" parent="Props" unique_id=258589284 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-0.5642668, 0, 0.82559246, 0, 1, 0, -0.82559246, 0, -0.5642668, 234.6501, 0, 310.59485)
+
+[node name="BoostPad14" parent="Props" unique_id=888776988 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-0.4930251, 0, 0.8700151, 0, 1, 0, -0.8700151, 0, -0.4930251, 231.73782, 0, 312.3042)
+
+[node name="BoostPad15" parent="Props" unique_id=1607138004 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-0.49300373, 0, 0.8700272, 0, 1, 0, -0.8700272, 0, -0.49300373, 229.12766, 0, 313.7833)
+
+[node name="Tire12" parent="Props" unique_id=620728165 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.49301037, 0, 0.8700234, 0, 1, 0, -0.8700234, 0, -0.49301037, 219.70972, 0, 311.3617)
+
+[node name="Conveyor5" parent="Props" unique_id=1859588625 instance=ExtResource("9_jnong")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 196.1973, 0, 315.19998)
+size = Vector2(15, 6)
+
+[node name="ItemBoxSpot10" type="Marker3D" parent="Props" unique_id=1505827873 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 180.19731, 0, 319.2)
+
+[node name="ItemBoxSpot11" type="Marker3D" parent="Props" unique_id=318910243 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 180.19731, 0, 315.2)
+
+[node name="ItemBoxSpot12" type="Marker3D" parent="Props" unique_id=343989276 groups=["item_box_spots"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 180.19731, 0, 311.2)
+
+[node name="BoostPad16" parent="Props" unique_id=1056664573 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 167.19731, 0, 312.95)
+
+[node name="BoostPad17" parent="Props" unique_id=1965654976 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 164.19731, 0, 312.95)
+
+[node name="BoostPad18" parent="Props" unique_id=843770809 instance=ExtResource("21_56rwv")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 161.1973, 0, 312.95)
+
+[node name="Tire13" parent="Props" unique_id=1229385969 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 144.19731, 0, 319.7)
+
+[node name="Conveyor6" parent="Props" unique_id=130226838 instance=ExtResource("9_jnong")]
+transform = Transform3D(0.30888385, 0, 0.95109975, 0, 1, 0, -0.95109975, 0, 0.30888385, 124.6948, 0, 299.81998)
+size = Vector2(12, 9)
+
+[node name="Barrier4" parent="Props" unique_id=956835131 instance=ExtResource("17_73re2")]
+transform = Transform3D(0.9511005, 0, -0.30888146, 0, 1, 0, 0.30888146, 0, 0.9511005, 131.6591, 0, 290.51614)
+
+[node name="Decor" type="Node3D" parent="." unique_id=1690692931]
+
+[node name="Tire1" parent="Decor" unique_id=1647124889 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.9499263, 0, -0.31247395, 0, 1, 0, 0.31247395, 0, 0.9499263, 146.5987, 0, 273.83517)
+metadata/layout_decor = true
+
+[node name="Tire2" parent="Decor" unique_id=1650330349 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.96796244, 0, -0.251095, 0, 1, 0, 0.251095, 0, 0.96796244, 156.80884, 0, 242.64915)
+metadata/layout_decor = true
+
+[node name="Tire3" parent="Decor" unique_id=991456250 instance=ExtResource("16_wtosl")]
+transform = Transform3D(1, 0, 7.6293945e-06, 0, 1, 0, -7.6293945e-06, 0, 1, 157.55, 0, 207.47644)
+metadata/layout_decor = true
+
+[node name="Tire4" parent="Decor" unique_id=1219606208 instance=ExtResource("16_wtosl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 157.55, 0, 175.47653)
+metadata/layout_decor = true
+
+[node name="Tire5" parent="Decor" unique_id=1884716815 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-7.673106e-06, 0, -1, 0, 1, 0, 1, 0, -7.673106e-06, 158.40285, 0, 165.45)
+metadata/layout_decor = true
+
+[node name="Tire6" parent="Decor" unique_id=1100142649 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 190.40294, 0, 165.45)
+metadata/layout_decor = true
+
+[node name="Tire7" parent="Decor" unique_id=791262209 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.9956243, 0, -0.093446486, 0, 1, 0, 0.093446486, 0, -0.9956243, 218.95012, 0, 181.93997)
+metadata/layout_decor = true
+
+[node name="Tire8" parent="Decor" unique_id=1888153255 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.9141435, 0, -0.40539074, 0, 1, 0, 0.40539074, 0, -0.9141435, 240.11218, 0, 209.83084)
+metadata/layout_decor = true
+
+[node name="Tire9" parent="Decor" unique_id=591716138 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.7633035, 0, 0.6460401, 0, 1, 0, -0.6460401, 0, -0.7633035, 234.03967, 0, 223.84625)
+metadata/layout_decor = true
+
+[node name="Tire10" parent="Decor" unique_id=379554495 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.9338622, 0, -0.35763308, 0, 1, 0, 0.35763308, 0, -0.9338622, 232.24518, 0, 266.9453)
+metadata/layout_decor = true
+
+[node name="Tire11" parent="Decor" unique_id=324121958 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.71147865, 0, 0.70270777, 0, 1, 0, -0.70270777, 0, -0.71147865, 238.27309, 0, 283.47617)
+metadata/layout_decor = true
+
+[node name="Tire12" parent="Decor" unique_id=900088796 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.49301037, 0, 0.8700234, 0, 1, 0, -0.8700234, 0, -0.49301037, 216.27315, 0, 301.24042)
+metadata/layout_decor = true
+
+[node name="Tire13" parent="Decor" unique_id=1243360212 instance=ExtResource("16_wtosl")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 191.19751, 0, 302.44998)
+metadata/layout_decor = true
+
+[node name="Tire14" parent="Decor" unique_id=2037876771 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 159.1973, 0, 302.45)
+metadata/layout_decor = true
+
+[node name="Tire15" parent="Decor" unique_id=1905812313 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.9499256, 0, -0.31247625, 0, 1, 0, 0.31247625, 0, 0.9499256, 127.37519, 0, 250.66824)
+metadata/layout_decor = true
+
+[node name="Tire16" parent="Decor" unique_id=1320111629 instance=ExtResource("16_wtosl")]
+transform = Transform3D(1, 0, 7.6293945e-06, 0, 1, 0, -7.6293945e-06, 0, 1, 132.05002, 0, 223.47662)
+metadata/layout_decor = true
+
+[node name="Tire17" parent="Decor" unique_id=1941270770 instance=ExtResource("16_wtosl")]
+transform = Transform3D(1, 0, -7.6293945e-06, 0, 1, 0, 7.6293945e-06, 0, 1, 132.05, 0, 191.47644)
+metadata/layout_decor = true
+
+[node name="Tire18" parent="Decor" unique_id=1488238795 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.94913757, 0, -0.3148617, 0, 1, 0, 0.3148617, 0, 0.94913757, 133.10576, 0, 155.50601)
+metadata/layout_decor = true
+
+[node name="Tire19" parent="Decor" unique_id=678225416 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 174.40294, 0, 139.95)
+metadata/layout_decor = true
+
+[node name="Tire20" parent="Decor" unique_id=744184032 instance=ExtResource("16_wtosl")]
+transform = Transform3D(7.5856833e-06, 0, -1, 0, 1, 0, 1, 0, 7.5856833e-06, 206.40285, 0, 139.94998)
+metadata/layout_decor = true
+
+[node name="Tire21" parent="Decor" unique_id=1765404279 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.99466205, 0, -0.103186585, 0, 1, 0, 0.103186585, 0, -0.99466205, 244.22787, 0, 163.43619)
+metadata/layout_decor = true
+
+[node name="Tire22" parent="Decor" unique_id=381586399 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.6528623, 0, -0.7574766, 0, 1, 0, 0.7574766, 0, -0.6528623, 249.71173, 0, 183.17802)
+metadata/layout_decor = true
+
+[node name="Tire23" parent="Decor" unique_id=281018392 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.9339822, 0, 0.35731956, 0, 1, 0, -0.35731956, 0, -0.9339822, 266.04376, 0, 224.55586)
+metadata/layout_decor = true
+
+[node name="Tire24" parent="Decor" unique_id=1178376705 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 252.35, 0, 247.1857)
+metadata/layout_decor = true
+
+[node name="Tire25" parent="Decor" unique_id=1048172904 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.9498302, 0, -0.3127662, 0, 1, 0, 0.3127662, 0, -0.9498302, 261.97644, 0, 273.34247)
+metadata/layout_decor = true
+
+[node name="Tire26" parent="Decor" unique_id=2064401333 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-0.692871, 0, 0.7210616, 0, 1, 0, -0.7210616, 0, -0.692871, 244.64168, 0, 312.7153)
+metadata/layout_decor = true
+
+[node name="Tire27" parent="Decor" unique_id=1443960190 instance=ExtResource("16_wtosl")]
+transform = Transform3D(1.5215078e-05, 0, 1, 0, 1, 0, -1, 0, 1.5215078e-05, 207.1971, 0, 327.95)
+metadata/layout_decor = true
+
+[node name="Tire28" parent="Decor" unique_id=1971136870 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 175.1973, 0, 327.95)
+metadata/layout_decor = true
+
+[node name="Tire29" parent="Decor" unique_id=721400350 instance=ExtResource("16_wtosl")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 143.1973, 0, 327.95)
+metadata/layout_decor = true
+
+[node name="Tire30" parent="Decor" unique_id=1183882629 instance=ExtResource("16_wtosl")]
+transform = Transform3D(0.951102, 0, -0.308877, 0, 1, 0, 0.308877, 0, 0.951102, 112.87715, 0, 294.9307)
+metadata/layout_decor = true
