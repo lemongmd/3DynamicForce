@@ -15,6 +15,7 @@ assets/textures/fx/fx_star.png
 assets/textures/items/curitem_tomato.png
 assets/textures/items/tomato_splat.png
 assets/textures/items/tomato_splat_own.png
+assets/textures/maps/halloween.png
 assets/textures/maps/remake_01.png
 assets/textures/props/danger_sign.png
 assets/textures/props/danger_sign_parry.png

@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" path="res://assets/shaders/glow_mask.gdshader" id="1_shader"]
+[ext_resource type="Texture2D" path="res://assets/textures/halloween/pumpkin.png" id="2_tex"]
+[ext_resource type="Texture2D" path="res://assets/textures/halloween/pumpkin_glow.png" id="3_glow"]
+
+[resource]
+shader = ExtResource("1_shader")
+shader_parameter/albedo_texture = ExtResource("2_tex")
+shader_parameter/glow_texture = ExtResource("3_glow")
+shader_parameter/glow_color = Color(1, 0.62, 0.2, 1)
+shader_parameter/glow_energy = 2.6
+shader_parameter/roughness_value = 0.75

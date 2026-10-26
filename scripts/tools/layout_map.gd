@@ -18,16 +18,23 @@ extends SceneTree
 ##                                        wet, wet_parry, barrier, block; barrier/block/crab при 0 —
 ##                                        поперёк дороги)
 ##   ["ice", d, l, across, along]         лёд (цвет — TINT списка)
+##   ["mud", d, along, l?, across?]       грязь (машина буксует): без l и across — на всю
+##                                        ширину дороги, иначе пятно across м со смещением l
 ##   ["conveyor", d, l, across, along, dir]  лента: dir 1 — по ходу гонки, −1 — против
 ##   ["slider", d, along]                 аквагорка во всю ширину
 ##   ["turret", d, side]                  снежная турель на стене (side 1 — справа, −1 — слева)
 ##   ["balls", d]                         цирковые шары, ездят поперёк дороги
+##   ["ghost", d]                         призрак («Хэллоуин»), плавает поперёк дороги
+##                                        (pumpkin, pumpkin_parry, tombstone — тыквы и надгробие,
+##                                        как обычные пропы)
 ##   ["music", d, "имя"]                  триггер музыки во всю ширину
 ## DECOR — окружение вручную: ["decor", вид, d, l, rot] или ["decor_row", вид, от, до, шаг,
-## сторона ±1] (по середине полосы окружения); виды — DECOR_SCENES. SURROUND — ширина полосы
-## окружения за стенами, м.
+## сторона ±1, дальше?, разброс?] (по середине полосы окружения; «дальше» — ещё столько метров
+## от стены, «разброс» — до стольких метров вбок и вдоль, от места: ряд не по линейке) или
+## ["wall_row", вид, от, до, шаг, сторона ±1] (на верху стены — тыквы-фонари); виды —
+## DECOR_SCENES. SURROUND — ширина полосы окружения за стенами, м.
 ## Необязательные константы списка: PATH — ломаная трассы, поправленная вручную (Vector2 x, z
-## в метрах), TINT — цвет льда, KEEP_DECOR — оставить декор из переноса (true / false / массив начал
+## в метрах или Vector3 x, высота, z — подъёмы и спуски), TINT — цвет льда, KEEP_DECOR — оставить декор из переноса (true / false / массив начал
 ## имён узлов, которые оставить).
 
 const LAYOUTS_DIR := "res://scripts/tools/layouts/"
@@ -52,6 +59,10 @@ const SCENES := {
 	"turret": "res://scenes/objects/snow_turret.tscn",
 	"balls": "res://scenes/hazards/circus_balls.tscn",
 	"music": "res://scenes/objects/music_trigger.tscn",
+	"pumpkin": "res://scenes/props/pumpkin.tscn",
+	"tombstone": "res://scenes/props/tombstone.tscn",
+	"pumpkin_parry": "res://scenes/hazards/pumpkin_parry.tscn",
+	"ghost": "res://scenes/hazards/ghost.tscn",
 }
 ## Декор окружения (ставится в узел Decor, проверки и автопилот его не видят).
 const DECOR_SCENES := {
@@ -62,6 +73,9 @@ const DECOR_SCENES := {
 	"tire": "res://scenes/props/tire.tscn",
 	"crate": "res://scenes/props/site_crate.tscn",
 	"gravel": "res://scenes/props/gravel.tscn",
+	"tree": "res://scenes/decor/autumn_tree.tscn",
+	"grave": "res://scenes/decor/grave.tscn",
+	"lamp": "res://scenes/decor/pumpkin_lamp.tscn",
 }
 const PAD_STEP := 3.0
 const ITEM_BOX_GROUP := &"item_box_spots"
@@ -81,12 +95,12 @@ func _run() -> void:
 	root.add_child(track)
 	await process_frame
 	var constants := layout.get_script_constant_map()
-	# PATH — ломаная, поправленная вручную (точки x, z в метрах; точка 0 — старт).
+	# PATH — ломаная, поправленная вручную (точки x, z в метрах или x, высота, z; точка 0 — старт).
 	if constants.has("PATH"):
 		var curve := Curve3D.new()
 		curve.bake_interval = 0.5
-		for p: Vector2 in constants["PATH"]:
-			curve.add_point(Vector3(p.x, 0.0, p.y))
+		for p: Variant in constants["PATH"]:
+			curve.add_point(p if p is Vector3 else Vector3(p.x, 0.0, p.y))
 		curve.closed = true
 		(track.get_node("Path") as Path3D).curve = curve
 		track.rebuild()
@@ -138,12 +152,25 @@ func _run() -> void:
 		if item[0] == "decor":
 			skipped += 0 if _place_decor(track, decor, item[1], float(item[2]), float(item[3]),
 					float(item[4]) if item.size() > 4 else 0.0) else 1
-		else:
-			var lateral := float(item[5]) * (track.road_width * 0.5 + track.wall_width + track.surround_width * 0.5)
+		elif item[0] == "wall_row":
 			var d := float(item[2])
 			while d <= float(item[3]):
-				skipped += 0 if _place_decor(track, decor, item[1], d, lateral, 0.0) else 1
+				skipped += 0 if _place_on_wall(track, decor, item[1], d, float(item[5])) else 1
 				d += float(item[4])
+		else:
+			var side := float(item[5])
+			var further := float(item[6]) if item.size() > 6 else 0.0
+			var spread := float(item[7]) if item.size() > 7 else 0.0
+			var d := float(item[2])
+			var index := 0
+			while d <= float(item[3]):
+				# Разброс — от номера в ряду (одинаковый при каждом запуске).
+				var jitter := Vector2(sin(index * 12.9898 + side * 3.1), cos(index * 78.233 + side * 1.7)) * spread
+				var lateral := side * (track.road_width * 0.5 + track.wall_width + track.surround_width * 0.5
+						+ further + absf(jitter.x))
+				skipped += 0 if _place_decor(track, decor, item[1], d + jitter.y, lateral, 0.0) else 1
+				d += float(item[4])
+				index += 1
 	if skipped > 0:
 		print("  декор: не поставлено %d (задел бы дорогу или в разрыве)" % skipped)
 
@@ -184,6 +211,13 @@ func _place(track: Track, props: Node, item: Array, tint: Color) -> void:
 			ice.tint = tint
 			ice.size = Vector2(float(item[3]), float(item[4]))
 			_add(track, props, ice, "Ice", d, float(item[2]), yaw)
+		"mud":
+			var mud := _scene("zone") as MapZone
+			mud.kind = MapZone.Kind.MUD
+			var mud_lateral := float(item[3]) if item.size() > 4 else 0.0
+			var across := float(item[4]) if item.size() > 4 else track.road_half_width_at(d) * 2.0
+			mud.size = Vector2(across, float(item[2]))
+			_add(track, props, mud, "Mud", d, mud_lateral, yaw)
 		"conveyor":
 			var belt := _scene("zone") as MapZone
 			belt.kind = MapZone.Kind.CONVEYOR
@@ -205,6 +239,10 @@ func _place(track: Track, props: Node, item: Array, tint: Color) -> void:
 			var balls := _scene("balls") as CircusBalls
 			balls.sweep = track.road_half_width_at(d) - 2.0
 			_add(track, props, balls, "CircusBalls", d, 0.0, yaw)
+		"ghost":
+			var ghost := _scene("ghost") as Ghost
+			ghost.sweep = track.road_half_width_at(d) - 1.6
+			_add(track, props, ghost, "Ghost", d, 0.0, yaw)
 		"music":
 			var trigger := _scene("music") as MusicTrigger
 			trigger.music = load("res://assets/original/music/%s.ogg" % item[2])
@@ -237,6 +275,24 @@ func _place_decor(track: Track, decor: Node, kind: String, d: float, lateral: fl
 	return true
 
 
+## Декор на верху стены (тыквы-фонари вдоль трассы): посередине стены, на её высоте.
+func _place_on_wall(track: Track, decor: Node, kind: String, d: float, side: float) -> bool:
+	if track.is_in_gap(d) or not track.walls:
+		return false
+	var at := track.get_point_at(d, side * (track.outline_half_width_at(d) + track.wall_width * 0.5))
+	at.y += track.wall_height
+	var node := (load(DECOR_SCENES[kind]) as PackedScene).instantiate() as Node3D
+	_counters["decor_" + kind] = int(_counters.get("decor_" + kind, 0)) + 1
+	node.name = "%s%d" % [kind.capitalize().replace(" ", ""), _counters["decor_" + kind]]
+	node.set_meta(&"layout_decor", true)
+	node.set_meta(&"layout_on_wall", true)
+	decor.add_child(node)
+	node.owner = track
+	node.position = at
+	node.rotation.y = _track_yaw(track, d)
+	return true
+
+
 func _scene(kind: String) -> Node3D:
 	return (load(SCENES[kind]) as PackedScene).instantiate() as Node3D
 
@@ -250,6 +306,8 @@ func _add(track: Track, props: Node, node: Node3D, base: String, d: float, later
 	# На прямых по осям поворот ровно кратен 45° (тайлы оригинала); на дугах — по трассе.
 	var snapped := snappedf(yaw, PI * 0.25)
 	node.rotation.y = snapped if absf(wrapf(yaw - snapped, -PI, PI)) < deg_to_rad(4.0) else yaw
+	# На подъёмах и спусках — по склону (иначе половина объекта в дороге).
+	node.basis = TrackLayout.road_tilt(track, d) * node.basis
 
 
 ## Поворот вокруг Y, при котором −Z смотрит по ходу гонки.

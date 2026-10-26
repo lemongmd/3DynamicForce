@@ -1,0 +1,44 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/decor/grave.tscn" id="1_grave"]
+[ext_resource type="Material" path="res://assets/materials/candle.tres" id="2_candle"]
+[ext_resource type="Material" path="res://assets/materials/glow_pool.tres" id="3_pool"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_stone"]
+size = Vector3(1.8, 2.2, 0.8)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_candle"]
+material = ExtResource("2_candle")
+top_radius = 0.09
+bottom_radius = 0.09
+height = 0.4
+radial_segments = 6
+rings = 1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pool"]
+material = ExtResource("3_pool")
+size = Vector2(4, 4)
+
+[node name="Tombstone" type="StaticBody3D"]
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 1.1, 0)
+shape = SubResource("BoxShape3D_stone")
+
+[node name="Visual" parent="." instance=ExtResource("1_grave")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+
+[node name="CandleL" type="MeshInstance3D" parent="."]
+position = Vector3(-0.55, 0.2, 0.6)
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_candle")
+
+[node name="CandleR" type="MeshInstance3D" parent="."]
+position = Vector3(0.6, 0.15, 0.55)
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_candle")
+
+[node name="Glow" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.07, 0.4)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_pool")

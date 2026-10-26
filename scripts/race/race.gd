@@ -249,14 +249,22 @@ func _load_track() -> void:
 	_spawn_item_boxes()
 
 
-## Дымка вдали и небо за краем карты — цвета карты (Track.haze_color).
+## Дымка вдали, небо за краем карты и свет — как задано у карты (Track: haze_*, sun_*, ambient_*).
 func _apply_atmosphere() -> void:
+	var sun := get_node_or_null(^"Sun") as DirectionalLight3D
+	if sun != null:
+		sun.light_color = track.sun_color
+		sun.light_energy = track.sun_energy
 	var world := get_node_or_null(^"WorldEnvironment") as WorldEnvironment
 	if world == null or world.environment == null:
 		return
 	var environment := world.environment.duplicate() as Environment
 	environment.fog_light_color = track.haze_color
 	environment.background_color = track.haze_color
+	environment.fog_depth_begin = track.haze_begin
+	environment.fog_depth_end = track.haze_end
+	environment.ambient_light_color = track.ambient_color
+	environment.ambient_light_energy = track.ambient_energy
 	world.environment = environment
 
 

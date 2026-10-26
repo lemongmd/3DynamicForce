@@ -1,0 +1,34 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/fx/falling_leaves.gd" id="1_leaves"]
+[ext_resource type="Material" path="res://assets/materials/leaf_particle.tres" id="2_mat"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_leaf"]
+material = ExtResource("2_mat")
+size = Vector2(0.45, 0.45)
+
+[sub_resource type="Gradient" id="Gradient_leaves"]
+offsets = PackedFloat32Array(0, 0.33, 0.66, 1)
+colors = PackedColorArray(0.95, 0.48, 0.12, 1, 0.8, 0.2, 0.15, 1, 0.95, 0.75, 0.25, 1, 0.65, 0.32, 0.12, 1)
+
+[node name="FallingLeaves" type="CPUParticles3D"]
+amount = 70
+lifetime = 7.0
+preprocess = 7.0
+local_coords = false
+mesh = SubResource("QuadMesh_leaf")
+emission_shape = 3
+emission_box_extents = Vector3(22, 1, 18)
+direction = Vector3(1, 0, 0.3)
+spread = 35.0
+gravity = Vector3(0, -1.1, 0)
+initial_velocity_min = 0.6
+initial_velocity_max = 1.6
+angular_velocity_min = -160.0
+angular_velocity_max = 160.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.7
+scale_amount_max = 1.3
+color_initial_ramp = SubResource("Gradient_leaves")
+script = ExtResource("1_leaves")

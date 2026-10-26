@@ -1,0 +1,2313 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/track/track.gd" id="1_track"]
+[ext_resource type="Material" path="res://assets/materials/halloween_road.tres" id="2_road"]
+[ext_resource type="Material" path="res://assets/materials/halloween_wall.tres" id="3_wall"]
+[ext_resource type="Texture2D" path="res://assets/textures/halloween/ground.png" id="4_ground"]
+[ext_resource type="Material" path="res://assets/materials/checker.tres" id="5_checker"]
+[ext_resource type="PackedScene" path="res://scenes/props/start_gate.tscn" id="6_gate"]
+[ext_resource type="AudioStream" path="res://assets/music/halloween.ogg" id="7_music"]
+[ext_resource type="PackedScene" path="res://scenes/objects/boost_pad.tscn" id="8_aibn0"]
+[ext_resource type="PackedScene" path="res://scenes/fx/falling_leaves.tscn" id="8_leaves"]
+[ext_resource type="Material" path="res://assets/materials/leaf_particle.tres" id="9_d46c6"]
+[ext_resource type="Script" path="res://scripts/objects/boost_pad.gd" id="10_uvjv7"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-plusspeed-000.png" id="11_j0jcr"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-plusspeed-001.png" id="12_5r6g6"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-plusspeed-002.png" id="13_ve1jx"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-superspeed-000.png" id="14_uc8ld"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-superspeed-001.png" id="15_64di5"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-superspeed-002.png" id="16_6yrlm"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-maxspeed-000.png" id="17_sx0wo"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-maxspeed-001.png" id="18_mai8m"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/boostpad-maxspeed-002.png" id="19_wsxv5"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/boostpad.wav" id="20_gdscl"]
+[ext_resource type="Material" path="res://assets/materials/halloween_ground.tres" id="20_hills"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/bassjump.wav" id="21_sf4y4"]
+[ext_resource type="PackedScene" path="res://scenes/props/pumpkin.tscn" id="21_ve1jx"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/ghost.tscn" id="22_uc8ld"]
+[ext_resource type="Script" path="res://scripts/hazards/ghost.gd" id="24_463d8"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/bassbubble.wav" id="25_uhi16"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stockpain.wav" id="26_bewyd"]
+[ext_resource type="PackedScene" path="res://scenes/hazards/pumpkin_parry.tscn" id="26_mai8m"]
+[ext_resource type="PackedScene" path="res://scenes/props/tombstone.tscn" id="27_637yu"]
+[ext_resource type="Script" path="res://scripts/hazards/parry_hazard.gd" id="29_3j066"]
+[ext_resource type="PackedScene" path="res://scenes/props/ramp.tscn" id="29_sf4y4"]
+[ext_resource type="PackedScene" path="res://scenes/decor/autumn_tree.tscn" id="30_463d8"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/stocksplat.wav" id="30_p7dov"]
+[ext_resource type="PackedScene" path="res://scenes/objects/map_zone.tscn" id="32_6u245"]
+[ext_resource type="PackedScene" path="res://scenes/decor/grave.tscn" id="32_bewyd"]
+[ext_resource type="Script" path="res://scripts/objects/map_zone.gd" id="33_17fm8"]
+[ext_resource type="Shader" path="res://assets/shaders/mud.gdshader" id="33_j0jcr"]
+[ext_resource type="PackedScene" path="res://scenes/decor/pumpkin_lamp.tscn" id="34_3j066"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/conveyor.png" id="34_055bn"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/aquaslider.png" id="35_y3cyt"]
+[ext_resource type="Texture2D" path="res://assets/original/textures/objects/ice-000.png" id="36_fm3h8"]
+[ext_resource type="Texture2D" path="res://assets/textures/halloween/mud.png" id="37_pt6u2"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/conveyor.wav" id="38_5ettt"]
+[ext_resource type="AudioStream" path="res://assets/original/sounds/aquasliderriver.wav" id="39_lcuj3"]
+[ext_resource type="Script" path="res://scripts/decor/autumn_tree.gd" id="41_lddsg"]
+[ext_resource type="Script" path="res://scripts/decor/grave.gd" id="43_p4r8u"]
+[ext_resource type="Script" path="res://scripts/fx/falling_leaves.gd" id="47_txaj7"]
+
+[sub_resource type="Curve3D" id="Curve3D_j0jcr"]
+closed = true
+bake_interval = 0.5
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -90, 0, 0, 0, 0, 0, 0, 52, 4, -90, 0, 0, 0, 0, 0, 0, 82, 9, -60, 0, 0, 0, 0, 0, 0, 82, 9, -15, 0, 0, 0, 0, 0, 0, 60, 7, 15, 0, 0, 0, 0, 0, 0, 60, 5, 45, 0, 0, 0, 0, 0, 0, 90, 1, 75, 0, 0, 0, 0, 0, 0, 100, 0, 115, 0, 0, 0, 0, 0, 0, -30, 0, 135, 0, 0, 0, 0, 0, 0, -30, 0, 52, 0, 0, 0, 0, 0, 0, 0, 0, 30),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 12
+
+[sub_resource type="QuadMesh" id="QuadMesh_leaf"]
+material = ExtResource("9_d46c6")
+size = Vector2(0.45, 0.45)
+
+[sub_resource type="Gradient" id="Gradient_leaves"]
+offsets = PackedFloat32Array(0, 0.33, 0.66, 1)
+colors = PackedColorArray(0.95, 0.48, 0.12, 1, 0.8, 0.2, 0.15, 1, 0.95, 0.75, 0.25, 1, 0.65, 0.32, 0.12, 1)
+
+[node name="Halloween" type="Node3D" unique_id=1209232718]
+script = ExtResource("1_track")
+background_texture = ExtResource("4_ground")
+background_tile_size = 8.0
+surround_width = 16.0
+surround_style = 1
+haze_color = Color(0.08, 0.06, 0.16, 1)
+sun_color = Color(0.66, 0.68, 0.9, 1)
+sun_energy = 0.5
+ambient_color = Color(0.44, 0.42, 0.58, 1)
+ambient_energy = 0.6
+haze_begin = 40.0
+haze_end = 170.0
+surround_material = ExtResource("20_hills")
+background_depth = 1.0
+portal_gaps = PackedInt32Array()
+segment_widths = PackedFloat32Array(0, 0, 0, 0, 0, 0, 9, 9, 0, 0, 0, 0)
+road_material = ExtResource("2_road")
+wall_material = ExtResource("3_wall")
+start_line_material = ExtResource("5_checker")
+start_gate_scene = ExtResource("6_gate")
+music = ExtResource("7_music")
+
+[node name="Path" type="Path3D" parent="." unique_id=1803871258]
+curve = SubResource("Curve3D_j0jcr")
+
+[node name="Props" type="Node3D" parent="." unique_id=1833487639]
+
+[node name="BoostPad1" type="Area3D" parent="Props" unique_id=1484019798 instance=ExtResource("8_aibn0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -14)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("10_uvjv7")
+plus_frames = Array[Texture2D]([ExtResource("11_j0jcr"), ExtResource("12_5r6g6"), ExtResource("13_ve1jx")])
+super_frames = Array[Texture2D]([ExtResource("14_uc8ld"), ExtResource("15_64di5"), ExtResource("16_6yrlm")])
+max_frames = Array[Texture2D]([ExtResource("17_sx0wo"), ExtResource("18_mai8m"), ExtResource("19_wsxv5")])
+enter_sound = ExtResource("20_gdscl")
+max_speed_sound = ExtResource("21_sf4y4")
+
+[node name="BoostPad2" type="Area3D" parent="Props" unique_id=776186646 instance=ExtResource("8_aibn0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -17)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("10_uvjv7")
+plus_frames = Array[Texture2D]([ExtResource("11_j0jcr"), ExtResource("12_5r6g6"), ExtResource("13_ve1jx")])
+super_frames = Array[Texture2D]([ExtResource("14_uc8ld"), ExtResource("15_64di5"), ExtResource("16_6yrlm")])
+max_frames = Array[Texture2D]([ExtResource("17_sx0wo"), ExtResource("18_mai8m"), ExtResource("19_wsxv5")])
+enter_sound = ExtResource("20_gdscl")
+max_speed_sound = ExtResource("21_sf4y4")
+
+[node name="BoostPad3" type="Area3D" parent="Props" unique_id=911167952 instance=ExtResource("8_aibn0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("10_uvjv7")
+plus_frames = Array[Texture2D]([ExtResource("11_j0jcr"), ExtResource("12_5r6g6"), ExtResource("13_ve1jx")])
+super_frames = Array[Texture2D]([ExtResource("14_uc8ld"), ExtResource("15_64di5"), ExtResource("16_6yrlm")])
+max_frames = Array[Texture2D]([ExtResource("17_sx0wo"), ExtResource("18_mai8m"), ExtResource("19_wsxv5")])
+enter_sound = ExtResource("20_gdscl")
+max_speed_sound = ExtResource("21_sf4y4")
+
+[node name="ItemBoxSpot1" type="Marker3D" parent="Props" unique_id=921949810 groups=["item_box_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -34)
+
+[node name="ItemBoxSpot2" type="Marker3D" parent="Props" unique_id=2000690453 groups=["item_box_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -34)
+
+[node name="ItemBoxSpot3" type="Marker3D" parent="Props" unique_id=1440964967 groups=["item_box_spots"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -34)
+
+[node name="Pumpkin1" type="StaticBody3D" parent="Props" unique_id=2105115830 instance=ExtResource("21_ve1jx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -48)
+
+[node name="Pumpkin2" type="StaticBody3D" parent="Props" unique_id=431716191 instance=ExtResource("21_ve1jx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, -58)
+
+[node name="Pumpkin3" type="StaticBody3D" parent="Props" unique_id=343908498 instance=ExtResource("21_ve1jx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, -68)
+
+[node name="Ghost1" type="Area3D" parent="Props" unique_id=937893124 instance=ExtResource("22_uc8ld")]
+transform = Transform3D(-4.3582638e-08, -0.07669646, -0.9970545, -3.352509e-09, 0.9970545, -0.07669646, 1, 0, -4.371139e-08, 26.21365, 2.0164347, -90)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("24_463d8")
+sweep = 4.4
+hit_sounds = Array[AudioStream]([ExtResource("25_uhi16"), ExtResource("26_bewyd")])
+
+[node name="Mud1" type="Area3D" parent="Props" unique_id=258569173 instance=ExtResource("32_6u245")]
+transform = Transform3D(-4.3582634e-08, -0.07669648, -0.99705446, -3.3525096e-09, 0.99705446, -0.07669648, 1, 0, -4.371139e-08, 32.195972, 2.4766133, -86.99999)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("33_17fm8")
+kind = 3
+size = Vector2(5.5, 10)
+conveyor_texture = ExtResource("34_055bn")
+slider_texture = ExtResource("35_y3cyt")
+ice_texture = ExtResource("36_fm3h8")
+mud_texture = ExtResource("37_pt6u2")
+mud_shader = ExtResource("33_j0jcr")
+conveyor_sound = ExtResource("38_5ettt")
+slider_sound = ExtResource("39_lcuj3")
+
+[node name="Ghost2" type="Area3D" parent="Props" unique_id=1490219372 instance=ExtResource("22_uc8ld")]
+transform = Transform3D(-4.3582634e-08, -0.0766965, -0.99705446, -3.3525105e-09, 0.99705446, -0.0766965, 1, 0, -4.371139e-08, 38.178303, 2.9367924, -90)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("24_463d8")
+sweep = 4.4
+hit_sounds = Array[AudioStream]([ExtResource("25_uhi16"), ExtResource("26_bewyd")])
+
+[node name="Tombstone1" type="StaticBody3D" parent="Props" unique_id=1259778109 instance=ExtResource("27_637yu")]
+transform = Transform3D(-0.70710677, -0.08276048, -0.70224684, 0, 0.9931271, -0.117041, 0.70710677, -0.08276048, -0.70224684, 58.01374, 5.00229, -83.98627)
+
+[node name="Pumpkin4" type="StaticBody3D" parent="Props" unique_id=1561870475 instance=ExtResource("21_ve1jx")]
+transform = Transform3D(-0.70710677, -0.082760595, -0.70224684, 0, 0.99312705, -0.117041156, 0.70710677, -0.082760595, -0.70224684, 70.67362, 6.640866, -76.98323)
+
+[node name="Pumpkin5" type="StaticBody3D" parent="Props" unique_id=2018571743 instance=ExtResource("21_ve1jx")]
+transform = Transform3D(-0.70710677, -0.082760595, -0.70224684, 0, 0.99312705, -0.117041156, 0.70710677, -0.082760595, -0.70224684, 65.01676, 6.640866, -71.32637)
+
+[node name="BoostPad4" type="Area3D" parent="Props" unique_id=1048187353 instance=ExtResource("8_aibn0")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 82, 9, -49.713577)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("10_uvjv7")
+kind = 1
+plus_frames = Array[Texture2D]([ExtResource("11_j0jcr"), ExtResource("12_5r6g6"), ExtResource("13_ve1jx")])
+super_frames = Array[Texture2D]([ExtResource("14_uc8ld"), ExtResource("15_64di5"), ExtResource("16_6yrlm")])
+max_frames = Array[Texture2D]([ExtResource("17_sx0wo"), ExtResource("18_mai8m"), ExtResource("19_wsxv5")])
+enter_sound = ExtResource("20_gdscl")
+max_speed_sound = ExtResource("21_sf4y4")
+
+[node name="BoostPad5" type="Area3D" parent="Props" unique_id=11866327 instance=ExtResource("8_aibn0")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 82, 9, -46.713577)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("10_uvjv7")
+kind = 1
+plus_frames = Array[Texture2D]([ExtResource("11_j0jcr"), ExtResource("12_5r6g6"), ExtResource("13_ve1jx")])
+super_frames = Array[Texture2D]([ExtResource("14_uc8ld"), ExtResource("15_64di5"), ExtResource("16_6yrlm")])
+max_frames = Array[Texture2D]([ExtResource("17_sx0wo"), ExtResource("18_mai8m"), ExtResource("19_wsxv5")])
+enter_sound = ExtResource("20_gdscl")
+max_speed_sound = ExtResource("21_sf4y4")
+
+[node name="PumpkinParry1" type="Area3D" parent="Props" unique_id=800876719 instance=ExtResource("26_mai8m")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 84.5, 9, -31.713581)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("29_3j066")
+hit_sounds = Array[AudioStream]([ExtResource("30_p7dov"), ExtResource("26_bewyd")])
+
+[node name="ItemBoxSpot4" type="Marker3D" parent="Props" unique_id=580049928 groups=["item_box_spots"]]
+transform = Transform3D(-0.8064045, -0.03174611, 0.5905117, 7.450581e-09, 0.99855804, 0.053682834, -0.5913644, 0.043290082, -0.8052417, 77.24849, 8.274806, -1.7566402)
+
+[node name="ItemBoxSpot5" type="Marker3D" parent="Props" unique_id=892044898 groups=["item_box_spots"]]
+transform = Transform3D(-0.8064045, -0.03174611, 0.5905117, 7.450581e-09, 0.99855804, 0.053682834, -0.5913644, 0.043290082, -0.8052417, 74.02287, 8.274806, -4.1220975)
+
+[node name="ItemBoxSpot6" type="Marker3D" parent="Props" unique_id=1115971028 groups=["item_box_spots"]]
+transform = Transform3D(-0.8064045, -0.03174611, 0.5905117, 7.450581e-09, 0.99855804, 0.053682834, -0.5913644, 0.043290082, -0.8052417, 70.79726, 8.274806, -6.4875546)
+
+[node name="Ghost3" type="Area3D" parent="Props" unique_id=840340862 instance=ExtResource("22_uc8ld")]
+transform = Transform3D(-0.80640435, -0.031745993, 0.59051186, 0, 0.99855804, 0.053682614, -0.59136456, 0.043289892, -0.8052416, 65.755714, 7.5232463, 7.1512985)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("24_463d8")
+sweep = 4.4
+hit_sounds = Array[AudioStream]([ExtResource("25_uhi16"), ExtResource("26_bewyd")])
+
+[node name="Mud2" type="Area3D" parent="Props" unique_id=1989185788 instance=ExtResource("32_6u245")]
+transform = Transform3D(-1, 0, 8.742278e-08, 5.8152665e-09, 0.99778515, 0.066518895, -8.722915e-08, 0.066518895, -0.99778515, 63, 5.9708066, 30.437904)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("33_17fm8")
+kind = 3
+size = Vector2(5.5, 9)
+conveyor_texture = ExtResource("34_055bn")
+slider_texture = ExtResource("35_y3cyt")
+ice_texture = ExtResource("36_fm3h8")
+mud_texture = ExtResource("37_pt6u2")
+mud_shader = ExtResource("33_j0jcr")
+conveyor_sound = ExtResource("38_5ettt")
+slider_sound = ExtResource("39_lcuj3")
+
+[node name="Pumpkin6" type="StaticBody3D" parent="Props" unique_id=24320292 instance=ExtResource("21_ve1jx")]
+transform = Transform3D(-1, 0, 8.742278e-08, 5.8152807e-09, 0.99778515, 0.06651906, -8.722915e-08, 0.06651906, -0.99778515, 56.5, 6.1038427, 28.44235)
+
+[node name="Ghost4" type="Area3D" parent="Props" unique_id=2029367017 instance=ExtResource("22_uc8ld")]
+transform = Transform3D(-0.70710677, 0.06637214, -0.7039849, -1.2665987e-07, 0.99558496, 0.09386451, 0.70710677, 0.06637232, -0.7039849, 66.2182, 4.1709075, 51.218193)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("24_463d8")
+sweep = 2.9
+hit_sounds = Array[AudioStream]([ExtResource("25_uhi16"), ExtResource("26_bewyd")])
+
+[node name="Tombstone2" type="StaticBody3D" parent="Props" unique_id=1874133151 instance=ExtResource("27_637yu")]
+transform = Transform3D(-0.70710677, 0.06637214, -0.7039849, -1.2665987e-07, 0.99558496, 0.09386451, 0.70710677, 0.06637232, -0.7039849, 70.7863, 3.3261237, 59.321835)
+
+[node name="PumpkinParry2" type="Area3D" parent="Props" unique_id=313637410 instance=ExtResource("26_mai8m")]
+transform = Transform3D(-0.70710677, 0.066372514, -0.7039849, 1.3411045e-07, 0.99558496, 0.093864776, 0.70710677, 0.06637233, -0.7039849, 79.59704, 2.4813416, 63.182827)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("29_3j066")
+hit_sounds = Array[AudioStream]([ExtResource("30_p7dov"), ExtResource("26_bewyd")])
+
+[node name="Tombstone3" type="StaticBody3D" parent="Props" unique_id=2093815806 instance=ExtResource("27_637yu")]
+transform = Transform3D(-0.7071068, 0.06637262, -0.70398486, 0, 0.9955849, 0.09386505, 0.7071068, 0.06637262, -0.70398486, 86.99355, 1.6365615, 68.458015)
+
+[node name="Ghost5" type="Area3D" parent="Props" unique_id=603282112 instance=ExtResource("22_uc8ld")]
+transform = Transform3D(-0.95645934, 0.009198197, -0.2917207, 9.313226e-10, 0.99950325, 0.031515174, 0.29186565, 0.030142982, -0.95598423, 90.56143, 0.9443293, 77.28836)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("24_463d8")
+sweep = 2.9
+hit_sounds = Array[AudioStream]([ExtResource("25_uhi16"), ExtResource("26_bewyd")])
+
+[node name="Tombstone4" type="StaticBody3D" parent="Props" unique_id=778988028 instance=ExtResource("27_637yu")]
+transform = Transform3D(-0.97014254, 0.005880619, -0.24246424, 1.8626451e-09, 0.99970603, 0.024246413, 0.24253556, 0.023522476, -0.9698574, 90.32823, 0.7246408, 86.62071)
+
+[node name="ItemBoxSpot7" type="Marker3D" parent="Props" unique_id=208695494 groups=["item_box_spots"]]
+transform = Transform3D(-0.97014254, 0.0058806334, -0.24246424, 1.8626451e-09, 0.99970603, 0.024246473, 0.24253556, 0.023522533, -0.9698574, 98.33113, 0.4579303, 95.955185)
+
+[node name="ItemBoxSpot8" type="Marker3D" parent="Props" unique_id=396393752 groups=["item_box_spots"]]
+transform = Transform3D(-0.97014254, 0.0058806334, -0.24246424, 1.8626451e-09, 0.99970603, 0.024246473, 0.24253556, 0.023522533, -0.9698574, 95.4207, 0.4579303, 96.68279)
+
+[node name="ItemBoxSpot9" type="Marker3D" parent="Props" unique_id=95995681 groups=["item_box_spots"]]
+transform = Transform3D(-0.97014254, 0.0058806334, -0.24246424, 1.8626451e-09, 0.99970603, 0.024246473, 0.24253556, 0.023522533, -0.9698574, 92.51027, 0.4579303, 97.4104)
+
+[node name="BoostPad6" type="Area3D" parent="Props" unique_id=184748234 instance=ExtResource("8_aibn0")]
+transform = Transform3D(-0.1520586, 0, 0.9883715, 0, 1, 0, -0.9883715, 0, -0.1520586, 77.84416, 0, 118.40859)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("10_uvjv7")
+plus_frames = Array[Texture2D]([ExtResource("11_j0jcr"), ExtResource("12_5r6g6"), ExtResource("13_ve1jx")])
+super_frames = Array[Texture2D]([ExtResource("14_uc8ld"), ExtResource("15_64di5"), ExtResource("16_6yrlm")])
+max_frames = Array[Texture2D]([ExtResource("17_sx0wo"), ExtResource("18_mai8m"), ExtResource("19_wsxv5")])
+enter_sound = ExtResource("20_gdscl")
+max_speed_sound = ExtResource("21_sf4y4")
+
+[node name="BoostPad7" type="Area3D" parent="Props" unique_id=1551557878 instance=ExtResource("8_aibn0")]
+transform = Transform3D(-0.15205435, 0, 0.98837215, 0, 1, 0, -0.98837215, 0, -0.15205435, 74.879036, 0, 118.86476)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("10_uvjv7")
+plus_frames = Array[Texture2D]([ExtResource("11_j0jcr"), ExtResource("12_5r6g6"), ExtResource("13_ve1jx")])
+super_frames = Array[Texture2D]([ExtResource("14_uc8ld"), ExtResource("15_64di5"), ExtResource("16_6yrlm")])
+max_frames = Array[Texture2D]([ExtResource("17_sx0wo"), ExtResource("18_mai8m"), ExtResource("19_wsxv5")])
+enter_sound = ExtResource("20_gdscl")
+max_speed_sound = ExtResource("21_sf4y4")
+
+[node name="Ramp1" type="StaticBody3D" parent="Props" unique_id=1673685406 groups=["ramps"] instance=ExtResource("29_sf4y4")]
+transform = Transform3D(-0.15205318, 0, 0.9883723, 0, 1, 0, -0.9883723, 0, -0.15205318, 52.14649, 0, 122.362076)
+
+[node name="PumpkinParry3" type="Area3D" parent="Props" unique_id=1368195843 instance=ExtResource("26_mai8m")]
+transform = Transform3D(-0.15205435, 0, 0.98837215, 0, 1, 0, -0.98837215, 0, -0.15205435, 39.905888, 0, 128.2923)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("29_3j066")
+hit_sounds = Array[AudioStream]([ExtResource("30_p7dov"), ExtResource("26_bewyd")])
+
+[node name="PumpkinParry4" type="Area3D" parent="Props" unique_id=733212264 instance=ExtResource("26_mai8m")]
+transform = Transform3D(-0.15205435, 0, 0.98837215, 0, 1, 0, -0.98837215, 0, -0.15205435, 39.29767, 0, 124.338806)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("29_3j066")
+hit_sounds = Array[AudioStream]([ExtResource("30_p7dov"), ExtResource("26_bewyd")])
+
+[node name="PumpkinParry5" type="Area3D" parent="Props" unique_id=1413721688 instance=ExtResource("26_mai8m")]
+transform = Transform3D(-0.15205435, 0, 0.98837215, 0, 1, 0, -0.98837215, 0, -0.15205435, 38.68945, 0, 120.385315)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("29_3j066")
+hit_sounds = Array[AudioStream]([ExtResource("30_p7dov"), ExtResource("26_bewyd")])
+
+[node name="Ghost6" type="Area3D" parent="Props" unique_id=1457205467 instance=ExtResource("22_uc8ld")]
+transform = Transform3D(-0.15206036, 0, 0.9883712, 0, 1, 0, -0.9883712, 0, -0.15206036, 18.541855, 0, 127.53203)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("24_463d8")
+sweep = 4.4
+hit_sounds = Array[AudioStream]([ExtResource("25_uhi16"), ExtResource("26_bewyd")])
+
+[node name="Mud3" type="Area3D" parent="Props" unique_id=1815718405 instance=ExtResource("32_6u245")]
+transform = Transform3D(-0.15206271, 0, 0.98837084, 0, 1, 0, -0.98837084, 0, -0.15206271, 14.132219, 0, 131.7516)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("33_17fm8")
+kind = 3
+size = Vector2(5, 12)
+conveyor_texture = ExtResource("34_055bn")
+slider_texture = ExtResource("35_y3cyt")
+ice_texture = ExtResource("36_fm3h8")
+mud_texture = ExtResource("37_pt6u2")
+mud_shader = ExtResource("33_j0jcr")
+conveyor_sound = ExtResource("38_5ettt")
+slider_sound = ExtResource("39_lcuj3")
+
+[node name="Ghost7" type="Area3D" parent="Props" unique_id=1989648731 instance=ExtResource("22_uc8ld")]
+transform = Transform3D(-0.15206107, 0, 0.9883711, 0, 1, 0, -0.9883711, 0, -0.15206107, 8.658135, 0, 129.0526)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("24_463d8")
+sweep = 4.4
+hit_sounds = Array[AudioStream]([ExtResource("25_uhi16"), ExtResource("26_bewyd")])
+
+[node name="ItemBoxSpot10" type="Marker3D" parent="Props" unique_id=441062491 groups=["item_box_spots"]]
+transform = Transform3D(-0.15206107, 0, 0.9883711, 0, 1, 0, -0.9883711, 0, -0.15206107, -3.5824475, 0, 134.98282)
+
+[node name="ItemBoxSpot11" type="Marker3D" parent="Props" unique_id=732909811 groups=["item_box_spots"]]
+transform = Transform3D(-0.15206107, 0, 0.9883711, 0, 1, 0, -0.9883711, 0, -0.15206107, -4.190692, 0, 131.02933)
+
+[node name="ItemBoxSpot12" type="Marker3D" parent="Props" unique_id=1136613881 groups=["item_box_spots"]]
+transform = Transform3D(-0.15206107, 0, 0.9883711, 0, 1, 0, -0.9883711, 0, -0.15206107, -4.7989364, 0, 127.07584)
+
+[node name="Mud4" type="Area3D" parent="Props" unique_id=2051560257 instance=ExtResource("32_6u245")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 98.038895)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("33_17fm8")
+kind = 3
+size = Vector2(12, 26)
+conveyor_texture = ExtResource("34_055bn")
+slider_texture = ExtResource("35_y3cyt")
+ice_texture = ExtResource("36_fm3h8")
+mud_texture = ExtResource("37_pt6u2")
+mud_shader = ExtResource("33_j0jcr")
+conveyor_sound = ExtResource("38_5ettt")
+slider_sound = ExtResource("39_lcuj3")
+
+[node name="Tombstone5" type="StaticBody3D" parent="Props" unique_id=768343450 instance=ExtResource("27_637yu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.999998, 0, 107.03888)
+
+[node name="Tombstone6" type="StaticBody3D" parent="Props" unique_id=1942067308 instance=ExtResource("27_637yu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 98.038895)
+
+[node name="Tombstone7" type="StaticBody3D" parent="Props" unique_id=810645614 instance=ExtResource("27_637yu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27, 0, 89.03888)
+
+[node name="BoostPad8" type="Area3D" parent="Props" unique_id=915394217 instance=ExtResource("8_aibn0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 76.03889)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("10_uvjv7")
+plus_frames = Array[Texture2D]([ExtResource("11_j0jcr"), ExtResource("12_5r6g6"), ExtResource("13_ve1jx")])
+super_frames = Array[Texture2D]([ExtResource("14_uc8ld"), ExtResource("15_64di5"), ExtResource("16_6yrlm")])
+max_frames = Array[Texture2D]([ExtResource("17_sx0wo"), ExtResource("18_mai8m"), ExtResource("19_wsxv5")])
+enter_sound = ExtResource("20_gdscl")
+max_speed_sound = ExtResource("21_sf4y4")
+
+[node name="BoostPad9" type="Area3D" parent="Props" unique_id=238590346 instance=ExtResource("8_aibn0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 73.03887)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("10_uvjv7")
+plus_frames = Array[Texture2D]([ExtResource("11_j0jcr"), ExtResource("12_5r6g6"), ExtResource("13_ve1jx")])
+super_frames = Array[Texture2D]([ExtResource("14_uc8ld"), ExtResource("15_64di5"), ExtResource("16_6yrlm")])
+max_frames = Array[Texture2D]([ExtResource("17_sx0wo"), ExtResource("18_mai8m"), ExtResource("19_wsxv5")])
+enter_sound = ExtResource("20_gdscl")
+max_speed_sound = ExtResource("21_sf4y4")
+
+[node name="Ghost8" type="Area3D" parent="Props" unique_id=1773431424 instance=ExtResource("22_uc8ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 62.038883)
+collision_layer = 4
+collision_mask = 2
+monitorable = false
+script = ExtResource("24_463d8")
+sweep = 4.4
+hit_sounds = Array[AudioStream]([ExtResource("25_uhi16"), ExtResource("26_bewyd")])
+
+[node name="Mud5" type="Area3D" parent="Props" unique_id=544369729 instance=ExtResource("32_6u245")]
+transform = Transform3D(0.5913632, 0, -0.8064053, 0, 1, 0, 0.8064053, 0, 0.5913632, -21.358805, 0, 45.663124)
+collision_layer = 8
+collision_mask = 2
+monitorable = false
+script = ExtResource("33_17fm8")
+kind = 3
+size = Vector2(6, 8)
+conveyor_texture = ExtResource("34_055bn")
+slider_texture = ExtResource("35_y3cyt")
+ice_texture = ExtResource("36_fm3h8")
+mud_texture = ExtResource("37_pt6u2")
+mud_shader = ExtResource("33_j0jcr")
+conveyor_sound = ExtResource("38_5ettt")
+slider_sound = ExtResource("39_lcuj3")
+
+[node name="ItemBoxSpot13" type="Marker3D" parent="Props" unique_id=1826104652 groups=["item_box_spots"]]
+transform = Transform3D(0.5913632, 0, -0.8064053, 0, 1, 0, 0.8064053, 0, 0.5913632, -14.047401, 0, 35.34114)
+
+[node name="ItemBoxSpot14" type="Marker3D" parent="Props" unique_id=1769171135 groups=["item_box_spots"]]
+transform = Transform3D(0.5913632, 0, -0.8064053, 0, 1, 0, 0.8064053, 0, 0.5913632, -11.681949, 0, 38.56676)
+
+[node name="ItemBoxSpot15" type="Marker3D" parent="Props" unique_id=1345681119 groups=["item_box_spots"]]
+transform = Transform3D(0.5913632, 0, -0.8064053, 0, 1, 0, 0.8064053, 0, 0.5913632, -9.316496, 0, 41.79238)
+
+[node name="Decor" type="Node3D" parent="." unique_id=576982204]
+
+[node name="Tree1" type="Node3D" parent="Decor" unique_id=597500572 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 13.124742, 0, 0.3865463)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree2" type="Node3D" parent="Decor" unique_id=839396402 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 14.117877, 0, -10.469959)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree3" type="Node3D" parent="Decor" unique_id=1070916650 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 15.163046, 0, -23.39711)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree4" type="Node3D" parent="Decor" unique_id=1807762149 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 15.826157, 0, -30.866312)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree5" type="Node3D" parent="Decor" unique_id=138142664 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 15.990084, 0, -46.67098)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree6" type="Node3D" parent="Decor" unique_id=1078149128 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 15.6258745, 0, -52.0412)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree7" type="Node3D" parent="Decor" unique_id=1446933807 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 14.797858, 0, -68.97027)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree8" type="Node3D" parent="Decor" unique_id=924256196 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 13.652287, 0, -74.295685)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree9" type="Node3D" parent="Decor" unique_id=1170670863 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.42741385, 0, -0.6893441, 0, 0.91099244, 0, 0.6893441, 0, 0.42741385, 11.911072, 0.3646128, -76.94763)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree10" type="Node3D" parent="Decor" unique_id=2027883188 instance=ExtResource("30_463d8")]
+transform = Transform3D(-3.5454164e-08, 0, -0.8110967, 0, 0.91099244, 0, 0.8110967, 0, -3.5454164e-08, 11.793159, 0.9071661, -75.2382)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree11" type="Node3D" parent="Decor" unique_id=414951863 instance=ExtResource("30_463d8")]
+transform = Transform3D(3.0586343e-06, 0, -0.8110967, 0, 0.91099244, 0, 0.8110967, 0, 3.0586343e-06, 24.821566, 1.9093466, -74.39607)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree12" type="Node3D" parent="Decor" unique_id=1186318899 instance=ExtResource("30_463d8")]
+transform = Transform3D(-3.5454164e-08, 0, -0.8110967, 0, 0.91099244, 0, 0.8110967, 0, -3.5454164e-08, 35.498203, 2.730631, -74.013885)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree13" type="Node3D" parent="Decor" unique_id=1115723228 instance=ExtResource("30_463d8")]
+transform = Transform3D(-3.5454164e-08, 0, -0.8110967, 0, 0.91099244, 0, 0.8110967, 0, -3.5454164e-08, 44.959698, 3.4584382, -74.159134)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree14" type="Node3D" parent="Decor" unique_id=1629203363 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5735335, 0, -0.5735305, 0, 0.91099244, 0, 0.5735305, 0, -0.5735335, 46.54899, 4.8821135, -73.96368)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree15" type="Node3D" parent="Decor" unique_id=1082089528 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5735328, 0, -0.57353115, 0, 0.91099244, 0, 0.57353115, 0, -0.5735328, 51.819294, 5.638575, -70.15642)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree16" type="Node3D" parent="Decor" unique_id=1626556897 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.573532, 0, -0.573532, 0, 0.91099244, 0, 0.573532, 0, -0.573532, 64.15417, 7.5671844, -59.347954)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree17" type="Node3D" parent="Decor" unique_id=86628923 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5735335, 0, -0.5735305, 0, 0.91099244, 0, 0.5735305, 0, -0.5735335, 66.8639, 8.163199, -54.905567)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree18" type="Node3D" parent="Decor" unique_id=2050122671 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 6.1172686e-06, 0, 0.91099244, 0, -6.1172686e-06, 0, -0.8110967, 66.70021, 9, -49.921387)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree19" type="Node3D" parent="Decor" unique_id=1356994688 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 66.111786, 9, -44.04422)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree20" type="Node3D" parent="Decor" unique_id=672362050 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 66.0335, 9, -29.062298)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree21" type="Node3D" parent="Decor" unique_id=1153616586 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 66.47919, 9, -20.531288)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree22" type="Node3D" parent="Decor" unique_id=1011078916 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.6540702, 0, 0.4796562, 0, 0.91099244, 0, -0.4796562, 0, -0.6540702, 66.413345, 8.655539, -18.484703)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree23" type="Node3D" parent="Decor" unique_id=1456043520 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.6540707, 0, 0.47965556, 0, 0.91099244, 0, -0.47965556, 0, -0.6540707, 60.227127, 8.006737, -8.055557)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree24" type="Node3D" parent="Decor" unique_id=736724048 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.6540727, 0, 0.47965276, 0, 0.91099244, 0, -0.47965276, 0, -0.6540727, 55.094997, 7.566307, -1.6598191)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree25" type="Node3D" parent="Decor" unique_id=127775167 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 45.07669, 6.673091, 19.903637)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree26" type="Node3D" parent="Decor" unique_id=965239308 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 44.30053, 6.293719, 25.59422)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree27" type="Node3D" parent="Decor" unique_id=443671980 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.80150515, 0, -0.12436795, 0, 0.91099244, 0, 0.12436795, 0, -0.80150515, 44.30884, 5.1651206, 44.857857)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree28" type="Node3D" parent="Decor" unique_id=474578497 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.63643247, 0, -0.5028236, 0, 0.91099244, 0, 0.5028236, 0, -0.63643247, 49.767857, 4.721181, 56.816948)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree29" type="Node3D" parent="Decor" unique_id=1953348288 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5735343, 0, -0.57352966, 0, 0.91099244, 0, 0.57352966, 0, -0.5735343, 62.94253, 3.1888065, 69.22528)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree30" type="Node3D" parent="Decor" unique_id=1820319871 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.573532, 0, -0.573532, 0, 0.91099244, 0, 0.573532, 0, -0.573532, 68.42841, 2.559305, 73.182014)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree31" type="Node3D" parent="Decor" unique_id=1865665184 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5886665, 0, -0.55798715, 0, 0.91099244, 0, 0.55798715, 0, -0.5886665, 78.419205, 1.2586069, 82.200165)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree32" type="Node3D" parent="Decor" unique_id=50022758 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.78687924, 0, -0.19672054, 0, 0.91099244, 0, 0.19672054, 0, -0.78687924, 77.69888, 0.8247295, 85.524284)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree33" type="Node3D" parent="Decor" unique_id=1285363156 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7868796, 0, -0.19671904, 0, 0.91099244, 0, 0.19671904, 0, -0.7868796, 79.295685, 0.57390666, 95.78503)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree34" type="Node3D" parent="Decor" unique_id=1356923343 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.6985975, 0, 0.4121158, 0, 0.91099244, 0, -0.4121158, 0, -0.6985975, 82.53517, 0.08945781, 103.7667)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree35" type="Node3D" parent="Decor" unique_id=1361588819 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333681, 0, 0.8016645, 0, 0.91099244, 0, -0.8016645, 0, -0.12333681, 79.673676, 0, 102.54189)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree36" type="Node3D" parent="Decor" unique_id=573849959 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333241, 0, 0.8016652, 0, 0.91099244, 0, -0.8016652, 0, -0.12333241, 74.64858, 0, 104.27586)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree37" type="Node3D" parent="Decor" unique_id=1916551027 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333079, 0, 0.8016654, 0, 0.91099244, 0, -0.8016654, 0, -0.12333079, 58.115437, 0, 108.040184)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree38" type="Node3D" parent="Decor" unique_id=852014867 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333165, 0, 0.80166525, 0, 0.91099244, 0, -0.80166525, 0, -0.12333165, 52.56926, 0, 108.12968)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree39" type="Node3D" parent="Decor" unique_id=657621876 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333098, 0, 0.80166537, 0, 0.91099244, 0, -0.80166537, 0, -0.12333098, 37.005295, 0, 109.438255)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree40" type="Node3D" parent="Decor" unique_id=281428744 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333059, 0, 0.8016654, 0, 0.91099244, 0, -0.8016654, 0, -0.12333059, 29.219496, 0, 109.92118)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree41" type="Node3D" parent="Decor" unique_id=1731256651 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.123333186, 0, 0.801665, 0, 0.91099244, 0, -0.801665, 0, -0.123333186, 16.754198, 0, 111.621254)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree42" type="Node3D" parent="Decor" unique_id=1178735144 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.123331174, 0, 0.80166537, 0, 0.91099244, 0, -0.80166537, 0, -0.123331174, 5.711354, 0, 113.6382)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree43" type="Node3D" parent="Decor" unique_id=866044228 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333069, 0, 0.8016654, 0, 0.91099244, 0, -0.8016654, 0, -0.12333069, -3.0636892, 0, 115.78574)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree44" type="Node3D" parent="Decor" unique_id=1758646743 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.123337, 0, 0.8016645, 0, 0.91099244, 0, -0.8016645, 0, -0.123337, -17.316238, 0, 119.11463)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree45" type="Node3D" parent="Decor" unique_id=452408098 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -15.339395, 0, 121.07386)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree46" type="Node3D" parent="Decor" unique_id=710903232 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -14.459453, 0, 116.00337)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree47" type="Node3D" parent="Decor" unique_id=1550183290 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -14.028247, 0, 99.35179)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree48" type="Node3D" parent="Decor" unique_id=1875084369 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -14.121941, 0, 93.197556)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree49" type="Node3D" parent="Decor" unique_id=1276177058 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -14.723985, 0, 78.61024)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree50" type="Node3D" parent="Decor" unique_id=656965234 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -15.728041, 0, 69.60408)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree51" type="Node3D" parent="Decor" unique_id=1307950724 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -16.956762, 0, 58.389935)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree52" type="Node3D" parent="Decor" unique_id=746668788 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.4796526, 0, -0.6540728, 0, 0.91099244, 0, 0.6540728, 0, 0.4796526, -16.002068, 0, 59.33534)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree53" type="Node3D" parent="Decor" unique_id=1928741810 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.4796541, 0, -0.65407175, 0, 0.91099244, 0, 0.65407175, 0, 0.4796541, -9.135512, 0, 55.571705)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree54" type="Node3D" parent="Decor" unique_id=1103755844 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.47965342, 0, -0.6540722, 0, 0.91099244, 0, 0.6540722, 0, 0.47965342, 3.8081913, 0, 46.865517)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree55" type="Node3D" parent="Decor" unique_id=1455554058 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.6819554, 0, -0.4391068, 0, 0.91099244, 0, 0.4391068, 0, 0.6819554, 11.843397, 0, 39.000183)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree56" type="Node3D" parent="Decor" unique_id=1696546688 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 15.585478, 0, 13.74163)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree57" type="Node3D" parent="Decor" unique_id=1069653595 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 14.731928, 0, 8.509581)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree58" type="Node3D" parent="Decor" unique_id=2093744 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -13.124742, 0, -4.6134663)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree59" type="Node3D" parent="Decor" unique_id=1293677913 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -14.345327, 0, -17.267006)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree60" type="Node3D" parent="Decor" unique_id=1617852452 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -15.328288, 0, -24.970861)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree61" type="Node3D" parent="Decor" unique_id=1580094758 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -15.900004, 0, -40.60175)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree62" type="Node3D" parent="Decor" unique_id=1835088832 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -15.959494, 0, -46.06864)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree63" type="Node3D" parent="Decor" unique_id=1577620068 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -15.49625, 0, -62.98718)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree64" type="Node3D" parent="Decor" unique_id=697297986 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -14.592093, 0, -68.23601)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree65" type="Node3D" parent="Decor" unique_id=68492415 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.7381103, 0, -0.33626056, 0, 0.91099244, 0, 0.33626056, 0, 0.7381103, -11.299644, 0.06928301, -89.710434)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree66" type="Node3D" parent="Decor" unique_id=734091571 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.33894208, 0, -0.73688275, 0, 0.91099244, 0, 0.73688275, 0, 0.33894208, 0.029526234, 0.447491, -101.67392)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree67" type="Node3D" parent="Decor" unique_id=1656895678 instance=ExtResource("30_463d8")]
+transform = Transform3D(3.0586343e-06, 0, -0.8110967, 0, 0.91099244, 0, 0.8110967, 0, 3.0586343e-06, 18.9802, 1.4600197, -104.95747)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree68" type="Node3D" parent="Decor" unique_id=1535211713 instance=ExtResource("30_463d8")]
+transform = Transform3D(-3.5454164e-08, 0, -0.8110967, 0, 0.91099244, 0, 0.8110967, 0, -3.5454164e-08, 29.371555, 2.2593505, -105.718704)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree69" type="Node3D" parent="Decor" unique_id=222244898 instance=ExtResource("30_463d8")]
+transform = Transform3D(-3.5454164e-08, 0, -0.8110967, 0, 0.91099244, 0, 0.8110967, 0, -3.5454164e-08, 39.11145, 3.008573, -105.99974)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree70" type="Node3D" parent="Decor" unique_id=2088664290 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.3985678, 0, -0.70641464, 0, 0.91099244, 0, 0.70641464, 0, -0.3985678, 60.50553, 4.173951, -102.436005)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree71" type="Node3D" parent="Decor" unique_id=989579467 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5735328, 0, -0.57353115, 0, 0.91099244, 0, 0.57353115, 0, -0.5735328, 68.29112, 4.945504, -94.94504)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree72" type="Node3D" parent="Decor" unique_id=1772868653 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.573532, 0, -0.573532, 0, 0.91099244, 0, 0.573532, 0, -0.573532, 79.00981, 6.860511, -82.683685)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree73" type="Node3D" parent="Decor" unique_id=264617827 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.573532, 0, -0.573532, 0, 0.91099244, 0, 0.573532, 0, -0.573532, 82.18625, 7.460217, -78.663635)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree74" type="Node3D" parent="Decor" unique_id=1926358667 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.81077963, 0, -0.022678189, 0, 0.91099244, 0, 0.022678189, 0, -0.81077963, 96.51874, 8.999889, -56.27759)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree75" type="Node3D" parent="Decor" unique_id=562236450 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 97.4519, 9, -50.132893)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree76" type="Node3D" parent="Decor" unique_id=1387680562 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 97.94565, 9, -34.943027)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree77" type="Node3D" parent="Decor" unique_id=955533896 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 97.9191, 9, -26.670012)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree78" type="Node3D" parent="Decor" unique_id=694682492 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.75881976, 0, 0.28647944, 0, 0.91099244, 0, -0.28647944, 0, -0.75881976, 95.73808, 8.94111, -9.308401)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree79" type="Node3D" parent="Decor" unique_id=1436216178 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.65407294, 0, 0.47965246, 0, 0.91099244, 0, -0.47965246, 0, -0.65407294, 86.32305, 8.336248, 3.4807367)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree80" type="Node3D" parent="Decor" unique_id=1695760819 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.6540728, 0, 0.4796526, 0, 0.91099244, 0, -0.4796526, 0, -0.6540728, 80.349686, 7.8820605, 9.576891)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree81" type="Node3D" parent="Decor" unique_id=49105565 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.73217624, 0, 0.3489926, 0, 0.91099244, 0, -0.3489926, 0, -0.73217624, 73.649414, 7.068365, 20.017574)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree82" type="Node3D" parent="Decor" unique_id=578750554 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 75.10796, 6.689639, 19.655413)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree83" type="Node3D" parent="Decor" unique_id=2044552914 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 75.79888, 5.5719857, 36.42021)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree84" type="Node3D" parent="Decor" unique_id=1355429518 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8092391, 0, -0.054863572, 0, 0.91099244, 0, 0.054863572, 0, -0.8092391, 75.98098, 5.231333, 40.425873)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree85" type="Node3D" parent="Decor" unique_id=1110354223 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5735343, 0, -0.57352966, 0, 0.91099244, 0, 0.57352966, 0, -0.5735343, 80.49175, 3.7444854, 43.341053)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree86" type="Node3D" parent="Decor" unique_id=1427458906 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5735288, 0, -0.57353514, 0, 0.91099244, 0, 0.57353514, 0, -0.5735288, 84.50941, 3.1330884, 48.494156)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree87" type="Node3D" parent="Decor" unique_id=703689283 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.573532, 0, -0.573532, 0, 0.91099244, 0, 0.573532, 0, -0.573532, 93.63978, 1.809042, 59.224586)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree88" type="Node3D" parent="Decor" unique_id=308978969 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7426265, 0, -0.32616532, 0, 0.91099244, 0, 0.32616532, 0, -0.7426265, 102.51488, 0.99400556, 70.652954)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree89" type="Node3D" parent="Decor" unique_id=293745330 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7868789, 0, -0.19672203, 0, 0.91099244, 0, 0.19672203, 0, -0.7868789, 107.09922, 0.71596533, 82.79663)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree90" type="Node3D" parent="Decor" unique_id=974166452 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7868797, 0, -0.19671847, 0, 0.91099244, 0, 0.19671847, 0, -0.7868797, 111.12559, 0.39738017, 95.32997)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree91" type="Node3D" parent="Decor" unique_id=235701081 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8096699, 0, -0.048088655, 0, 0.91099244, 0, 0.048088655, 0, -0.8096699, 113.57369, 0.22048919, 105.25944)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree92" type="Node3D" parent="Decor" unique_id=347718155 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333079, 0, 0.8016654, 0, 0.91099244, 0, -0.8016654, 0, -0.12333079, 90.41588, 0, 132.52623)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree93" type="Node3D" parent="Decor" unique_id=1334852739 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333681, 0, 0.8016645, 0, 0.91099244, 0, -0.8016645, 0, -0.12333681, 85.08024, 0, 132.7213)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree94" type="Node3D" parent="Decor" unique_id=242059 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.123332895, 0, 0.80166507, 0, 0.91099244, 0, -0.80166507, 0, -0.123332895, 68.19504, 0, 134.29175)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree95" type="Node3D" parent="Decor" unique_id=272786621 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333661, 0, 0.8016645, 0, 0.91099244, 0, -0.8016645, 0, -0.12333661, 62.67577, 0, 133.8967)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree96" type="Node3D" parent="Decor" unique_id=1591611235 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333098, 0, 0.80166537, 0, 0.91099244, 0, -0.80166537, 0, -0.12333098, 47.28759, 0, 137.51114)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree97" type="Node3D" parent="Decor" unique_id=876554046 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333309, 0, 0.801665, 0, 0.91099244, 0, -0.801665, 0, -0.12333309, 39.997578, 0, 139.65918)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree98" type="Node3D" parent="Decor" unique_id=388830970 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.123333186, 0, 0.801665, 0, 0.91099244, 0, -0.801665, 0, -0.123333186, 27.387398, 0, 142.22383)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree99" type="Node3D" parent="Decor" unique_id=458967233 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333634, 0, 0.80166453, 0, 0.91099244, 0, -0.80166453, 0, -0.12333634, 16.597363, 0, 143.99632)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree100" type="Node3D" parent="Decor" unique_id=1254438202 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.1233304, 0, 0.8016655, 0, 0.91099244, 0, -0.8016655, 0, -0.1233304, 7.369981, 0, 144.99632)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree101" type="Node3D" parent="Decor" unique_id=731317743 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.123336144, 0, 0.8016646, 0, 0.91099244, 0, -0.8016646, 0, -0.123336144, -6.9552374, 0, 146.3227)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree102" type="Node3D" parent="Decor" unique_id=1627148507 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.123331174, 0, 0.80166537, 0, 0.91099244, 0, -0.80166537, 0, -0.123331174, -13.380224, 0, 146.1307)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree103" type="Node3D" parent="Decor" unique_id=1044219828 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.75453544, 0, 0.2975805, 0, 0.91099244, 0, -0.2975805, 0, 0.75453544, -42.08103, 0, 132.05032)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree104" type="Node3D" parent="Decor" unique_id=724467070 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -44.86246, 0, 122.02217)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree105" type="Node3D" parent="Decor" unique_id=1824103080 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -45.66433, 0, 105.29043)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree106" type="Node3D" parent="Decor" unique_id=187376418 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -45.995605, 0, 99.29582)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree107" type="Node3D" parent="Decor" unique_id=496285779 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -45.79776, 0, 84.48423)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree108" type="Node3D" parent="Decor" unique_id=1567528076 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -45.105755, 0, 75.74602)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree109" type="Node3D" parent="Decor" unique_id=258025245 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -44.04181, 0, 64.24533)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree110" type="Node3D" parent="Decor" unique_id=1206044609 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.70673794, 0, -0.39799428, 0, 0.91099244, 0, 0.39799428, 0, 0.70673794, -40.219135, 0, 45.680393)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree111" type="Node3D" parent="Decor" unique_id=737001068 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.47965294, 0, -0.6540726, 0, 0.91099244, 0, 0.6540726, 0, 0.47965294, -31.410812, 0, 35.15561)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree112" type="Node3D" parent="Decor" unique_id=35485352 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.4796531, 0, -0.6540725, 0, 0.91099244, 0, 0.6540725, 0, 0.4796531, -19.561237, 0, 25.27404)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree113" type="Node3D" parent="Decor" unique_id=1127808671 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.47965276, 0, -0.6540727, 0, 0.91099244, 0, 0.6540727, 0, 0.47965276, -15.360832, 0, 21.522907)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree114" type="Node3D" parent="Decor" unique_id=2135092947 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -15.945049, 0, 19.733458)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree115" type="Node3D" parent="Decor" unique_id=828542479 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -15.450108, 0, 14.5612)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree116" type="Node3D" parent="Decor" unique_id=489141906 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 20.166323, 0, -1.484622)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree117" type="Node3D" parent="Decor" unique_id=465919913 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 21.490501, 0, -14.293279)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree118" type="Node3D" parent="Decor" unique_id=977395543 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 22.88406, 0, -29.862812)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree119" type="Node3D" parent="Decor" unique_id=1570865721 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 23.768208, 0, -38.155083)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree120" type="Node3D" parent="Decor" unique_id=311061700 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 23.986778, 0, -57.561306)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree121" type="Node3D" parent="Decor" unique_id=1248327181 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 23.501165, 0, -63.05493)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree122" type="Node3D" parent="Decor" unique_id=204176204 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.74871206, 0, -0.31194252, 0, 0.91099244, 0, 0.31194252, 0, 0.74871206, 21.444464, 0.05922867, -75.244156)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree123" type="Node3D" parent="Decor" unique_id=901105950 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.4798276, 0, -0.65394443, 0, 0.91099244, 0, 0.65394443, 0, 0.4798276, 16.431892, 0.31429324, -71.244835)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree124" type="Node3D" parent="Decor" unique_id=281785390 instance=ExtResource("30_463d8")]
+transform = Transform3D(-3.5454164e-08, 0, -0.8110967, 0, 0.91099244, 0, 0.8110967, 0, -3.5454164e-08, 23.13711, 1.7797775, -69.18867)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree125" type="Node3D" parent="Decor" unique_id=1263402484 instance=ExtResource("30_463d8")]
+transform = Transform3D(-3.1295424e-06, 0, -0.8110967, 0, 0.91099244, 0, 0.8110967, 0, -3.1295424e-06, 31.247902, 2.4036913, -67.650925)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree126" type="Node3D" parent="Decor" unique_id=319538588 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.0006764805, 0, -0.81109643, 0, 0.91099244, 0, 0.81109643, 0, -0.0006764805, 46.937782, 3.6121044, -66.52811)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree127" type="Node3D" parent="Decor" unique_id=1897098148 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5735328, 0, -0.57353115, 0, 0.91099244, 0, 0.57353115, 0, -0.5735328, 40.646114, 4.9339337, -67.43895)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree128" type="Node3D" parent="Decor" unique_id=371577351 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.573532, 0, -0.573532, 0, 0.91099244, 0, 0.573532, 0, -0.573532, 48.497906, 6.2197394, -59.861034)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree129" type="Node3D" parent="Decor" unique_id=1941361143 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.57353115, 0, -0.5735328, 0, 0.91099244, 0, 0.5735328, 0, -0.57353115, 61.207012, 8.23625, -48.37198)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree130" type="Node3D" parent="Decor" unique_id=250917002 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7680893, 0, -0.26060843, 0, 0.91099244, 0, 0.26060843, 0, -0.7680893, 61.05744, 8.910126, -52.148056)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree131" type="Node3D" parent="Decor" unique_id=546336265 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 61.893364, 9, -38.827614)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree132" type="Node3D" parent="Decor" unique_id=340573371 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 3.0231802e-06, 0, 0.91099244, 0, -3.0231802e-06, 0, -0.8110967, 60.259804, 9, -33.70457)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree133" type="Node3D" parent="Decor" unique_id=1090576513 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7008126, 0, 0.40833762, 0, 0.91099244, 0, -0.40833762, 0, -0.7008126, 60.70491, 8.875905, -24.8475)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree134" type="Node3D" parent="Decor" unique_id=1104199041 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.65407145, 0, 0.4796545, 0, 0.91099244, 0, -0.4796545, 0, -0.65407145, 57.80542, 8.548992, -22.339508)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree135" type="Node3D" parent="Decor" unique_id=12835825 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.6540727, 0, 0.47965276, 0, 0.91099244, 0, -0.47965276, 0, -0.6540727, 46.90941, 7.5661006, -7.657818)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree136" type="Node3D" parent="Decor" unique_id=1077578526 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7503467, 0, 0.30798984, 0, 0.91099244, 0, -0.30798984, 0, -0.7503467, 39.13521, 7.034649, 5.6095924)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree137" type="Node3D" parent="Decor" unique_id=571596947 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 37.82683, 6.1120253, 28.319614)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree138" type="Node3D" parent="Decor" unique_id=1546668571 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.79713553, 0, -0.14984284, 0, 0.91099244, 0, 0.14984284, 0, -0.79713553, 39.92723, 5.1401453, 46.529716)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree139" type="Node3D" parent="Decor" unique_id=172087675 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.573532, 0, -0.573532, 0, 0.91099244, 0, 0.573532, 0, -0.573532, 50.32723, 4.3025827, 65.13402)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree140" type="Node3D" parent="Decor" unique_id=1491908152 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.573532, 0, -0.573532, 0, 0.91099244, 0, 0.573532, 0, -0.573532, 62.411045, 2.551134, 79.321945)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree141" type="Node3D" parent="Decor" unique_id=874454976 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5735305, 0, -0.5735335, 0, 0.91099244, 0, 0.5735335, 0, -0.5735305, 65.85931, 1.9938024, 84.23374)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree142" type="Node3D" parent="Decor" unique_id=146687659 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7868799, 0, -0.19671772, 0, 0.91099244, 0, 0.19671772, 0, -0.7868799, 69.229195, 0.74888897, 90.86485)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree143" type="Node3D" parent="Decor" unique_id=1081789808 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7868783, 0, -0.19672428, 0, 0.91099244, 0, 0.19672428, 0, -0.7868783, 70.78307, 0.6232989, 95.81416)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree144" type="Node3D" parent="Decor" unique_id=397141736 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.77660555, 0, 0.2340122, 0, 0.91099244, 0, -0.2340122, 0, -0.77660555, 75.453094, 0.13884974, 103.101746)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree145" type="Node3D" parent="Decor" unique_id=430707032 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.42527187, 0, 0.6906676, 0, 0.91099244, 0, -0.6906676, 0, -0.42527187, 81.72005, 0.01906293, 97.173676)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree146" type="Node3D" parent="Decor" unique_id=1912629591 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.123337954, 0, 0.8016643, 0, 0.91099244, 0, -0.8016643, 0, -0.123337954, 73.39149, 0, 98.47474)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree147" type="Node3D" parent="Decor" unique_id=950369599 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333375, 0, 0.80166495, 0, 0.91099244, 0, -0.80166495, 0, -0.12333375, 61.821487, 0, 98.63321)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree148" type="Node3D" parent="Decor" unique_id=2043368967 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333585, 0, 0.80166465, 0, 0.91099244, 0, -0.80166465, 0, -0.12333585, 49.645634, 0, 99.239044)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree149" type="Node3D" parent="Decor" unique_id=1778194871 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333681, 0, 0.8016645, 0, 0.91099244, 0, -0.8016645, 0, -0.12333681, 33.52437, 0, 101.029884)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree150" type="Node3D" parent="Decor" unique_id=1009044299 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.1233304, 0, 0.8016655, 0, 0.91099244, 0, -0.8016655, 0, -0.1233304, 25.855404, 0, 102.22014)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree151" type="Node3D" parent="Decor" unique_id=1178548965 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12332935, 0, 0.8016656, 0, 0.91099244, 0, -0.8016656, 0, -0.12332935, 6.4092684, 0, 105.9202)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree152" type="Node3D" parent="Decor" unique_id=706842579 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12332964, 0, 0.80166554, 0, 0.91099244, 0, -0.80166554, 0, -0.12332964, 1.3562942, 0, 107.97876)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree153" type="Node3D" parent="Decor" unique_id=902284976 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333671, 0, 0.8016645, 0, 0.91099244, 0, -0.8016645, 0, -0.12333671, -19.040802, 0, 112.744484)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree154" type="Node3D" parent="Decor" unique_id=17086672 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.12628517, 0, 0.80120534, 0, 0.91099244, 0, -0.80120534, 0, 0.12628517, -18.24553, 0, 112.14772)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree155" type="Node3D" parent="Decor" unique_id=92269197 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -7.232189, 0, 118.37219)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree156" type="Node3D" parent="Decor" unique_id=1736516947 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -6.2900734, 0, 109.6806)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree157" type="Node3D" parent="Decor" unique_id=580653275 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -6.0032406, 0, 94.57549)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree158" type="Node3D" parent="Decor" unique_id=1763777160 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -6.422352, 0, 81.28064)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree159" type="Node3D" parent="Decor" unique_id=1843080451 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -7.473381, 0, 70.9479)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree160" type="Node3D" parent="Decor" unique_id=1913085050 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.7498139, 0, -0.3092847, 0, 0.91099244, 0, 0.3092847, 0, 0.7498139, -9.803989, 0, 61.275314)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree161" type="Node3D" parent="Decor" unique_id=210236193 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.47965187, 0, -0.65407336, 0, 0.91099244, 0, 0.65407336, 0, 0.47965187, -12.844575, 0, 65.026596)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree162" type="Node3D" parent="Decor" unique_id=1854220106 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.47965285, 0, -0.65407264, 0, 0.91099244, 0, 0.65407264, 0, 0.47965285, 4.642702, 0, 54.14248)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree163" type="Node3D" parent="Decor" unique_id=1494395939 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.48621106, 0, -0.64921236, 0, 0.91099244, 0, 0.64921236, 0, 0.48621106, 9.633402, 0, 51.93608)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree164" type="Node3D" parent="Decor" unique_id=1300526810 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 23.962337, 0, 14.149128)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree165" type="Node3D" parent="Decor" unique_id=1148141569 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, 23.837414, 0, 7.6101623)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree166" type="Node3D" parent="Decor" unique_id=4238627 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -20.166323, 0, -7.484622)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree167" type="Node3D" parent="Decor" unique_id=1173619640 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -21.79377, 0, -22.68934)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree168" type="Node3D" parent="Decor" unique_id=2040694831 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -23.104385, 0, -31.294481)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree169" type="Node3D" parent="Decor" unique_id=1184140711 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -23.866673, 0, -50.469)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree170" type="Node3D" parent="Decor" unique_id=488322341 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -23.945992, 0, -56.091522)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree171" type="Node3D" parent="Decor" unique_id=1772799897 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -23.328333, 0, -76.9829)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree172" type="Node3D" parent="Decor" unique_id=433648825 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.7895067, 0, -0.18589553, 0, 0.91099244, 0, 0.18589553, 0, 0.7895067, -21.267288, 0.02050997, -87.364075)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree173" type="Node3D" parent="Decor" unique_id=661184322 instance=ExtResource("30_463d8")]
+transform = Transform3D(-3.5454164e-08, 0, -0.8110967, 0, 0.91099244, 0, 0.8110967, 0, -3.5454164e-08, 16.28651, 1.2528085, -110.54231)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree174" type="Node3D" parent="Decor" unique_id=1259829 instance=ExtResource("30_463d8")]
+transform = Transform3D(-3.1295424e-06, 0, -0.8110967, 0, 0.91099244, 0, 0.8110967, 0, -3.1295424e-06, 24.102484, 1.8540311, -111.13397)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree175" type="Node3D" parent="Decor" unique_id=1841864861 instance=ExtResource("30_463d8")]
+transform = Transform3D(-3.5454164e-08, 0, -0.8110967, 0, 0.91099244, 0, 0.8110967, 0, -3.5454164e-08, 40.166084, 3.0896988, -112.609955)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree176" type="Node3D" parent="Decor" unique_id=1172882496 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.35273293, 0, -0.73038167, 0, 0.91099244, 0, 0.73038167, 0, -0.35273293, 62.47788, 4.1042585, -110.28686)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree177" type="Node3D" parent="Decor" unique_id=550470791 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5735305, 0, -0.5735335, 0, 0.91099244, 0, 0.5735335, 0, -0.5735305, 77.4989, 5.421438, -98.441734)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree178" type="Node3D" parent="Decor" unique_id=288222907 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.573532, 0, -0.573532, 0, 0.91099244, 0, 0.573532, 0, -0.573532, 89.13296, 7.3995366, -86.338524)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree179" type="Node3D" parent="Decor" unique_id=1893055562 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.57353115, 0, -0.5735328, 0, 0.91099244, 0, 0.5735328, 0, -0.57353115, 93.4995, 8.2427435, -80.58662)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree180" type="Node3D" parent="Decor" unique_id=369976008 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 103.233864, 9, -45.87805)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree181" type="Node3D" parent="Decor" unique_id=292039867 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 3.0231802e-06, 0, 0.91099244, 0, -3.0231802e-06, 0, -0.8110967, 102.43851, 9, -40.71278)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree182" type="Node3D" parent="Decor" unique_id=1603163385 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 104.03343, 9, -19.9241)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree183" type="Node3D" parent="Decor" unique_id=1243752635 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.73624045, 0, 0.34033507, 0, 0.91099244, 0, -0.34033507, 0, -0.73624045, 102.19584, 8.915833, -4.310919)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree184" type="Node3D" parent="Decor" unique_id=1324728441 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.65407354, 0, 0.4796517, 0, 0.91099244, 0, -0.4796517, 0, -0.65407354, 89.56209, 7.933344, 15.149657)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree185" type="Node3D" parent="Decor" unique_id=1275037036 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.6540717, 0, 0.47965416, 0, 0.91099244, 0, -0.47965416, 0, -0.6540717, 84.00393, 7.4306564, 22.669113)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree186" type="Node3D" parent="Decor" unique_id=566261293 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 83.169266, 6.56478, 21.528297)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree187" type="Node3D" parent="Decor" unique_id=1921009534 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.8110967, 0, 7.090833e-08, 0, 0.91099244, 0, -7.090833e-08, 0, -0.8110967, 81.88663, 5.6288586, 35.56712)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree188" type="Node3D" parent="Decor" unique_id=2106017849 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.73745847, 0, -0.3376876, 0, 0.91099244, 0, 0.3376876, 0, -0.73745847, 79.33646, 4.9378996, 36.586025)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree189" type="Node3D" parent="Decor" unique_id=1171284402 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5735328, 0, -0.57353115, 0, 0.91099244, 0, 0.57353115, 0, -0.5735328, 88.4839, 3.2190948, 43.229706)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree190" type="Node3D" parent="Decor" unique_id=125553377 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.5735305, 0, -0.5735335, 0, 0.91099244, 0, 0.5735335, 0, -0.5735305, 93.793144, 2.6448462, 46.534073)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree191" type="Node3D" parent="Decor" unique_id=1072966949 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7858214, 0, -0.20090474, 0, 0.91099244, 0, 0.20090474, 0, -0.7858214, 113.804756, 0.9187551, 72.37153)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree192" type="Node3D" parent="Decor" unique_id=1912015526 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7868797, 0, -0.19671847, 0, 0.91099244, 0, 0.19671847, 0, -0.7868797, 115.334465, 0.79430574, 77.40843)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree193" type="Node3D" parent="Decor" unique_id=1618221482 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7868799, 0, -0.19671772, 0, 0.91099244, 0, 0.19671772, 0, -0.7868799, 119.81758, 0.30298144, 97.16896)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree194" type="Node3D" parent="Decor" unique_id=2137162787 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.7735489, 0, 0.24392629, 0, 0.91099244, 0, -0.24392629, 0, -0.7735489, 118.621666, 0.13611102, 116.540215)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree195" type="Node3D" parent="Decor" unique_id=923282595 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333585, 0, 0.80166465, 0, 0.91099244, 0, -0.80166465, 0, -0.12333585, 86.419785, 0, 138.30748)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree196" type="Node3D" parent="Decor" unique_id=1657846462 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333776, 0, 0.80166435, 0, 0.91099244, 0, -0.80166435, 0, -0.12333776, 75.42255, 0, 139.73344)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree197" type="Node3D" parent="Decor" unique_id=1442169768 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.123334706, 0, 0.80166477, 0, 0.91099244, 0, -0.80166477, 0, -0.123334706, 63.29677, 0, 143.17221)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree198" type="Node3D" parent="Decor" unique_id=427420679 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333375, 0, 0.80166495, 0, 0.91099244, 0, -0.80166495, 0, -0.12333375, 47.80413, 0, 146.72444)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree199" type="Node3D" parent="Decor" unique_id=1622949868 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333356, 0, 0.801665, 0, 0.91099244, 0, -0.801665, 0, -0.12333356, 39.927975, 0, 148.49393)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree200" type="Node3D" parent="Decor" unique_id=685167115 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333451, 0, 0.8016648, 0, 0.91099244, 0, -0.8016648, 0, -0.12333451, 20.554718, 0, 151.32272)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree201" type="Node3D" parent="Decor" unique_id=1604863837 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333585, 0, 0.80166465, 0, 0.91099244, 0, -0.80166465, 0, -0.12333585, 15.087707, 0, 151.3294)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree202" type="Node3D" parent="Decor" unique_id=1675315191 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.12333624, 0, 0.80166453, 0, 0.91099244, 0, -0.80166453, 0, -0.12333624, -5.7785273, 0, 153.16989)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree203" type="Node3D" parent="Decor" unique_id=558583685 instance=ExtResource("30_463d8")]
+transform = Transform3D(-0.123337194, 0, 0.8016644, 0, 0.91099244, 0, -0.8016644, 0, -0.123337194, -11.490336, 0, 152.38974)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree204" type="Node3D" parent="Decor" unique_id=534887601 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.79692554, 0, 0.15095542, 0, 0.91099244, 0, -0.15095542, 0, 0.79692554, -51.091766, 0, 129.24858)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree205" type="Node3D" parent="Decor" unique_id=1543386594 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -52.998184, 0, 116.85515)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree206" type="Node3D" parent="Decor" unique_id=418162071 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -53.821358, 0, 101.38379)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree207" type="Node3D" parent="Decor" unique_id=515211779 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -53.969566, 0, 88.47158)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree208" type="Node3D" parent="Decor" unique_id=646149643 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, -7.735251e-07, 0, 0.91099244, 0, 7.735251e-07, 0, 0.8110967, -53.416634, 0, 77.77556)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree209" type="Node3D" parent="Decor" unique_id=2071196765 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -52.26022, 0, 60.295)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree210" type="Node3D" parent="Decor" unique_id=996870879 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.76095945, 0, -0.28074658, 0, 0.91099244, 0, 0.28074658, 0, 0.76095945, -48.806797, 0, 46.44019)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree211" type="Node3D" parent="Decor" unique_id=1902313996 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.47965372, 0, -0.65407205, 0, 0.91099244, 0, 0.65407205, 0, 0.47965372, -26.570438, 0, 23.473864)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree212" type="Node3D" parent="Decor" unique_id=716224998 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.4796528, 0, -0.6540727, 0, 0.91099244, 0, 0.6540727, 0, 0.4796528, -23.346992, 0, 19.240248)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree213" type="Node3D" parent="Decor" unique_id=859079084 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -23.552443, 0, 21.067265)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Tree214" type="Node3D" parent="Decor" unique_id=1656635526 instance=ExtResource("30_463d8")]
+transform = Transform3D(0.8110967, 0, 0, 0, 0.91099244, 0, 0, 0, 0.8110967, -23.994137, 0, 14.74116)
+script = ExtResource("41_lddsg")
+metadata/layout_decor = true
+
+[node name="Grave1" type="Node3D" parent="Decor" unique_id=2086385768 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041612, 0.06995936, -0.7065851, 0.1367374, 0.98986816, -0.038260996, 0.69674945, -0.12355853, -0.70659286, 57.557133, 4.3149223, 57.718937)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave2" type="Node3D" parent="Decor" unique_id=490396355 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041602, 0.06995917, -0.7065861, 0.1367374, 0.98986816, -0.038260996, 0.6967504, -0.12355863, -0.70659184, 59.388245, 4.049936, 59.86264)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave3" type="Node3D" parent="Decor" unique_id=997266385 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041585, 0.06995885, -0.706588, 0.1367374, 0.98986816, -0.038260996, 0.69675225, -0.12355882, -0.70659, 63.293045, 3.5241482, 63.844715)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave4" type="Node3D" parent="Decor" unique_id=264094436 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041585, 0.06995885, -0.706588, 0.1367374, 0.98986816, -0.038260996, 0.69675225, -0.12355882, -0.70659, 64.87373, 3.3248348, 65.253716)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave5" type="Node3D" parent="Decor" unique_id=880681617 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041575, 0.06995868, -0.706589, 0.1367374, 0.98986816, -0.038260996, 0.69675326, -0.123558916, -0.706589, 69.27617, 2.7638667, 69.26583)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave6" type="Node3D" parent="Decor" unique_id=1851612682 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041575, 0.06995868, -0.706589, 0.1367374, 0.98986816, -0.038260996, 0.69675326, -0.123558916, -0.706589, 76.692154, 1.7762018, 76.66481)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave7" type="Node3D" parent="Decor" unique_id=511359233 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.705391, 0.07017751, -0.7053359, 0.1367374, 0.98986816, -0.038260996, 0.6955045, -0.12343477, -0.70783997, 79.781, 1.336076, 80.15062)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave8" type="Node3D" parent="Decor" unique_id=240892503 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.8829037, 0.10426527, -0.45783162, 0.1367374, 0.98986816, -0.038260996, 0.44920367, -0.09638348, -0.8882152, 80.08391, 1.0265318, 80.57073)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave9" type="Node3D" parent="Decor" unique_id=214953546 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622867, 0.12355961, -0.24235795, 0.1367374, 0.98986816, -0.038260996, 0.23517491, -0.06995745, -0.9694322, 80.33936, 0.90405256, 81.49293)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave10" type="Node3D" parent="Decor" unique_id=1938636859 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.96228796, 0.123560004, -0.24235263, 0.1367374, 0.98986816, -0.038260996, 0.23516963, -0.069956765, -0.9694335, 81.77478, 0.781432, 86.34538)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave11" type="Node3D" parent="Decor" unique_id=1477966901 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622867, 0.12355961, -0.24235795, 0.1367374, 0.98986816, -0.038260996, 0.23517491, -0.06995745, -0.9694322, 85.68618, 0.38686898, 102.13652)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave12" type="Node3D" parent="Decor" unique_id=2059363155 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622867, 0.12355961, -0.24235795, 0.1367374, 0.98986816, -0.038260996, 0.23517491, -0.06995745, -0.9694322, 86.05171, 0.33128756, 104.40735)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave13" type="Node3D" parent="Decor" unique_id=1577067904 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.70415646, 0.06995849, -0.70659, 0.1367374, 0.98986816, -0.038260996, 0.6967543, -0.12355901, -0.706588, 73.36188, 4.2343946, 43.122177)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave14" type="Node3D" parent="Decor" unique_id=1120309069 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041575, 0.06995868, -0.706589, 0.1367374, 0.98986816, -0.038260996, 0.69675326, -0.123558916, -0.706589, 77.399284, 3.7140434, 46.890064)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave15" type="Node3D" parent="Decor" unique_id=1970683652 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041546, 0.06995817, -0.70659184, 0.1367374, 0.98986816, -0.038260996, 0.6967561, -0.1235592, -0.7065861, 78.9308, 3.5117059, 48.393547)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave16" type="Node3D" parent="Decor" unique_id=784895592 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041585, 0.06995885, -0.706588, 0.1367374, 0.98986816, -0.038260996, 0.69675225, -0.12355882, -0.70659, 83.026436, 2.9510672, 52.707565)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave17" type="Node3D" parent="Decor" unique_id=541122956 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.70415646, 0.06995849, -0.70659, 0.1367374, 0.98986816, -0.038260996, 0.6967543, -0.12355901, -0.706588, 84.27967, 2.7555525, 54.38702)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave18" type="Node3D" parent="Decor" unique_id=869266499 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041593, 0.06995899, -0.70658714, 0.1367374, 0.98986816, -0.038260996, 0.6967514, -0.12355874, -0.70659083, 93.63714, 1.5193775, 63.572243)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave19" type="Node3D" parent="Decor" unique_id=1169936106 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7737295, 0.08260265, -0.62810785, 0.1367374, 0.98986816, -0.038260996, 0.61858356, -0.1154895, -0.777185, 97.2263, 1.1683668, 66.96868)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave20" type="Node3D" parent="Decor" unique_id=184671542 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9405584, 0.11761048, -0.3186184, 0.1367374, 0.98986816, -0.038260996, 0.31089032, -0.07955375, -0.94711053, 100.88058, 0.9559754, 73.44298)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave21" type="Node3D" parent="Decor" unique_id=2080091998 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.96228623, 0.12355948, -0.2423598, 0.1367374, 0.98986816, -0.038260996, 0.23517674, -0.06995768, -0.9694317, 102.28274, 0.83082724, 79.11914)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave22" type="Node3D" parent="Decor" unique_id=1764052067 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622867, 0.12355961, -0.24235795, 0.1367374, 0.98986816, -0.038260996, 0.23517491, -0.06995745, -0.9694322, 102.66371, 0.76897275, 81.65273)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave23" type="Node3D" parent="Decor" unique_id=830000606 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622867, 0.12355961, -0.24235795, 0.1367374, 0.98986816, -0.038260996, 0.23517491, -0.06995745, -0.9694322, 105.84501, 0.43495935, 95.05297)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave24" type="Node3D" parent="Decor" unique_id=1991051299 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622873, 0.123559795, -0.2423554, 0.1367374, 0.98986816, -0.038260996, 0.23517239, -0.06995712, -0.9694328, 106.689354, 0.38049722, 97.156555)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave25" type="Node3D" parent="Decor" unique_id=1864618517 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9762347, 0.12809744, -0.17480509, 0.1367374, 0.98986816, -0.038260996, 0.16813286, -0.061254106, -0.9838593, 108.293625, 0.24960952, 103.09803)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave26" type="Node3D" parent="Decor" unique_id=1739482182 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9813981, 0.14061949, 0.13070567, 0.1367374, 0.98986816, -0.038260996, -0.13476163, -0.01967691, -0.99068266, 108.43497, 0.17526422, 109.53105)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave27" type="Node3D" parent="Decor" unique_id=1946981801 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.8338166, 0.13586245, 0.53506196, 0.1367374, 0.98986816, -0.038260996, -0.53483903, 0.041260332, -0.843946, 105.19984, 0.0834021, 117.9167)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave28" type="Node3D" parent="Decor" unique_id=511111139 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7961184, 0.086825125, -0.5988797, 0.1367374, 0.98986816, -0.038260996, 0.58949, -0.11234954, -0.7999245, 51.539543, 4.745735, 54.650562)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave29" type="Node3D" parent="Decor" unique_id=139121788 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.70415646, 0.06995849, -0.70659, 0.1367374, 0.98986816, -0.038260996, 0.6967543, -0.12355901, -0.706588, 55.93397, 4.2813554, 59.845715)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave30" type="Node3D" parent="Decor" unique_id=802890321 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041593, 0.06995899, -0.70658714, 0.1367374, 0.98986816, -0.038260996, 0.6967514, -0.12355874, -0.70659083, 59.659737, 3.7517352, 64.06418)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave31" type="Node3D" parent="Decor" unique_id=1036930647 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041575, 0.06995868, -0.706589, 0.1367374, 0.98986816, -0.038260996, 0.69675326, -0.123558916, -0.706589, 62.194847, 3.392884, 66.91189)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave32" type="Node3D" parent="Decor" unique_id=965990547 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041556, 0.06995835, -0.70659083, 0.1367374, 0.98986816, -0.038260996, 0.6967551, -0.123559095, -0.70658714, 66.803635, 2.7732306, 71.59795)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave33" type="Node3D" parent="Decor" unique_id=523644663 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.70415646, 0.06995849, -0.70659, 0.1367374, 0.98986816, -0.038260996, 0.6967543, -0.12355901, -0.706588, 69.0883, 2.4800525, 73.71093)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave34" type="Node3D" parent="Decor" unique_id=279702976 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041575, 0.06995868, -0.706589, 0.1367374, 0.98986816, -0.038260996, 0.69675326, -0.123558916, -0.706589, 74.194695, 1.8252203, 78.426994)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave35" type="Node3D" parent="Decor" unique_id=952675349 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041575, 0.06995868, -0.706589, 0.1367374, 0.98986816, -0.038260996, 0.69675326, -0.123558916, -0.706589, 76.653046, 1.533443, 80.34531)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave36" type="Node3D" parent="Decor" unique_id=326760142 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9091252, 0.11005629, -0.40172002, 0.1367374, 0.98986816, -0.038260996, 0.39343897, -0.08971419, -0.9149629, 78.03734, 0.99393195, 81.40341)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave37" type="Node3D" parent="Decor" unique_id=1211524287 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.96228707, 0.12355973, -0.24235633, 0.1367374, 0.98986816, -0.038260996, 0.2351733, -0.06995724, -0.96943253, 77.998955, 0.881944, 83.0176)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave38" type="Node3D" parent="Decor" unique_id=1963717523 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622865, 0.12355954, -0.24235888, 0.1367374, 0.98986816, -0.038260996, 0.23517582, -0.06995756, -0.96943194, 79.10601, 0.74400777, 88.60317)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave39" type="Node3D" parent="Decor" unique_id=786915924 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622855, 0.12355928, -0.24236257, 0.1367374, 0.98986816, -0.038260996, 0.2351795, -0.06995803, -0.969431, 80.17117, 0.62513363, 93.3891)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave40" type="Node3D" parent="Decor" unique_id=1710067824 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622867, 0.12355961, -0.24235795, 0.1367374, 0.98986816, -0.038260996, 0.23517491, -0.06995745, -0.9694322, 81.308365, 0.51610976, 97.73824)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave41" type="Node3D" parent="Decor" unique_id=2125686700 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622873, 0.123559795, -0.2423554, 0.1367374, 0.98986816, -0.038260996, 0.23517239, -0.06995712, -0.9694328, 82.98627, 0.36924297, 103.56057)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave42" type="Node3D" parent="Decor" unique_id=376395140 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.924769, 0.14140008, 0.35328224, 0.1367374, 0.98986816, -0.038260996, -0.35511297, 0.012924321, -0.934734, 84.81285, 0.12399475, 105.7058)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave43" type="Node3D" parent="Decor" unique_id=1089298682 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7078234, 0.07060954, -0.7028516, 0.1367374, 0.98986816, -0.038260996, 0.6930288, -0.12318814, -0.71030676, 72.58187, 4.5584583, 39.13855)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave44" type="Node3D" parent="Decor" unique_id=1402178950 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041585, 0.06995885, -0.706588, 0.1367374, 0.98986816, -0.038260996, 0.69675225, -0.12355882, -0.70659, 76.729004, 4.037399, 42.71003)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave45" type="Node3D" parent="Decor" unique_id=1248906292 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041585, 0.06995885, -0.706588, 0.1367374, 0.98986816, -0.038260996, 0.69675225, -0.12355882, -0.70659, 79.70714, 3.6712067, 45.22479)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave46" type="Node3D" parent="Decor" unique_id=47644879 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041585, 0.06995885, -0.706588, 0.1367374, 0.98986816, -0.038260996, 0.69675225, -0.12355882, -0.70659, 84.4485, 3.0569916, 49.69665)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave47" type="Node3D" parent="Decor" unique_id=2028104648 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041556, 0.06995835, -0.70659083, 0.1367374, 0.98986816, -0.038260996, 0.6967551, -0.123559095, -0.70658714, 86.684006, 2.760789, 51.904114)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave48" type="Node3D" parent="Decor" unique_id=232879587 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041575, 0.06995868, -0.706589, 0.1367374, 0.98986816, -0.038260996, 0.69675326, -0.123558916, -0.706589, 91.48363, 2.106285, 56.922104)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave49" type="Node3D" parent="Decor" unique_id=1569131044 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7041575, 0.06995868, -0.706589, 0.1367374, 0.98986816, -0.038260996, 0.69675326, -0.123558916, -0.706589, 93.44085, 1.8169066, 59.30555)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave50" type="Node3D" parent="Decor" unique_id=2083254616 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.7565344, 0.079415426, -0.64911395, 0.1367374, 0.98986816, -0.038260996, 0.6394987, -0.117703915, -0.7597283, 98.542366, 1.1930642, 65.06575)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave51" type="Node3D" parent="Decor" unique_id=1565570853 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9353965, 0.11630575, -0.33392566, 0.1367374, 0.98986816, -0.038260996, 0.32609242, -0.08144933, -0.9418225, 102.91819, 0.96229744, 72.3462)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave52" type="Node3D" parent="Decor" unique_id=939209094 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622865, 0.12355954, -0.24235888, 0.1367374, 0.98986816, -0.038260996, 0.23517582, -0.06995756, -0.96943194, 105.08882, 0.8156035, 79.06464)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave53" type="Node3D" parent="Decor" unique_id=668951325 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.96228576, 0.12355935, -0.24236165, 0.1367374, 0.98986816, -0.038260996, 0.23517857, -0.06995791, -0.9694312, 106.50059, 0.69904244, 83.66549)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave54" type="Node3D" parent="Decor" unique_id=1237153582 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.96228707, 0.12355973, -0.24235633, 0.1367374, 0.98986816, -0.038260996, 0.2351733, -0.06995724, -0.96943253, 107.70429, 0.58776224, 88.09405)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave55" type="Node3D" parent="Decor" unique_id=1492672274 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622865, 0.12355954, -0.24235888, 0.1367374, 0.98986816, -0.038260996, 0.23517582, -0.06995756, -0.96943194, 109.0726, 0.44288456, 93.90925)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave56" type="Node3D" parent="Decor" unique_id=558073476 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9622865, 0.12355954, -0.24235888, 0.1367374, 0.98986816, -0.038260996, 0.23517582, -0.06995756, -0.96943194, 109.69603, 0.35678312, 97.4127)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave57" type="Node3D" parent="Decor" unique_id=490607405 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9885966, 0.13881768, 0.058364097, 0.1367374, 0.98986816, -0.038260996, -0.063084066, -0.029844135, -0.9975619, 110.91011, 0.19231348, 108.15438)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave58" type="Node3D" parent="Decor" unique_id=1784988949 instance=ExtResource("32_bewyd")]
+transform = Transform3D(-0.9237295, 0.1413618, 0.35600653, 0.1367374, 0.98986816, -0.038260996, -0.35780817, 0.013336599, -0.93369985, 109.237236, 0.12339023, 115.00851)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave59" type="Node3D" parent="Decor" unique_id=1461818440 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.13683763, -9.5299055e-07, 0.1367374, 0.98986816, -0.038260996, 0.005236488, 0.037900962, 0.99926776, -19.278984, 0, 110.573166)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave60" type="Node3D" parent="Decor" unique_id=407451449 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -19.05795, 0, 108.250084)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave61" type="Node3D" parent="Decor" unique_id=1705410688 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -19.003305, 0, 103.14855)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave62" type="Node3D" parent="Decor" unique_id=118377727 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -19.124708, 0, 101.52516)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave63" type="Node3D" parent="Decor" unique_id=1107668777 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -19.400715, 0, 96.04881)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave64" type="Node3D" parent="Decor" unique_id=218074959 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -19.412731, 0, 87.02657)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave65" type="Node3D" parent="Decor" unique_id=582845753 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -19.132027, 0, 82.837616)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave66" type="Node3D" parent="Decor" unique_id=1469801316 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -19.00463, 0, 79.43491)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave67" type="Node3D" parent="Decor" unique_id=1353290392 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -40.776096, 0, 109.71528)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave68" type="Node3D" parent="Decor" unique_id=1833094423 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.13683763, -9.5299055e-07, 0.1367374, 0.98986816, -0.038260996, 0.005236488, 0.037900962, 0.99926776, -40.966667, 0, 104.671616)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave69" type="Node3D" parent="Decor" unique_id=24718205 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -40.986496, 0, 103.01599)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave70" type="Node3D" parent="Decor" unique_id=1897843582 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -40.832085, 0, 97.54318)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave71" type="Node3D" parent="Decor" unique_id=2110383560 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -40.530697, 0, 95.96024)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave72" type="Node3D" parent="Decor" unique_id=910251884 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -40.65249, 0, 84.29046)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave73" type="Node3D" parent="Decor" unique_id=752462342 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -40.906235, 0, 80.98316)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave74" type="Node3D" parent="Decor" unique_id=510021397 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -16.95842, 0, 117.16773)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave75" type="Node3D" parent="Decor" unique_id=1891008592 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.13683763, -9.5298327e-07, 0.1367374, 0.98986816, -0.038260996, 0.005236488, 0.037900962, 0.99926776, -16.627375, 0, 112.715576)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave76" type="Node3D" parent="Decor" unique_id=20968076 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -16.278984, 0, 107.57319)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave77" type="Node3D" parent="Decor" unique_id=958676075 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -16.05795, 0, 104.25013)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave78" type="Node3D" parent="Decor" unique_id=276773124 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -16.003305, 0, 98.14856)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave79" type="Node3D" parent="Decor" unique_id=1772135998 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -16.124708, 0, 95.52517)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave80" type="Node3D" parent="Decor" unique_id=1050677624 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -16.400715, 0, 89.04879)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave81" type="Node3D" parent="Decor" unique_id=211069538 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -16.78257, 0, 86.440315)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave82" type="Node3D" parent="Decor" unique_id=1332975285 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.13683757, 9.529942e-07, 0.1367374, 0.98986816, -0.038260996, 0.005234598, 0.037901223, 0.99926776, -16.797169, 0, 80.31027)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave83" type="Node3D" parent="Decor" unique_id=702603009 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -43.04158, 0, 115.16771)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave84" type="Node3D" parent="Decor" unique_id=477927815 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.13683757, 9.5297236e-07, 0.1367374, 0.98986816, -0.038260996, 0.005234598, 0.037901223, 0.99926776, -43.44844, 0, 110.116585)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave85" type="Node3D" parent="Decor" unique_id=980939576 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.13683757, 9.529687e-07, 0.1367374, 0.98986816, -0.038260996, 0.005234598, 0.037901223, 0.99926776, -43.776096, 0, 106.71529)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave86" type="Node3D" parent="Decor" unique_id=1290016317 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -43.966667, 0, 100.671616)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave87" type="Node3D" parent="Decor" unique_id=2046670715 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -43.986496, 0, 98.01602)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave88" type="Node3D" parent="Decor" unique_id=903172532 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -43.832085, 0, 91.54317)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave89" type="Node3D" parent="Decor" unique_id=1969757140 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -43.530697, 0, 88.96021)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave90" type="Node3D" parent="Decor" unique_id=1660786328 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -43.135574, 0, 82.777985)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Grave91" type="Node3D" parent="Decor" unique_id=1739429109 instance=ExtResource("32_bewyd")]
+transform = Transform3D(0.9905935, -0.1368376, 0, 0.1367374, 0.98986816, -0.038260996, 0.005235543, 0.037901092, 0.99926776, -43.283493, 0, 79.568275)
+script = ExtResource("43_p4r8u")
+metadata/layout_decor = true
+
+[node name="Lamp1" type="Node3D" parent="Decor" unique_id=1958765441 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.5, -10)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp2" type="Node3D" parent="Decor" unique_id=1805303169 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.5, -34)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp3" type="Node3D" parent="Decor" unique_id=1779602705 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.5, -58)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp4" type="Node3D" parent="Decor" unique_id=242799793 instance=ExtResource("34_3j066")]
+transform = Transform3D(0.9803542, 0, -0.19724512, 0, 1, 0, 0.19724512, 0, 0.9803542, 7.549789, 0.515164, -80.50757)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp5" type="Node3D" parent="Decor" unique_id=1416410605 instance=ExtResource("34_3j066")]
+transform = Transform3D(-3.8584085e-06, 0, -1, 0, 1, 0, 1, 0, -3.8584085e-06, 20.231293, 2.0562553, -82.5)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp6" type="Node3D" parent="Decor" unique_id=1854293441 instance=ExtResource("34_3j066")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 44.16062, 3.8969707, -82.5)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp7" type="Node3D" parent="Decor" unique_id=369872345 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.7071078, 0, -0.70710576, 0, 1, 0, 0.70710576, 0, -0.7071078, 58.328407, 6.438619, -73.064995)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp8" type="Node3D" parent="Decor" unique_id=254590530 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.8347623, 0, -0.55061054, 0, 1, 0, 0.55061054, 0, -0.8347623, 74.07299, 9.222286, -57.248337)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp9" type="Node3D" parent="Decor" unique_id=1610888019 instance=ExtResource("34_3j066")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 74.5, 9.5, -37.713577)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp10" type="Node3D" parent="Decor" unique_id=1768747264 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.89796436, 0, 0.44006816, 0, 1, 0, -0.44006816, 0, -0.89796436, 74.24098, 9.406883, -17.172209)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp11" type="Node3D" parent="Decor" unique_id=981804004 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.8064073, 0, 0.5913605, 0, 1, 0, -0.5913605, 0, -0.8064073, 60.888683, 8.130612, 1.105607)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp12" type="Node3D" parent="Decor" unique_id=1430725385 instance=ExtResource("34_3j066")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 52.5, 6.670362, 27.44457)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp13" type="Node3D" parent="Decor" unique_id=927159735 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.70710677, 59.506927, 4.858636, 55.113525)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp14" type="Node3D" parent="Decor" unique_id=189850876 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.7071049, 0, -0.7071086, 0, 1, 0, 0.7071086, 0, -0.7071049, 76.40259, 2.6058838, 72.009186)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp15" type="Node3D" parent="Decor" unique_id=959331557 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.9701418, 0, -0.24253832, 0, 1, 0, 0.24253832, 0, -0.9701418, 85.71999, 1.2003942, 88.803276)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp16" type="Node3D" parent="Decor" unique_id=1784832840 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.93439007, 0, 0.3562516, 0, 1, 0, -0.3562516, 0, -0.93439007, 89.97995, 0.6233941, 107.665924)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp17" type="Node3D" parent="Decor" unique_id=1616725195 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.15205695, 0, 0.98837173, 0, 1, 0, -0.98837173, 0, -0.15205695, 74.726974, 0.5, 111.29992)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp18" type="Node3D" parent="Decor" unique_id=1990712691 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.15205318, 0, 0.9883723, 0, 1, 0, -0.9883723, 0, -0.15205318, 51.00609, 0.5, 114.94928)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp19" type="Node3D" parent="Decor" unique_id=1994276449 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.15205719, 0, 0.9883717, 0, 1, 0, -0.9883717, 0, -0.15205719, 27.28514, 0.5, 118.598656)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp20" type="Node3D" parent="Decor" unique_id=1122891333 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.15206036, 0, 0.9883712, 0, 1, 0, -0.9883712, 0, -0.15206036, 3.5641923, 0.5, 122.24803)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp21" type="Node3D" parent="Decor" unique_id=1920016377 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.093579546, 0, 0.9956118, 0, 1, 0, -0.9956118, 0, -0.093579546, -19.720108, 0.5, 125.82854)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp22" type="Node3D" parent="Decor" unique_id=2054430909 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.5, 0.5, 116.03887)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp23" type="Node3D" parent="Decor" unique_id=853252346 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.5, 0.5, 92.03887)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp24" type="Node3D" parent="Decor" unique_id=1127679329 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, -9.536707e-07, 0, 1, 0, 9.536707e-07, 0, 1, -22.5, 0.5, 68.03889)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp25" type="Node3D" parent="Decor" unique_id=356107704 instance=ExtResource("34_3j066")]
+transform = Transform3D(0.59136397, 0, -0.80640477, 0, 1, 0, 0.80640477, 0, 0.59136397, -18.5364, 0.5, 52.893898)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp26" type="Node3D" parent="Decor" unique_id=1720699238 instance=ExtResource("34_3j066")]
+transform = Transform3D(0.6408868, 0, -0.7676354, 0, 1, 0, 0.7676354, 0, 0.6408868, 1.1784146, 0.5, 38.396847)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp27" type="Node3D" parent="Decor" unique_id=29756364 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0.5, 9.731887)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp28" type="Node3D" parent="Decor" unique_id=1810891756 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.5, -22)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp29" type="Node3D" parent="Decor" unique_id=924578887 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.5, -46)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp30" type="Node3D" parent="Decor" unique_id=1634203408 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.5, -70)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp31" type="Node3D" parent="Decor" unique_id=1048544022 instance=ExtResource("34_3j066")]
+transform = Transform3D(0.17061748, 0, -0.9853373, 0, 1, 0, 0.9853373, 0, 0.17061748, 6.9952135, 1.1365266, -97.245346)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp32" type="Node3D" parent="Decor" unique_id=1641182949 instance=ExtResource("34_3j066")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 32.195972, 2.9766133, -97.49999)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp33" type="Node3D" parent="Decor" unique_id=2014727417 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.70096356, 0, -0.7131971, 0, 1, 0, 0.7131971, 0, -0.70096356, 60.46198, 5.034126, -92.144226)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp34" type="Node3D" parent="Decor" unique_id=393882208 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.70710677, 77.36198, 7.8431125, -75.24463)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp35" type="Node3D" parent="Decor" unique_id=496403250 instance=ExtResource("34_3j066")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 89.5, 9.5, -49.713577)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp36" type="Node3D" parent="Decor" unique_id=1231781869 instance=ExtResource("34_3j066")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 89.5, 9.5, -25.713583)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp37" type="Node3D" parent="Decor" unique_id=1105308567 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.8064045, 0, 0.5913644, 0, 1, 0, -0.5913644, 0, -0.8064045, 80.07091, 8.774806, 0.31313515)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp38" type="Node3D" parent="Decor" unique_id=692100717 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.96102214, 0, 0.27647147, 0, 1, 0, -0.27647147, 0, -0.96102214, 67.5965, 7.466179, 17.580858)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp39" type="Node3D" parent="Decor" unique_id=1184484076 instance=ExtResource("34_3j066")]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 67.5, 5.8721347, 39.41798)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp40" type="Node3D" parent="Decor" unique_id=1551908428 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.7071078, 0, -0.70710576, 0, 1, 0, 0.70710576, 0, -0.7071078, 78.56136, 3.7322588, 52.954765)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp41" type="Node3D" parent="Decor" unique_id=15529236 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.88427424, 0, -0.46696797, 0, 1, 0, 0.46696797, 0, -0.88427424, 96.44137, 1.5324435, 71.938705)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp42" type="Node3D" parent="Decor" unique_id=151475340 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.9701423, 0, -0.24253647, 0, 1, 0, 0.24253647, 0, -0.9701423, 103.1817, 0.9094372, 96.80349)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp43" type="Node3D" parent="Decor" unique_id=1654470001 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.15205435, 0, 0.98837215, 0, 1, 0, -0.98837215, 0, -0.15205435, 88.86827, 0.5, 124.300804)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp44" type="Node3D" parent="Decor" unique_id=1441776261 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.15205719, 0, 0.9883717, 0, 1, 0, -0.9883717, 0, -0.15205719, 65.14738, 0.5, 127.95018)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp45" type="Node3D" parent="Decor" unique_id=326728448 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.1520514, 0, 0.98837256, 0, 1, 0, -0.98837256, 0, -0.1520514, 41.426414, 0.5, 131.59955)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp46" type="Node3D" parent="Decor" unique_id=1950982927 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.15205365, 0, 0.98837227, 0, 1, 0, -0.98837227, 0, -0.15205365, 17.705507, 0.5, 135.24893)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp47" type="Node3D" parent="Decor" unique_id=205928921 instance=ExtResource("34_3j066")]
+transform = Transform3D(-0.15206249, 0, 0.9883709, 0, 1, 0, -0.9883709, 0, -0.15206249, -6.0153484, 0.5, 138.89828)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp48" type="Node3D" parent="Decor" unique_id=296538814 instance=ExtResource("34_3j066")]
+transform = Transform3D(0.891558, 0, 0.45290658, 0, 1, 0, -0.45290658, 0, 0.891558, -35.608715, 0.5, 131.26575)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp49" type="Node3D" parent="Decor" unique_id=1509543086 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.5, 0.5, 104.0389)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp50" type="Node3D" parent="Decor" unique_id=995853665 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 9.536707e-07, 0, 1, 0, -9.536707e-07, 0, 1, -37.5, 0.5, 80.038895)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp51" type="Node3D" parent="Decor" unique_id=751815769 instance=ExtResource("34_3j066")]
+transform = Transform3D(0.9947154, 0, -0.102670714, 0, 1, 0, 0.102670714, 0, 0.9947154, -37.406517, 0.5, 55.270744)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp52" type="Node3D" parent="Decor" unique_id=223780658 instance=ExtResource("34_3j066")]
+transform = Transform3D(0.591364, 0, -0.8064047, 0, 1, 0, 0.8064047, 0, 0.591364, -17.730015, 0.5, 33.701473)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp53" type="Node3D" parent="Decor" unique_id=1195959525 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.5, 21.731895)
+metadata/layout_decor = true
+metadata/layout_on_wall = true
+
+[node name="Lamp54" type="Node3D" parent="Decor" unique_id=1969358779 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 0, -4)
+metadata/layout_decor = true
+
+[node name="Lamp55" type="Node3D" parent="Decor" unique_id=1458155134 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, -4)
+metadata/layout_decor = true
+
+[node name="Lamp56" type="Node3D" parent="Decor" unique_id=1534656621 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0, -6)
+metadata/layout_decor = true
+
+[node name="Lamp57" type="Node3D" parent="Decor" unique_id=1178614903 instance=ExtResource("34_3j066")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 0, -6)
+metadata/layout_decor = true
+
+[node name="FallingLeaves" type="CPUParticles3D" parent="." unique_id=644078908 instance=ExtResource("8_leaves")]
+amount = 70
+lifetime = 7.0
+preprocess = 7.0
+mesh = SubResource("QuadMesh_leaf")
+emission_shape = 3
+emission_box_extents = Vector3(22, 1, 18)
+direction = Vector3(1, 0, 0.3)
+spread = 35.0
+gravity = Vector3(0, -1.1, 0)
+initial_velocity_min = 0.6
+initial_velocity_max = 1.6
+angular_velocity_min = -160.0
+angular_velocity_max = 160.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.7
+scale_amount_max = 1.3
+color_initial_ramp = SubResource("Gradient_leaves")
+script = ExtResource("47_txaj7")

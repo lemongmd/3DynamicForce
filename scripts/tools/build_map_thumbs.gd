@@ -19,6 +19,10 @@ const COLORS := {
 	"C": Color8(154, 154, 168), "c": Color8(110, 110, 124),
 	"R": Color8(192, 80, 58), "r": Color8(224, 112, 80), "G": Color8(80, 220, 60),
 	"A": Color8(224, 48, 48), "a": Color8(255, 120, 100), "T": Color8(30, 30, 36),
+	# «Хэллоуин»: ночь, луна, тыква, призрак.
+	"N": Color8(26, 20, 52), "n2": Color8(44, 30, 78), "M": Color8(255, 244, 196), "m": Color8(214, 200, 150),
+	"g": Color8(26, 44, 36), "h": Color8(38, 60, 46), "P": Color8(242, 122, 26), "p": Color8(178, 72, 20),
+	"Y": Color8(255, 226, 92), "w": Color8(214, 228, 255), "e": Color8(70, 72, 92),
 }
 
 ## Буквы подписи (белые на чёрной плашке, как у карт оригинала).
@@ -33,6 +37,8 @@ const GLYPHS := {
 	"И": ["W..W", "W..W", "W.WW", "WW.W", "W..W"],
 	"Н": ["W.W", "W.W", "WWW", "W.W", "W.W"],
 	"Ы": ["W...W", "W...W", "WW..W", "W.W.W", "WW..W"],
+	"Х": ["W.W", "W.W", ".W.", "W.W", "W.W"],
+	"Э": ["WW.", "..W", ".WW", "..W", "WW."],
 	".": [".", ".", ".", ".", "W"],
 }
 
@@ -40,7 +46,53 @@ const GLYPHS := {
 func _initialize() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT_DIR))
 	_save(_remake_01(), "remake_01")
+	_save(_halloween(), "halloween")
 	quit()
+
+
+## «Хэллоуин»: ночное небо со звёздами и луной, кладбище на холме, тыква-фонарь и призрак.
+func _halloween() -> Image:
+	var image := Image.create(WIDTH, HEIGHT, false, Image.FORMAT_RGBA8)
+	for y in HEIGHT:
+		for x in WIDTH:
+			var key := "N" if y < 9 else "n2"
+			if y < 15 and (x * 13 + y * 7) % 23 == 0:
+				key = "w"
+			if y >= 17 - int(sin(x * 0.35) * 1.5):
+				key = "h" if (x + y) % 6 == 0 else "g"
+			image.set_pixel(x, y, COLORS[key])
+	# Луна с кратером.
+	for y in range(2, 11):
+		for x in range(21, 30):
+			if Vector2(x - 25, y - 6).length() <= 4.2:
+				image.set_pixel(x, y, COLORS["M"])
+	image.set_pixel(26, 5, COLORS["m"])
+	image.set_pixel(24, 8, COLORS["m"])
+	# Надгробия на холме.
+	for grave_x in [3, 15, 27]:
+		_rect(image, Rect2i(grave_x, 14, 2, 3), "e")
+		image.set_pixel(grave_x, 13, COLORS["e"])
+	# Призрак: купол, подол волной, глаза.
+	_rect(image, Rect2i(18, 10, 5, 4), "w")
+	_rect(image, Rect2i(19, 9, 3, 1), "w")
+	image.set_pixel(18, 14, COLORS["w"])
+	image.set_pixel(20, 14, COLORS["w"])
+	image.set_pixel(22, 14, COLORS["w"])
+	image.set_pixel(19, 11, COLORS["K"])
+	image.set_pixel(21, 11, COLORS["K"])
+	# Тыква-фонарь: дольки, хвостик, светящаяся рожица.
+	_rect(image, Rect2i(6, 16, 8, 5), "P")
+	_rect(image, Rect2i(7, 15, 6, 1), "P")
+	_rect(image, Rect2i(7, 21, 6, 1), "p")
+	for rib_x in [8, 11]:
+		_rect(image, Rect2i(rib_x, 16, 1, 5), "p")
+	image.set_pixel(10, 14, COLORS["g"])
+	image.set_pixel(8, 17, COLORS["Y"])
+	image.set_pixel(12, 17, COLORS["Y"])
+	_rect(image, Rect2i(8, 19, 5, 1), "Y")
+	_label(image, ["ХЭЛЛ."])
+	_frame(image)
+	return image
 
 
 ## «Трамплины»: небо с солнцем, эстакада над водой с опорами и перилами, трамплин,

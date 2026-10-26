@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/conveyor.png" id="2_conv"]
 [ext_resource type="Texture2D" path="res://assets/original/textures/levelobj/aquaslider.png" id="3_slide"]
 [ext_resource type="Texture2D" path="res://assets/original/textures/objects/ice-000.png" id="4_ice"]
+[ext_resource type="Texture2D" path="res://assets/textures/halloween/mud.png" id="7_mud"]
+[ext_resource type="Shader" path="res://assets/shaders/mud.gdshader" id="8_mud_shader"]
 [ext_resource type="AudioStream" path="res://assets/original/sounds/conveyor.wav" id="5_conv_snd"]
 [ext_resource type="AudioStream" path="res://assets/original/sounds/aquasliderriver.wav" id="6_slide_snd"]
 
@@ -15,5 +17,7 @@ script = ExtResource("1_zone")
 conveyor_texture = ExtResource("2_conv")
 slider_texture = ExtResource("3_slide")
 ice_texture = ExtResource("4_ice")
+mud_texture = ExtResource("7_mud")
+mud_shader = ExtResource("8_mud_shader")
 conveyor_sound = ExtResource("5_conv_snd")
 slider_sound = ExtResource("6_slide_snd")

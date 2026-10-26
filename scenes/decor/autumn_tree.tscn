@@ -1,0 +1,46 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/decor/autumn_tree.gd" id="1_tree"]
+[ext_resource type="Material" path="res://assets/materials/bark.tres" id="2_bark"]
+[ext_resource type="Material" path="res://assets/materials/leaves_orange.tres" id="3_leaves"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_trunk"]
+material = ExtResource("2_bark")
+top_radius = 0.28
+bottom_radius = 0.45
+height = 3.6
+radial_segments = 6
+rings = 1
+
+[sub_resource type="SphereMesh" id="SphereMesh_crown"]
+material = ExtResource("3_leaves")
+radius = 2.2
+height = 3.8
+radial_segments = 7
+rings = 4
+
+[sub_resource type="SphereMesh" id="SphereMesh_small"]
+material = ExtResource("3_leaves")
+radius = 1.5
+height = 2.6
+radial_segments = 6
+rings = 3
+
+[node name="AutumnTree" type="Node3D"]
+script = ExtResource("1_tree")
+
+[node name="Trunk" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.8, 0)
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="Crown" type="MeshInstance3D" parent="."]
+position = Vector3(0, 4.6, 0)
+mesh = SubResource("SphereMesh_crown")
+
+[node name="Crown2" type="MeshInstance3D" parent="."]
+position = Vector3(1.1, 3.9, 0.6)
+mesh = SubResource("SphereMesh_small")
+
+[node name="Crown3" type="MeshInstance3D" parent="."]
+position = Vector3(-0.9, 5.6, -0.5)
+mesh = SubResource("SphereMesh_small")

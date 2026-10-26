@@ -8,11 +8,13 @@ extends Area3D
 ##     (угол − 90°), скользко: drift-recover ÷3, торможение ÷5; вода течёт 64 px/с;
 ##     звук AquaSliderRiver по кругу;
 ##   * ICE (Ice, Снежная/Шинозавод/Аквапарк): лёд — то же, что пятно мороженого
-##     (IceSpot: разгон, торможение и сцепление ÷2.5, пятна не складываются).
+##     (IceSpot: разгон, торможение и сцепление ÷2.5, пятна не складываются);
+##   * MUD (наша, мини-кладбище «Хэллоуина»): раскисшая земля — машина буксует: предел
+##     скорости ×0.55, разгон ×0.45, руль ×0.85, из-под колёс летят комья (CarFx).
 ## Размер — size (м, по осям X и Z узла); картинка и коллизия строятся при загрузке.
 ## Звук — только для своей машины (IsMe), как в оригинале: появляется за 0.1 с, гаснет за 0.2 с.
 
-enum Kind { CONVEYOR, AQUA_SLIDER, ICE }
+enum Kind { CONVEYOR, AQUA_SLIDER, ICE, MUD }
 
 const PX_PER_M := 8.0
 const CONVEYOR_PUSH := 16.0
@@ -20,6 +22,13 @@ const SLIDER_PUSH := 12.0
 const SLIDER_EFFECT_ID := &"aqua_slider"
 const SLIDER_COUNT_META := &"aqua_sliders"
 const SLIDER_EFFECT_META := &"aqua_slider_effect"
+const MUD_EFFECT_ID := &"mud"
+## Сколько зон грязи под машиной (CarFx по нему бросает комья из-под колёс).
+const MUD_COUNT_META := &"mud_zones"
+const MUD_EFFECT_META := &"mud_effect"
+## Грязь шире этого, м, — «на всю дорогу» (почти прямоугольная), уже — овальное пятно.
+const MUD_FULL_WIDTH := 9.0
+const MUD_MULTIPLIERS := {&"max_speed": 0.55, &"acceleration": 0.45, &"steering": 0.85}
 ## Сдвиг картинки, px/с (Conveyor: ImageOffsetX + 128·dt; AquaSlider: ImageOffsetY − 64·dt).
 const CONVEYOR_SCROLL := Vector2(128.0, 0.0)
 const SLIDER_SCROLL := Vector2(0.0, -64.0)
@@ -44,6 +53,8 @@ const SILENT_DB := -50.0
 @export var conveyor_texture: Texture2D
 @export var slider_texture: Texture2D
 @export var ice_texture: Texture2D
+@export var mud_texture: Texture2D
+@export var mud_shader: Shader
 @export var conveyor_sound: AudioStream
 @export var slider_sound: AudioStream
 
@@ -71,7 +82,7 @@ func _exit_tree() -> void:
 
 
 func _process(delta: float) -> void:
-	if _material == null or kind == Kind.ICE:
+	if _material == null or kind == Kind.ICE or kind == Kind.MUD:
 		return
 	var scroll := CONVEYOR_SCROLL if kind == Kind.CONVEYOR else SLIDER_SCROLL
 	var texture := _texture()
@@ -82,7 +93,7 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if Engine.is_editor_hint() or kind == Kind.ICE:
+	if Engine.is_editor_hint() or kind == Kind.ICE or kind == Kind.MUD:
 		return
 	var push := global_basis.x * CONVEYOR_PUSH if kind == Kind.CONVEYOR else -global_basis.z * SLIDER_PUSH
 	for car in _cars_inside:
@@ -116,6 +127,12 @@ func _enter(car: CarController) -> void:
 			if count == 1 and effects != null:
 				car.set_meta(SLIDER_EFFECT_META, effects.add(SLIDER_EFFECT_ID, INF,
 						{&"drift_recover": 1.0 / 3.0, &"deceleration": 1.0 / 5.0}))
+		Kind.MUD:
+			var count := int(car.get_meta(MUD_COUNT_META, 0)) + 1
+			car.set_meta(MUD_COUNT_META, count)
+			var effects := CarEffects.of(car)
+			if count == 1 and effects != null:
+				car.set_meta(MUD_EFFECT_META, effects.add(MUD_EFFECT_ID, INF, MUD_MULTIPLIERS))
 	if car.is_in_group(ItemObject.LOCAL_PLAYER_GROUP):
 		_set_loop(true)
 
@@ -132,6 +149,14 @@ func _leave(car: CarController) -> void:
 				if effects != null:
 					effects.remove(car.get_meta(SLIDER_EFFECT_META) as CarEffect)
 				car.remove_meta(SLIDER_EFFECT_META)
+		Kind.MUD:
+			var count := maxi(int(car.get_meta(MUD_COUNT_META, 0)) - 1, 0)
+			car.set_meta(MUD_COUNT_META, count)
+			if count == 0 and car.has_meta(MUD_EFFECT_META):
+				var effects := CarEffects.of(car)
+				if effects != null:
+					effects.remove(car.get_meta(MUD_EFFECT_META) as CarEffect)
+				car.remove_meta(MUD_EFFECT_META)
 	if car.is_in_group(ItemObject.LOCAL_PLAYER_GROUP):
 		_set_loop(false)
 
@@ -165,6 +190,8 @@ func _texture() -> Texture2D:
 			return conveyor_texture
 		Kind.AQUA_SLIDER:
 			return slider_texture
+		Kind.MUD:
+			return mud_texture
 	return ice_texture
 
 
@@ -195,6 +222,16 @@ func _rebuild() -> void:
 	if kind == Kind.ICE and texture != null:
 		# Лёд и лужи — «водичка» (puddle.gdshader): рябь, блики, кромка.
 		plane.material = IceSpot.puddle_material(texture, tint)
+	if kind == Kind.MUD and texture != null and mud_shader != null:
+		# Грязь — пятно с рваным краем (mud.gdshader).
+		var mud := ShaderMaterial.new()
+		mud.shader = mud_shader
+		mud.set_shader_parameter(&"mud_texture", texture)
+		mud.set_shader_parameter(&"size", size)
+		# Пятно уже дороги — овальная лужа; на всю ширину (от 9 м) — почти прямоугольник
+		# от стены до стены, рваные только края.
+		mud.set_shader_parameter(&"roundness", 2.5 if size.x < MUD_FULL_WIDTH else 8.0)
+		plane.material = mud
 	var mesh := MeshInstance3D.new()
 	mesh.name = "Visual"
 	mesh.mesh = plane
@@ -206,7 +243,10 @@ func _rebuild() -> void:
 	add_child(mesh)
 	var shape := BoxShape3D.new()
 	# Лёд оригинала — пятно неровной формы: коллизия чуть меньше картинки.
+	# Грязь — с рваным краем (пятно — овал): коллизия тоже меньше картинки.
 	var k := 0.8 if kind == Kind.ICE else 1.0
+	if kind == Kind.MUD:
+		k = 0.85 if size.x >= MUD_FULL_WIDTH else 0.72
 	shape.size = Vector3(size.x * k, 1.0, size.y * k)
 	var collision := CollisionShape3D.new()
 	collision.name = "Collision"

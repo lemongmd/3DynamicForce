@@ -228,7 +228,7 @@ static func kind_name(node: Node) -> String:
 	if node is BoostPad:
 		return "ускоритель"
 	if node is MapZone:
-		return ["лента", "горка", "лёд"][(node as MapZone).kind]
+		return ["лента", "горка", "лёд", "грязь"][(node as MapZone).kind]
 	if node is Portal:
 		return "портал"
 	if node is Reverser:

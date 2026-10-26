@@ -119,6 +119,15 @@ enum SurroundStyle { BAND, HILLS }
 		_queue_rebuild()
 ## Цвет дымки вдали и неба за краем карты (сцена гонки ставит его в Environment).
 @export var haze_color: Color = Color(0.72, 0.82, 0.95)
+## Освещение карты (сцена гонки ставит его солнцу и Environment). По умолчанию — как в сцене
+## гонки (день); ночная карта («Хэллоуин») — голубая луна, тусклое небо, дымка ближе.
+@export var sun_color: Color = Color.WHITE
+@export var sun_energy: float = 0.85
+@export var ambient_color: Color = Color(0.8, 0.85, 0.95)
+@export var ambient_energy: float = 0.4
+## Дымка: с какого и до какого расстояния, м.
+@export var haze_begin: float = 60.0
+@export var haze_end: float = 240.0
 ## Материал полосы; пусто — материал стены с текстурой по мировым координатам.
 @export var surround_material: Material:
 	set(value):
@@ -1288,7 +1297,8 @@ func _settle_decor() -> void:
 		return
 	for child in decor.get_children():
 		var node := child as Node3D
-		if node == null or not node.has_meta(&"layout_decor"):
+		# Тыквы-фонари на стенах (layout_map wall_row) стоят на стене, а не на склоне.
+		if node == null or not node.has_meta(&"layout_decor") or node.has_meta(&"layout_on_wall"):
 			continue
 		var local := decor.transform * node.position
 		local.y = hills_height_at(local.x, local.z)

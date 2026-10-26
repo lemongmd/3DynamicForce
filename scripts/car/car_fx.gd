@@ -43,6 +43,7 @@ var _car: CarController
 var _smoke: CPUParticles3D
 var _sparks: CPUParticles3D
 var _flame: CPUParticles3D
+var _mud: CPUParticles3D
 var _skid_mesh: ImmediateMesh
 var _skid_instance: MeshInstance3D
 var _skid_material: StandardMaterial3D
@@ -68,6 +69,9 @@ func _ready() -> void:
 	_flame = Fx.emitter(&"boost_flame")
 	_flame.position = EXHAUST
 	add_child(_flame)
+	_mud = Fx.emitter(&"mud_spray")
+	_mud.position = Vector3(0.0, 0.2, 1.2)
+	add_child(_mud)
 
 	_skid_mesh = ImmediateMesh.new()
 	_skid_material = StandardMaterial3D.new()
@@ -106,6 +110,8 @@ func _physics_process(delta: float) -> void:
 		_spark_stage = stage
 		_sparks.color_ramp = Fx._gradient(Fx.DRIFT_STAGE_COLORS[stage - 1] + [Color(0, 0, 0, 0)], true)
 	_flame.emitting = _car.forward_speed > _car.max_speed + 0.5 or _car.is_boosting()
+	# В грязи колёса буксуют — летят комья (зона MUD ставит счётчик в мета машины).
+	_mud.emitting = on_floor and int(_car.get_meta(MapZone.MUD_COUNT_META, 0)) > 0 			and (speed > 1.0 or _car.current_input.throttle > 0.1)
 	_update_skids(on_floor and speed > SKID_MIN_SPEED and _is_skidding())
 	_draw_skids()
 

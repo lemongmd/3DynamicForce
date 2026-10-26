@@ -1,0 +1,36 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/decor/grave.gd" id="1_grave"]
+[ext_resource type="Material" path="res://assets/materials/grave_stone.tres" id="2_stone"]
+[ext_resource type="Material" path="res://assets/materials/grave_front.tres" id="3_front"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_body"]
+material = ExtResource("2_stone")
+size = Vector3(1.2, 1.1, 0.34)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_top"]
+material = ExtResource("2_stone")
+top_radius = 0.6
+bottom_radius = 0.6
+height = 0.34
+radial_segments = 10
+rings = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_front"]
+material = ExtResource("3_front")
+size = Vector2(1.2, 1.6)
+
+[node name="Grave" type="Node3D"]
+script = ExtResource("1_grave")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.55, 0)
+mesh = SubResource("BoxMesh_body")
+
+[node name="Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 1.1, 0)
+mesh = SubResource("CylinderMesh_top")
+
+[node name="Front" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.8, 0.175)
+mesh = SubResource("QuadMesh_front")

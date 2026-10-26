@@ -63,6 +63,14 @@ const PRESETS := {
 		"colors": [Color(1, 1, 0.75), Color(1, 0.7, 0.15), Color(0.95, 0.25, 0.05, 0.6), Color(0.3, 0.1, 0.05, 0.0)],
 		"box": Vector3(0.25, 0.05, 0.05),
 	},
+	# Комья грязи из-под задних колёс (непрерывный, ретро): машина буксует в грязи (MapZone.MUD).
+	&"mud_spray": {
+		"texture": &"puff", "size": 0.5, "amount": 30, "lifetime": 0.45,
+		"velocity": [3.0, 6.0], "direction": Vector3(0, 1.0, 1), "spread": 30.0,
+		"gravity": Vector3(0, -16, 0), "scale": [0.6, 1.2], "curve": &"shrink",
+		"colors": [Color(0.42, 0.28, 0.18), Color(0.3, 0.2, 0.13), Color(0.22, 0.15, 0.1, 0.0)],
+		"box": Vector3(0.75, 0.05, 0.1), "retro": true,
+	},
 	# Пыль во все стороны по земле при приземлении.
 	&"landing_dust": {
 		"texture": &"puff_hd", "size": 1.1, "amount": 20, "lifetime": 0.6,

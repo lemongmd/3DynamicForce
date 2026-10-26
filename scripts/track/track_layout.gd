@@ -108,8 +108,22 @@ static func snapped_transform(track: Track, node: Node3D, global_pos: Vector3, g
 		lateral = clampf(snappedf(lateral, lane), -lane_limit, lane_limit)
 	else:
 		lateral = clampf(lateral, -limit, limit)
-	var basis := Basis(Vector3.UP, track_yaw(track, offset) + relative) * Basis.from_scale(node.scale)
+	var basis := road_tilt(track, offset) * Basis(Vector3.UP, track_yaw(track, offset) + relative) 			* Basis.from_scale(node.scale)
 	return Transform3D(basis, track.get_point_at(offset, lateral))
+
+
+## Наклон объекта по склону дороги: его верх — нормаль дороги в offset (поперёк дорога не
+## наклонена). Без него на подъёме задняя половина объекта уходила под асфальт, а с ней
+## свечи и пятна света. На ровном месте — без поворота (сцены ровных карт не меняются).
+static func road_tilt(track: Track, offset: float) -> Basis:
+	var dir := track.get_direction_at(offset)
+	var right := dir.cross(Vector3.UP)
+	if right.length_squared() < 1e-8:
+		return Basis.IDENTITY
+	var up := right.normalized().cross(dir).normalized()
+	if up.angle_to(Vector3.UP) < deg_to_rad(0.5):
+		return Basis.IDENTITY
+	return Basis(Quaternion(Vector3.UP, up))
 
 
 ## Трансформ для декора на стене (знак): на середине стены с той стороны, где global_pos.
