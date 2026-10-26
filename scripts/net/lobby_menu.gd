@@ -106,6 +106,9 @@ var _logo_y := LOGO_Y_MAIN
 var _scale_mode_before: Window.ContentScaleMode = Window.CONTENT_SCALE_MODE_VIEWPORT
 ## Титры прокручиваются сами (как в кино), колесо мыши тоже работает.
 var _credits_scroll := 0.0
+## Сколько ждать после использования колёсика до автопрокрутки
+const CREDITS_SCROLL_WAIT := 1.0
+var _last_scrolled_in_credits := 0.0
 const CREDITS_SPEED := 10.0
 
 
@@ -148,9 +151,13 @@ func _process(delta: float) -> void:
 	_poll_probe(delta)
 	if _credits.visible:
 		var scroll := _credits.get_meta(&"scroll") as ScrollContainer
-		_credits_scroll += CREDITS_SPEED * delta
+		_last_scrolled_in_credits += delta
+		if _last_scrolled_in_credits > CREDITS_SCROLL_WAIT:
+			_credits_scroll += CREDITS_SPEED * delta
+		
 		if absf(scroll.scroll_vertical - _credits_scroll) > 2.0:
 			_credits_scroll = scroll.scroll_vertical  # прокрутили колесом — едем дальше оттуда
+			_last_scrolled_in_credits = 0.0
 		scroll.scroll_vertical = int(_credits_scroll)
 
 
@@ -476,7 +483,7 @@ func _build_credits() -> Control:
 	box.add_theme_constant_override(&"separation", 1)
 	scroll.add_child(box)
 	var lines := [
-		["", 4],
+		["", 20],
 		["DYNAMIC FORCE", 12], ["игра от: mace dev 2023", 6], ["link", 6], ["", 4],
 		["3DYNAMIC FORCE: ремейк в 3D", 12],
 		["с одобрения автора оригинала; версия %s" % ProjectSettings.get_setting("application/config/version", ""), 6],
@@ -494,6 +501,7 @@ func _build_credits() -> Control:
 		["", 4], ["СОФТ", 12], ["оригинал: construct 3, paint.net, audacity", 6],
 		["ремейк: godot 4.7, blender", 6],
 		["", 4], ["чужая музыка и звуки здесь только для теста, не для продажи", 6],
+		["", 20],
 	]
 	for line in lines:
 		if line[0] == "link":
