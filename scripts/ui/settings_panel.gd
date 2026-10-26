@@ -6,6 +6,8 @@ extends VBoxContainer
 
 signal closed
 
+## Кнопка «НАЗАД» (в паузе); в меню назад ведёт стрелка страницы.
+var show_back := true
 ## Ширина ползунка громкости, px.
 const SLIDER_WIDTH := 96.0
 
@@ -29,7 +31,8 @@ func _ready() -> void:
 	add_child(checks)
 	checks.add_child(_check("полный экран", "fullscreen", ""))
 	checks.add_child(_check("автогаз", "autogas", "машина газует сама, а тормоз работает и как задний ход"))
-	add_child(UiStyle.button("НАЗАД", func() -> void: closed.emit(), true, UiStyle.Kind.SECONDARY))
+	if show_back:
+		add_child(UiStyle.button("НАЗАД", func() -> void: closed.emit(), true, UiStyle.Kind.SECONDARY))
 	first.grab_focus.call_deferred()
 
 

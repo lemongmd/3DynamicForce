@@ -70,7 +70,6 @@ func _build() -> void:
 	box.add_child(UiStyle.button("ВЫЙТИ" if online else "В МЕНЮ", func() -> void:
 		close()
 		Network.session().leave_to_menu(), true, UiStyle.Kind.SECONDARY))
-	box.add_child(UiStyle.hint("Esc: продолжить"))
 	_panel = UiStyle.window("МЕНЮ" if online else "ПАУЗА", box)
 	add_child(_panel)
 	resume.grab_focus.call_deferred()

@@ -40,10 +40,9 @@ const FACE := preload("res://assets/original/textures/main/playercaricon-none-00
 ## Кадры кнопок-крестов menustartbutton.
 enum StartFrame { PLAY = 0, SKIN = 1, CREDITS = 2, BACK = 3, FRIENDS = 8, EMPTY = 9 }
 enum Page { MAIN, MAPS, GARAGE, FRIENDS, SETTINGS }
-## Центр панели по высоте (как в оригинале: 132 из 216) и отступы содержимого.
-const PANEL_Y := 132.0
+## Отступы содержимого панели.
 const PANEL_PAD := Vector2(22, 16)
-const MAIN_PANEL := Vector2(192, 84)
+const MAIN_PANEL := Vector2(192, 94)
 ## Стрелка «назад» от левого верхнего угла панели, px.
 const BACK_OFFSET := Vector2(6, 9)
 ## Логотип: на главной — на месте оригинала (центр y = 56), на остальных страницах уезжает вверх,
@@ -51,7 +50,7 @@ const BACK_OFFSET := Vector2(6, 9)
 const LOGO_Y_MAIN := 56.0
 const LOGO_Y_PAGE := 28.0
 ## Панель не залезает под логотип и под нижние надписи (отступы, px).
-const PANEL_GAP_TOP := 4.0
+const PANEL_GAP_TOP := 8.0
 const PANEL_GAP_BOTTOM := 22.0
 const PAGE_TIME := 1.0 / 6.0
 ## Логотип: сжимается до 0.95 за 1/3 с и снова (как в оригинале — в такт музыке).
@@ -212,6 +211,7 @@ func _build_ui() -> void:
 	_pages[Page.GARAGE] = _page_with_title("на чём поедем?", _garage)
 	_pages[Page.FRIENDS] = _page_with_title("с друзьями", _build_friends_page())
 	var settings := SettingsPanel.new()
+	settings.show_back = false
 	settings.closed.connect(_go_back)
 	_pages[Page.SETTINGS] = _page_with_title("настройки", settings)
 	for page in _pages.values():
@@ -280,30 +280,30 @@ func _build_main_page() -> Control:
 	var play := _start_button(StartFrame.PLAY, 48)
 	play.tooltip_text = "играть"
 	play.pressed.connect(_show_page.bind(Page.MAPS, true))
-	_place(page, play, center + Vector2(0, -8))
+	_place(page, play, center + Vector2(0, -11))
 	var garage := _start_button(StartFrame.SKIN, 32)
 	garage.tooltip_text = "гараж"
 	garage.pressed.connect(_show_page.bind(Page.GARAGE, true))
-	_place(page, garage, center + Vector2(-68, -8))
+	_place(page, garage, center + Vector2(-68, -11))
 	var credits := _start_button(StartFrame.CREDITS, 32)
 	credits.tooltip_text = "титры"
 	credits.pressed.connect(_open_credits)
-	_place(page, credits, center + Vector2(68, -8))
+	_place(page, credits, center + Vector2(68, -11))
 	var friends := _start_button(StartFrame.FRIENDS, 32)
 	friends.tooltip_text = "зайти в игру друга по ID"
 	friends.pressed.connect(_show_page.bind(Page.FRIENDS, true))
-	_place(page, friends, center + Vector2(-40, 22))
+	_place(page, friends, center + Vector2(-40, 19))
 	var settings := _start_button(StartFrame.EMPTY, 32)
 	settings.texture_normal = _gear_texture()
 	settings.tooltip_text = "настройки"
 	settings.pressed.connect(_show_page.bind(Page.SETTINGS, true))
-	_place(page, settings, center + Vector2(40, 22))
+	_place(page, settings, center + Vector2(40, 19))
 	page.set_meta(&"focus", play)
 	return page
 
 
 func _build_maps_page() -> Control:
-	var box := UiStyle.column(UiStyle.GAP)
+	var box := UiStyle.column(6)
 	var grid := GridContainer.new()
 	# 5 столбцов: 8 карт и «случайная» — в два ряда, страница не выше экрана.
 	grid.columns = 5
@@ -327,7 +327,7 @@ func _build_maps_page() -> Control:
 		MenuFx.juicy(button, false)
 		grid.add_child(button)
 		_map_buttons[map] = button
-	_selected_label = UiStyle.heading("")
+	_selected_label = UiStyle.text("")
 	box.add_child(_selected_label)
 	var row := UiStyle.row(8)
 	box.add_child(row)
@@ -340,26 +340,21 @@ func _build_maps_page() -> Control:
 	return box
 
 
-## «С друзьями» — две колонки, чтобы страница не вылезала за экран (с найденными играми и
-## результатом проверки сети столбиком она была выше экрана): слева вход по ID и проверка сети,
-## справа игры в локальной сети.
-const FRIENDS_COLUMN := 150.0
+## «С друзьями»: слева вход по ID и проверка сети, справа игры в локальной сети; итог
+## проверки сети — под колонками на всю ширину (в узкой колонке он вытягивал страницу за экран).
+const FRIENDS_COLUMN := 140.0
 
 
 func _build_friends_page() -> Control:
 	var left := UiStyle.column(UiStyle.GAP)
 	left.custom_minimum_size.x = FRIENDS_COLUMN
-	# Вход по ID: поле и кнопка в одну строку.
-	var join_block := UiStyle.column(UiStyle.GAP_SMALL)
-	join_block.add_child(UiStyle.hint("войти по ID от друга"))
 	var join_row := UiStyle.row(6)
-	join_block.add_child(join_row)
-	left.add_child(join_block)
+	left.add_child(join_row)
 	_join_id = LineEdit.new()
 	_join_id.placeholder_text = "ID игры"
 	_join_id.max_length = 5
 	_join_id.alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_join_id.custom_minimum_size = Vector2(84, 0)
+	_join_id.custom_minimum_size = Vector2(76, 0)
 	_join_id.text_changed.connect(func(text: String) -> void:
 		var caret := _join_id.caret_column
 		_join_id.text = text.to_upper()
@@ -372,26 +367,16 @@ func _build_friends_page() -> Control:
 	_check_button = _text_button("ПРОВЕРКА СЕТИ", _on_check_network, UiStyle.Kind.SMALL_SECONDARY)
 	_check_button.tooltip_text = "не получается зайти через интернет? проверим трекеры и роутер (NAT)"
 	left.add_child(_check_button)
-	_check_result = _small_label("")
-	_check_result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_check_result.custom_minimum_size = Vector2(FRIENDS_COLUMN, 0)
-	_check_result.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_check_result.visible = false
-	left.add_child(_check_result)
 	# Игры в локальной сети — во вложенной плашке, вход в один клик.
-	var right := UiStyle.column(UiStyle.GAP)
-	right.custom_minimum_size.x = FRIENDS_COLUMN
-	right.alignment = BoxContainer.ALIGNMENT_BEGIN
 	var games_panel := PanelContainer.new()
 	games_panel.theme_type_variation = &"InsetPanel"
+	games_panel.custom_minimum_size.x = FRIENDS_COLUMN
 	var games_box := UiStyle.column(UiStyle.GAP_SMALL)
 	games_panel.add_child(games_box)
 	games_box.add_child(UiStyle.hint("игры в локальной сети"))
 	_games = VBoxContainer.new()
 	_games.add_theme_constant_override(&"separation", UiStyle.GAP_SMALL)
 	games_box.add_child(_games)
-	right.add_child(games_panel)
-	right.add_child(UiStyle.hint("своя игра: «играть», карта,\nпотом «с друзьями»"))
 	var columns := UiStyle.row(14)
 	columns.alignment = BoxContainer.ALIGNMENT_BEGIN
 	columns.add_child(left)
@@ -401,9 +386,18 @@ func _build_friends_page() -> Control:
 	line.color = Color(1, 1, 1, 0.2)
 	divider.add_theme_stylebox_override(&"separator", line)
 	columns.add_child(divider)
-	columns.add_child(right)
-	columns.set_meta(&"focus", _join_id)
-	return columns
+	columns.add_child(games_panel)
+	var box := UiStyle.column(UiStyle.GAP)
+	box.add_child(columns)
+	_check_result = _small_label("")
+	_check_result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_check_result.custom_minimum_size = Vector2(FRIENDS_COLUMN * 2 + 29, 0)
+	_check_result.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_check_result.visible = false
+	box.add_child(_check_result)
+	box.set_meta(&"focus", _join_id)
+	return box
+
 
 ## Титры — отдельный экран, как Credits оригинала (тёмно-фиолетовый, стрелка назад).
 func _build_credits() -> Control:
@@ -534,7 +528,7 @@ func _layout() -> void:
 	# Панель — на месте оригинала (y = 132), но не под логотипом и не на нижних надписях.
 	var top := _logo_y + _logo.size.y * 0.5 + PANEL_GAP_TOP + _panel_size.y * 0.5
 	var bottom_limit := screen.y - PANEL_GAP_BOTTOM - _panel_size.y * 0.5
-	var center := Vector2(screen.x * 0.5, clampf(PANEL_Y * screen.y / 216.0, top, maxf(bottom_limit, top)))
+	var center := Vector2(screen.x * 0.5, minf(top, maxf(bottom_limit, top)))
 	_panel.size = _panel_size.round()
 	_panel.position = (center - _panel.size * 0.5).round()
 	# По высоте — вровень с заголовком страницы.
@@ -830,7 +824,7 @@ func _small_label(text: String) -> Label:
 
 ## Страница с заголовком (как Text оригинала над содержимым).
 func _page_with_title(title: String, content: Control) -> Control:
-	var box := UiStyle.column(UiStyle.GAP + 2)
+	var box := UiStyle.column(UiStyle.GAP)
 	box.add_child(UiStyle.heading(title))
 	box.add_child(content)
 	if content.has_meta(&"focus"):
