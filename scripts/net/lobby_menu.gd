@@ -52,7 +52,7 @@ const LOGO_Y_MAIN := 56.0
 const LOGO_Y_PAGE := 28.0
 ## Панель не залезает под логотип и под нижние надписи (отступы, px).
 const PANEL_GAP_TOP := 4.0
-const PANEL_GAP_BOTTOM := 18.0
+const PANEL_GAP_BOTTOM := 22.0
 const PAGE_TIME := 1.0 / 6.0
 ## Логотип: сжимается до 0.95 за 1/3 с и снова (как в оригинале — в такт музыке).
 const LOGO_BEAT := 1.0 / 3.0
@@ -545,18 +545,19 @@ func _layout() -> void:
 			control.size = control.get_combined_minimum_size()
 			var offset := Vector2(0, 3) if control != _pages[Page.MAIN] else Vector2.ZERO
 			control.position = (center - control.size * 0.5 + offset).round()
-	var bottom := screen.y - 12.0
-	_author.position = Vector2(8.0, bottom + 4.0)
-	_status_icon.position = Vector2(screen.x - 20.0, bottom - 4.0)
+	# Нижние надписи — на 6 px от края, как версия сверху (у самого края резались их низ и тень).
+	var bottom := screen.y - 14.0
+	_author.position = Vector2(8.0, bottom)
+	_status_icon.position = Vector2(screen.x - 20.0, bottom - 6.0)
 	_status_text.size = Vector2(160, 8)
-	_status_text.position = Vector2(screen.x - 184.0, bottom + 2.0)
+	_status_text.position = Vector2(screen.x - 184.0, bottom)
 	###EDITING###
 	_close_button.position = Vector2(screen.x - 20.0, 4.0)
 	_player_face.position = Vector2(screen.x - 20.0 - 20.0, 4.0)
 	_player_name.size = Vector2(160, 8)
 	_player_name.position = Vector2(screen.x - 184.0 - 20.0, 8.0)
 	_status.size = Vector2(minf(220.0, screen.x - 200.0), 0)
-	_status.position = Vector2((screen.x - _status.size.x) * 0.5, bottom - 6.0)
+	_status.position = Vector2((screen.x - _status.size.x) * 0.5, bottom - 10.0)
 
 
 # --------------------------------------------------------------------------
