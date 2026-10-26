@@ -38,19 +38,24 @@ func _run() -> void:
 	net.found_games = {
 		"K7QX2": {"name": "МаксимусМакс", "map": "remake_01", "players": 3, "max": 4, "open": true, "seen": 0.0},
 		"B3ZTA": {"name": "stysan", "map": "map_h", "players": 1, "max": 4, "open": true, "seen": 0.0},
+		"Q9WEH": {"name": "Гость_42", "map": "map_b", "players": 4, "max": 4, "open": false, "seen": 0.0},
 	}
 	# Меню.
 	var menu := (load("res://scenes/net/lobby_menu.tscn") as PackedScene).instantiate()
 	root.add_child(menu)
 	await _shot("menu_main")
 	menu.call("_refresh_games")
-	var check := menu.get("_check_result") as Label
-	check.text = "\n".join(["трекеры: 3 из 3 отвечают",
-			"роутер: строгий NAT. Войти получится, если у друга обычный. Если строгий у обоих, нужен TURN-сервер"])
-	check.visible = true
 	for page in [["menu_maps", 1], ["menu_garage", 2], ["menu_friends", 3], ["menu_settings", 4]]:
 		menu.call("_show_page", page[1], false)
 		await _shot(page[0])
+	# «С друзьями» без игр рядом и окошко проверки сети.
+	net.found_games = {}
+	menu.call("_refresh_games")
+	menu.call("_show_page", 3, false)
+	await _shot("menu_friends_empty")
+	menu.call("_show_net_check", PackedStringArray(["трекеры: 3 из 3 отвечают",
+			"роутер: строгий NAT. Войти получится, если у друга обычный. Если строгий у обоих, нужен TURN-сервер"]))
+	await _shot("menu_netcheck")
 	menu.queue_free()
 	await process_frame
 	# Гонка: лобби, пауза, настройки, результаты (4 участника).

@@ -79,6 +79,7 @@ var _status: Label
 var _skin: CarSkin = CarSkin.from_code(CarSkin.DEFAULT_CODE)
 var _check_button: Button
 var _check_result: Label
+var _net_popup: Control
 
 var _background: MenuBackground
 var _logo: TextureRect
@@ -155,7 +156,9 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not event.is_action_pressed(&"ui_cancel"):
 		return
-	if _credits.visible:
+	if _net_popup != null and _net_popup.visible:
+		_close_net_check()
+	elif _credits.visible:
 		_close_credits()
 	elif _page != Page.MAIN:
 		_go_back()
@@ -340,21 +343,25 @@ func _build_maps_page() -> Control:
 	return box
 
 
-## «С друзьями»: слева вход по ID и проверка сети, справа игры в локальной сети; итог
-## проверки сети — под колонками на всю ширину (в узкой колонке он вытягивал страницу за экран).
-const FRIENDS_COLUMN := 140.0
+## «С друзьями» — зайти к другу: сверху ввести ID, ниже игры рядом (локальная сеть) — строки
+## на всю ширину, вход в один клик. «проверить сеть» нужна редко: маленькая кнопка в заголовке
+## списка, итог — окошком поверх меню (на странице он раздувал её за экран).
+const FRIENDS_WIDTH := 224.0
+## Высота строки игры рядом, px, и сколько строк влезает на страницу.
+const GAME_ROW_HEIGHT := 16.0
+const MAX_GAME_ROWS := 3
 
 
 func _build_friends_page() -> Control:
-	var left := UiStyle.column(UiStyle.GAP)
-	left.custom_minimum_size.x = FRIENDS_COLUMN
+	var box := UiStyle.column(UiStyle.GAP)
+	box.custom_minimum_size.x = FRIENDS_WIDTH
 	var join_row := UiStyle.row(6)
-	left.add_child(join_row)
+	box.add_child(join_row)
 	_join_id = LineEdit.new()
 	_join_id.placeholder_text = "ID игры"
 	_join_id.max_length = 5
 	_join_id.alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_join_id.custom_minimum_size = Vector2(76, 0)
+	_join_id.custom_minimum_size = Vector2(100, 0)
 	_join_id.text_changed.connect(func(text: String) -> void:
 		var caret := _join_id.caret_column
 		_join_id.text = text.to_upper()
@@ -364,39 +371,91 @@ func _build_friends_page() -> Control:
 	var join := _text_button("ВОЙТИ", _on_join)
 	join.disabled = not Network.is_available()
 	join_row.add_child(join)
-	_check_button = _text_button("ПРОВЕРКА СЕТИ", _on_check_network, UiStyle.Kind.SMALL_SECONDARY)
+	# Игры рядом: заголовок списка, справа — проверка сети.
+	var nearby := UiStyle.column(UiStyle.GAP_SMALL)
+	var head := HBoxContainer.new()
+	var caption := UiStyle.hint("игры рядом")
+	caption.tooltip_text = "в той же локальной сети"
+	caption.mouse_filter = Control.MOUSE_FILTER_PASS
+	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	caption.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	caption.size_flags_vertical = Control.SIZE_SHRINK_END
+	head.add_child(caption)
+	_check_button = _text_button("проверить сеть", _on_check_network, UiStyle.Kind.SMALL_SECONDARY)
 	_check_button.tooltip_text = "не получается зайти через интернет? проверим трекеры и роутер (NAT)"
-	left.add_child(_check_button)
-	# Игры в локальной сети — во вложенной плашке, вход в один клик.
-	var games_panel := PanelContainer.new()
-	games_panel.theme_type_variation = &"InsetPanel"
-	games_panel.custom_minimum_size.x = FRIENDS_COLUMN
-	var games_box := UiStyle.column(UiStyle.GAP_SMALL)
-	games_panel.add_child(games_box)
-	games_box.add_child(UiStyle.hint("игры в локальной сети"))
+	head.add_child(_check_button)
+	nearby.add_child(head)
 	_games = VBoxContainer.new()
-	_games.add_theme_constant_override(&"separation", UiStyle.GAP_SMALL)
-	games_box.add_child(_games)
-	var columns := UiStyle.row(14)
-	columns.alignment = BoxContainer.ALIGNMENT_BEGIN
-	columns.add_child(left)
-	var divider := VSeparator.new()
-	var line := StyleBoxLine.new()
-	line.vertical = true
-	line.color = Color(1, 1, 1, 0.2)
-	divider.add_theme_stylebox_override(&"separator", line)
-	columns.add_child(divider)
-	columns.add_child(games_panel)
-	var box := UiStyle.column(UiStyle.GAP)
-	box.add_child(columns)
-	_check_result = _small_label("")
-	_check_result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_check_result.custom_minimum_size = Vector2(FRIENDS_COLUMN * 2 + 29, 0)
-	_check_result.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_check_result.visible = false
-	box.add_child(_check_result)
+	_games.add_theme_constant_override(&"separation", 2)
+	nearby.add_child(_games)
+	box.add_child(nearby)
 	box.set_meta(&"focus", _join_id)
 	return box
+
+
+## Строка игры рядом: ник хоста, карта, сколько игроков (или «гонка», если уже едут).
+func _game_row(id: String, info: Dictionary) -> Control:
+	var open := bool(info.get("open", true))
+	var button := Button.new()
+	button.theme_type_variation = &"ButtonSmall"
+	button.custom_minimum_size = Vector2(FRIENDS_WIDTH, GAME_ROW_HEIGHT)
+	button.disabled = not open or not Network.is_available()
+	button.tooltip_text = "войти" if open else "там уже идёт гонка"
+	button.pressed.connect(func() -> void: _join(id))
+	MenuFx.juicy(button)
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	# Поля как у кнопки; снизу выступ клавиши.
+	row.offset_left = 7.0
+	row.offset_right = -7.0
+	row.offset_bottom = -3.0
+	row.add_theme_constant_override(&"separation", 8)
+	button.add_child(row)
+	var host := UiStyle.text(String(info.get("name", "?")))
+	host.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var map := UiStyle.text(_map_title(String(info.get("map", ""))), Color(0.85, 0.9, 1.0))
+	var count := UiStyle.text("%d/%d" % [int(info.get("players", 0)), int(info.get("max", 4))] if open else "гонка")
+	count.custom_minimum_size.x = 26
+	for label: Label in [host, map, count]:
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.size_flags_vertical = Control.SIZE_FILL
+		row.add_child(label)
+	count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	return button
+
+
+## Окошко «сеть» поверх меню: проверка трекеров и роутера, итог строками, «ОК» — закрыть.
+func _show_net_check(lines: PackedStringArray) -> void:
+	if _net_popup == null:
+		_net_popup = Control.new()
+		_net_popup.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		_net_popup.mouse_filter = Control.MOUSE_FILTER_STOP
+		add_child(_net_popup)
+		var shade := ColorRect.new()
+		shade.color = Color(0, 0, 0, 0.5)
+		shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		_net_popup.add_child(shade)
+		var box := UiStyle.column(UiStyle.GAP)
+		_check_result = UiStyle.text("")
+		_check_result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_check_result.custom_minimum_size = Vector2(200, 0)
+		box.add_child(_check_result)
+		var ok := UiStyle.button("ОК", _close_net_check, true, UiStyle.Kind.SECONDARY)
+		box.add_child(ok)
+		_net_popup.add_child(UiStyle.window("СЕТЬ", box))
+		_net_popup.set_meta(&"focus", ok)
+	_check_result.text = "\n".join(lines)
+	_net_popup.visible = true
+	_focus_later(_net_popup.get_meta(&"focus"))
+
+
+func _close_net_check() -> void:
+	if _net_popup != null:
+		_net_popup.visible = false
+	_focus_later(_check_button)
 
 
 ## Титры — отдельный экран, как Credits оригинала (тёмно-фиолетовый, стрелка назад).
@@ -596,23 +655,23 @@ static func list_maps() -> PackedStringArray:
 
 
 func _refresh_games() -> void:
+	# Сразу из списка: иначе до конца кадра старые строки считались в размер панели.
 	for child in _games.get_children():
+		_games.remove_child(child)
 		child.queue_free()
 	var net := Network.session()
 	if net.found_games.is_empty():
-		var none := UiStyle.text("никого не видно", UiStyle.HINT_COLOR)
+		var none := PanelContainer.new()
+		none.theme_type_variation = &"InsetPanel"
+		none.custom_minimum_size = Vector2(FRIENDS_WIDTH, GAME_ROW_HEIGHT)
+		none.add_child(UiStyle.text("рядом никого не видно", UiStyle.HINT_COLOR))
 		_games.add_child(none)
 	else:
-		for id in net.found_games:
-			var info: Dictionary = net.found_games[id]
-			var button := Button.new()
-			button.theme_type_variation = &"ButtonSmall"
-			button.text = "%s  %s  %d/%d" % [String(info.get("name", "?")),
-					_map_title(String(info.get("map", ""))), int(info.get("players", 0)), int(info.get("max", 4))]
-			button.disabled = not bool(info.get("open", true)) or not Network.is_available()
-			button.pressed.connect(func() -> void: _join(String(id)))
-			MenuFx.juicy(button)
-			_games.add_child(button)
+		var ids := net.found_games.keys()
+		for i in mini(ids.size(), MAX_GAME_ROWS):
+			_games.add_child(_game_row(String(ids[i]), net.found_games[ids[i]]))
+		if ids.size() > MAX_GAME_ROWS:
+			_games.add_child(UiStyle.hint("и ещё %d" % (ids.size() - MAX_GAME_ROWS)))
 	if _page == Page.FRIENDS:
 		_show_page.call_deferred(Page.FRIENDS, false)
 
@@ -664,17 +723,14 @@ func _join(id: String) -> void:
 
 func _on_check_network() -> void:
 	_check_button.disabled = true
-	_check_result.text = "проверяем (до 10 с)…"
-	_check_result.visible = true
-	_show_page(Page.FRIENDS, true)
+	_show_net_check(PackedStringArray(["проверяем, это до 10 с…"]))
 	var check := NetCheck.new()
 	add_child(check)
 	check.finished.connect(func(lines: PackedStringArray) -> void:
-		_check_result.text = "\n".join(lines)
 		_check_button.disabled = false
 		check.queue_free()
-		if _page == Page.FRIENDS:
-			_show_page(Page.FRIENDS, true))
+		if _net_popup != null and _net_popup.visible:
+			_show_net_check(lines))
 	check.start(load(Network.CONTEXT_PATH) as TubeContext)
 
 
