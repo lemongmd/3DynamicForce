@@ -4,8 +4,9 @@ extends CanvasLayer
 ## «ПРОДОЛЖИТЬ», «ЗАНОВО», «НАСТРОЙКИ», «В МЕНЮ». Сетевая — игра идёт дальше (остальные
 ## не ждут): «ПРОДОЛЖИТЬ», «НАСТРОЙКИ», «ВЫЙТИ».
 
-var _panel: PanelContainer
+var _panel: Control
 var _settings: SettingsPanel
+var _settings_window: Control
 var _shade: ColorRect
 
 
@@ -48,6 +49,7 @@ func close() -> void:
 		child.queue_free()
 	_panel = null
 	_settings = null
+	_settings_window = null
 
 
 func _build() -> void:
@@ -55,40 +57,32 @@ func _build() -> void:
 	_shade.color = Color(0.0, 0.0, 0.0, 0.5)
 	_shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(_shade)
-	# Окно в общем стиле (UiStyle, как панель меню оригинала).
-	_panel = UiStyle.panel()
-	add_child(_panel)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override(&"separation", 4)
-	_panel.add_child(box)
-	box.add_child(UiStyle.title("ПАУЗА" if not Network.session().is_online() else "МЕНЮ"))
-	var resume := _button(box, "ПРОДОЛЖИТЬ", close)
-	if not Network.session().is_online():
-		_button(box, "ЗАНОВО", func() -> void:
+	# Окно в общем стиле (UiStyle): главное действие — синее, остальные — серо-синие.
+	var online := Network.session().is_online()
+	var box := UiStyle.column(UiStyle.GAP_SMALL)
+	var resume := UiStyle.button("ПРОДОЛЖИТЬ", close)
+	box.add_child(resume)
+	if not online:
+		box.add_child(UiStyle.button("ЗАНОВО", func() -> void:
 			close()
-			get_tree().reload_current_scene())
-	_button(box, "НАСТРОЙКИ", _open_settings)
-	_button(box, "ВЫЙТИ" if Network.session().is_online() else "В МЕНЮ", func() -> void:
+			get_tree().reload_current_scene(), true, UiStyle.Kind.SECONDARY))
+	box.add_child(UiStyle.button("НАСТРОЙКИ", _open_settings, true, UiStyle.Kind.SECONDARY))
+	box.add_child(UiStyle.button("ВЫЙТИ" if online else "В МЕНЮ", func() -> void:
 		close()
-		Network.session().leave_to_menu())
+		Network.session().leave_to_menu(), true, UiStyle.Kind.SECONDARY))
+	box.add_child(UiStyle.hint("Esc: продолжить"))
+	_panel = UiStyle.window("МЕНЮ" if online else "ПАУЗА", box)
+	add_child(_panel)
 	resume.grab_focus.call_deferred()
-
-
-func _button(box: VBoxContainer, text: String, callback: Callable) -> Button:
-	var button := UiStyle.button(text, callback)
-	box.add_child(button)
-	return button
 
 
 func _open_settings() -> void:
 	_panel.visible = false
 	_settings = SettingsPanel.new()
-	_settings.add_theme_stylebox_override(&"panel", UiStyle.panel_style())
-	_settings.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	_settings.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_settings.grow_vertical = Control.GROW_DIRECTION_BOTH
-	add_child(_settings)
+	_settings_window = UiStyle.window("НАСТРОЙКИ", _settings)
+	add_child(_settings_window)
 	_settings.closed.connect(func() -> void:
-		_settings.queue_free()
+		_settings_window.queue_free()
+		_settings_window = null
 		_settings = null
 		_panel.visible = true)

@@ -42,7 +42,7 @@ enum StartFrame { PLAY = 0, SKIN = 1, CREDITS = 2, BACK = 3, FRIENDS = 8, EMPTY 
 enum Page { MAIN, MAPS, GARAGE, FRIENDS, SETTINGS }
 ## Центр панели по высоте (как в оригинале: 132 из 216) и отступы содержимого.
 const PANEL_Y := 132.0
-const PANEL_PAD := Vector2(16, 14)
+const PANEL_PAD := Vector2(22, 16)
 const MAIN_PANEL := Vector2(192, 84)
 ## Стрелка «назад» от левого верхнего угла панели, px.
 const BACK_OFFSET := Vector2(6, 9)
@@ -119,7 +119,7 @@ func _ready() -> void:
 	_toast(net.last_end_reason)
 	net.last_end_reason = ""
 	if not Network.is_available():
-		_toast("Сетевая игра недоступна: нет WebRTC (addons/webrtc_native)")
+		_toast("Играть по сети не выйдет: не найден WebRTC (addons/webrtc_native)")
 	_start_probe()
 	# Проверка собранной игры: «-- --race=map_e» — сразу одиночный заезд на карте.
 	for arg in OS.get_cmdline_user_args():
@@ -212,9 +212,8 @@ func _build_ui() -> void:
 	_pages[Page.GARAGE] = _page_with_title("на чём поедем?", _garage)
 	_pages[Page.FRIENDS] = _page_with_title("с друзьями", _build_friends_page())
 	var settings := SettingsPanel.new()
-	settings.add_theme_stylebox_override(&"panel", StyleBoxEmpty.new())
 	settings.closed.connect(_go_back)
-	_pages[Page.SETTINGS] = settings
+	_pages[Page.SETTINGS] = _page_with_title("настройки", settings)
 	for page in _pages.values():
 		(page as Control).visible = false
 		add_child(page)
@@ -232,7 +231,7 @@ func _build_ui() -> void:
 	_status_icon = TextureRect.new()
 	_status_icon.texture = _status_frame(2)
 	add_child(_status_icon)
-	_status_text = _small_label("подключение...")
+	_status_text = _small_label("подключаемся…")
 	_status_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	add_child(_status_text)
 	_close_button = TextureButton.new()
@@ -291,7 +290,7 @@ func _build_main_page() -> Control:
 	credits.pressed.connect(_open_credits)
 	_place(page, credits, center + Vector2(68, -8))
 	var friends := _start_button(StartFrame.FRIENDS, 32)
-	friends.tooltip_text = "с друзьями: войти по ID"
+	friends.tooltip_text = "зайти в игру друга по ID"
 	friends.pressed.connect(_show_page.bind(Page.FRIENDS, true))
 	_place(page, friends, center + Vector2(-40, 22))
 	var settings := _start_button(StartFrame.EMPTY, 32)
@@ -304,12 +303,13 @@ func _build_main_page() -> Control:
 
 
 func _build_maps_page() -> Control:
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override(&"separation", 4)
+	var box := UiStyle.column(UiStyle.GAP)
 	var grid := GridContainer.new()
-	grid.columns = 4
-	grid.add_theme_constant_override(&"h_separation", 16)
+	# 5 столбцов: 8 карт и «случайная» — в два ряда, страница не выше экрана.
+	grid.columns = 5
+	grid.add_theme_constant_override(&"h_separation", 10)
 	grid.add_theme_constant_override(&"v_separation", 8)
+	grid.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(grid)
 	_map_names = list_maps()
 	# Проверка собранной игры: какие карты нашлись (в журнал).
@@ -327,32 +327,39 @@ func _build_maps_page() -> Control:
 		MenuFx.juicy(button, false)
 		grid.add_child(button)
 		_map_buttons[map] = button
-	_selected_label = _small_label("")
-	_selected_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_selected_label = UiStyle.heading("")
 	box.add_child(_selected_label)
-	var row := HBoxContainer.new()
-	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	row.add_theme_constant_override(&"separation", 8)
+	var row := UiStyle.row(8)
 	box.add_child(row)
 	row.add_child(_text_button("ОДИН", _on_single))
 	var host := _text_button("С ДРУЗЬЯМИ", _on_host)
 	host.disabled = not Network.is_available()
-	host.tooltip_text = "создать игру: друзья войдут по ID"
+	host.tooltip_text = "создать игру, друзья зайдут по ID"
 	row.add_child(host)
 	box.set_meta(&"focus", grid.get_child(0))
 	return box
 
 
+## «С друзьями» — две колонки, чтобы страница не вылезала за экран (с найденными играми и
+## результатом проверки сети столбиком она была выше экрана): слева вход по ID и проверка сети,
+## справа игры в локальной сети.
+const FRIENDS_COLUMN := 150.0
+
+
 func _build_friends_page() -> Control:
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override(&"separation", 3)
-	box.custom_minimum_size = Vector2(216, 0)
-	var join_row := HBoxContainer.new()
-	box.add_child(join_row)
+	var left := UiStyle.column(UiStyle.GAP)
+	left.custom_minimum_size.x = FRIENDS_COLUMN
+	# Вход по ID: поле и кнопка в одну строку.
+	var join_block := UiStyle.column(UiStyle.GAP_SMALL)
+	join_block.add_child(UiStyle.hint("войти по ID от друга"))
+	var join_row := UiStyle.row(6)
+	join_block.add_child(join_row)
+	left.add_child(join_block)
 	_join_id = LineEdit.new()
 	_join_id.placeholder_text = "ID игры"
 	_join_id.max_length = 5
-	_join_id.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_join_id.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_join_id.custom_minimum_size = Vector2(84, 0)
 	_join_id.text_changed.connect(func(text: String) -> void:
 		var caret := _join_id.caret_column
 		_join_id.text = text.to_upper()
@@ -362,20 +369,41 @@ func _build_friends_page() -> Control:
 	var join := _text_button("ВОЙТИ", _on_join)
 	join.disabled = not Network.is_available()
 	join_row.add_child(join)
-	box.add_child(_small_label("игры в локальной сети (вход в один клик):"))
-	_games = VBoxContainer.new()
-	box.add_child(_games)
-	box.add_child(_small_label("создать игру: «играть», карта, «с друзьями»"))
-	_check_button = _text_button("ПРОВЕРКА СЕТИ", _on_check_network)
-	box.add_child(_check_button)
+	_check_button = _text_button("ПРОВЕРКА СЕТИ", _on_check_network, UiStyle.Kind.SMALL_SECONDARY)
+	_check_button.tooltip_text = "не получается зайти через интернет? проверим трекеры и роутер (NAT)"
+	left.add_child(_check_button)
 	_check_result = _small_label("")
 	_check_result.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_check_result.custom_minimum_size = Vector2(216, 0)
+	_check_result.custom_minimum_size = Vector2(FRIENDS_COLUMN, 0)
+	_check_result.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_check_result.visible = false
-	box.add_child(_check_result)
-	box.set_meta(&"focus", _join_id)
-	return box
-
+	left.add_child(_check_result)
+	# Игры в локальной сети — во вложенной плашке, вход в один клик.
+	var right := UiStyle.column(UiStyle.GAP)
+	right.custom_minimum_size.x = FRIENDS_COLUMN
+	right.alignment = BoxContainer.ALIGNMENT_BEGIN
+	var games_panel := PanelContainer.new()
+	games_panel.theme_type_variation = &"InsetPanel"
+	var games_box := UiStyle.column(UiStyle.GAP_SMALL)
+	games_panel.add_child(games_box)
+	games_box.add_child(UiStyle.hint("игры в локальной сети"))
+	_games = VBoxContainer.new()
+	_games.add_theme_constant_override(&"separation", UiStyle.GAP_SMALL)
+	games_box.add_child(_games)
+	right.add_child(games_panel)
+	right.add_child(UiStyle.hint("своя игра: «играть», карта,\nпотом «с друзьями»"))
+	var columns := UiStyle.row(14)
+	columns.alignment = BoxContainer.ALIGNMENT_BEGIN
+	columns.add_child(left)
+	var divider := VSeparator.new()
+	var line := StyleBoxLine.new()
+	line.vertical = true
+	line.color = Color(1, 1, 1, 0.2)
+	divider.add_theme_stylebox_override(&"separator", line)
+	columns.add_child(divider)
+	columns.add_child(right)
+	columns.set_meta(&"focus", _join_id)
+	return columns
 
 ## Титры — отдельный экран, как Credits оригинала (тёмно-фиолетовый, стрелка назад).
 func _build_credits() -> Control:
@@ -396,22 +424,22 @@ func _build_credits() -> Control:
 	var lines := [
 		["", 4],
 		["DYNAMIC FORCE", 12], ["игра от: mace dev 2023", 6], ["link", 6], ["", 4],
-		["3DYNAMIC FORCE — ремейк в 3D", 12],
+		["3DYNAMIC FORCE: ремейк в 3D", 12],
 		["с одобрения автора оригинала; версия %s" % ProjectSettings.get_setting("application/config/version", ""), 6],
 		["", 4], ["МУЗЫКА (из оригинала)", 12],
-		["intro: spark the electric jester — remix by jx", 6],
-		["хим. зона: ghost town (sonic forces) — remix by dv2", 6],
-		["снежная: sylvania castle act 3 (sonic 4 ep2) — remix by jx", 6],
-		["цирк: carnival night zone act 1 (sonic 3 beta) — mastered realm", 6],
-		["пляж: dragon valley 1 (freedom planet) — remix by jx", 6],
-		["стройка: sono chino sadame (jojo: ba) — remix by jx", 6],
-		["шинозавод: oil desert zone act 2 (sonic 4 ep2) — just kam", 6],
-		["аквапарк: jungle rush (sonic superstars) — daan demmers", 6],
-		["", 4], ["СПРАЙТЫ", 12], ["все спрайты — mace dev", 6],
+		["intro: spark the electric jester, remix by jx", 6],
+		["хим. зона: ghost town (sonic forces), remix by dv2", 6],
+		["снежная: sylvania castle act 3 (sonic 4 ep2), remix by jx", 6],
+		["цирк: carnival night zone act 1 (sonic 3 beta), mastered realm", 6],
+		["пляж: dragon valley 1 (freedom planet), remix by jx", 6],
+		["стройка: sono chino sadame (jojo: ba), remix by jx", 6],
+		["шинозавод: oil desert zone act 2 (sonic 4 ep2), just kam", 6],
+		["аквапарк: jungle rush (sonic superstars), daan demmers", 6],
+		["", 4], ["СПРАЙТЫ", 12], ["все спрайты: mace dev", 6],
 		["", 4], ["ЗВУКИ", 12], ["pizza tower, bfxr и что-то ещё", 6],
 		["", 4], ["СОФТ", 12], ["оригинал: construct 3, paint.net, audacity", 6],
 		["ремейк: godot 4.7, blender", 6],
-		["", 4], ["чужие музыка и звуки — только для теста, не для продажи", 6],
+		["", 4], ["чужая музыка и звуки здесь только для теста, не для продажи", 6],
 	]
 	for line in lines:
 		if line[0] == "link":
@@ -577,13 +605,13 @@ func _refresh_games() -> void:
 		child.queue_free()
 	var net := Network.session()
 	if net.found_games.is_empty():
-		var none := _small_label("никого не видно")
-		none.modulate = Color(1.0, 1.0, 1.0, 0.6)
+		var none := UiStyle.text("никого не видно", UiStyle.HINT_COLOR)
 		_games.add_child(none)
 	else:
 		for id in net.found_games:
 			var info: Dictionary = net.found_games[id]
 			var button := Button.new()
+			button.theme_type_variation = &"ButtonSmall"
 			button.text = "%s  %s  %d/%d" % [String(info.get("name", "?")),
 					_map_title(String(info.get("map", ""))), int(info.get("players", 0)), int(info.get("max", 4))]
 			button.disabled = not bool(info.get("open", true)) or not Network.is_available()
@@ -632,9 +660,9 @@ func _on_join() -> void:
 func _join(id: String) -> void:
 	_save_settings()
 	if id.strip_edges().length() != 5:
-		_toast("ID игры — 5 знаков")
+		_toast("в ID игры 5 знаков")
 		return
-	_toast("входим в игру %s… (через интернет — до 30 с)" % id.to_upper(), 30.0)
+	_toast("входим в игру %s… через интернет это до 30 с" % id.to_upper(), 30.0)
 	if not Network.session().join_game(id, _nickname()):
 		_toast("не удалось войти")
 
@@ -712,7 +740,7 @@ func _start_probe() -> void:
 		if socket.connect_to_url(url) == OK:
 			_probes.append(socket)
 	_probe_time = 0.0
-	_set_status(2, "подключение...")
+	_set_status(2, "подключаемся…")
 
 
 func _poll_probe(delta: float) -> void:
@@ -781,9 +809,11 @@ func _place(page: Control, button: Control, center: Vector2) -> void:
 	button.position = (center - button.custom_minimum_size * 0.5).round()
 
 
-func _text_button(text: String, callback: Callable) -> Button:
+func _text_button(text: String, callback: Callable, kind: UiStyle.Kind = UiStyle.Kind.PRIMARY) -> Button:
 	var button := Button.new()
 	button.text = text
+	button.theme_type_variation = UiStyle.VARIATIONS[kind]
+	button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	button.pressed.connect(callback)
 	MenuFx.juicy(button)
 	return button
@@ -792,19 +822,15 @@ func _text_button(text: String, callback: Callable) -> Button:
 func _small_label(text: String) -> Label:
 	var label := Label.new()
 	label.text = text
-	label.add_theme_font_size_override(&"font_size", 6)
+	label.theme_type_variation = &"BodyLabel"
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return label
 
 
 ## Страница с заголовком (как Text оригинала над содержимым).
 func _page_with_title(title: String, content: Control) -> Control:
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override(&"separation", 4)
-	var label := Label.new()
-	label.text = title
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	box.add_child(label)
+	var box := UiStyle.column(UiStyle.GAP + 2)
+	box.add_child(UiStyle.heading(title))
 	box.add_child(content)
 	if content.has_meta(&"focus"):
 		box.set_meta(&"focus", content.get_meta(&"focus"))

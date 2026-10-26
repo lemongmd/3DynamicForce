@@ -277,7 +277,7 @@ func _on_session_joined() -> void:
 func _on_session_left() -> void:
 	if _leaving:
 		return
-	leave_to_menu("Хост закрыл игру" if not _tube.is_server else "Сессия закрыта")
+	leave_to_menu("Хост закрыл игру" if not _tube.is_server else "Игра закрыта")
 
 
 func _on_tube_error(code: int, message: String) -> void:
@@ -297,11 +297,11 @@ func _on_tube_error(code: int, message: String) -> void:
 ## Причина неудачного входа понятными словами (по сообщению Tube).
 static func _join_error_text(message: String) -> String:
 	if message.contains("any tracker"):
-		return "Не удалось войти: нет связи с трекерами (интернет, файрвол?). Нажмите «ПРОВЕРКА СЕТИ»"
+		return "Не удалось войти: трекеры не отвечают. Проверь интернет и файрвол или нажми «ПРОВЕРКА СЕТИ»"
 	if message.contains("max connection attempts"):
-		return "Не удалось войти: игра с таким ID не ответила за 30 с — проверьте ID; если верный, роутеры не пропустили соединение («ПРОВЕРКА СЕТИ» у обоих)"
+		return "Не удалось войти: игра с таким ID не ответила за 30 с. Проверь ID. Если он верный, соединение не пропустили роутеры: пусть оба нажмут «ПРОВЕРКА СЕТИ»"
 	if message.contains("connection failed"):
-		return "Не удалось войти: прямое соединение не пробилось — у обоих строгий NAT? («ПРОВЕРКА СЕТИ» у обоих)"
+		return "Не удалось войти: прямое соединение не прошло. Возможно, у обоих строгий NAT, пусть оба нажмут «ПРОВЕРКА СЕТИ»"
 	if message.contains("session id invalid"):
 		return "Не удалось войти: неверный ID игры"
 	return "Не удалось войти: %s" % message
@@ -331,11 +331,11 @@ func _hello(version: int, nickname: String) -> void:
 	var sender := multiplayer.get_remote_sender_id()
 	var reason := ""
 	if version != PROTOCOL_VERSION:
-		reason = "Разные версии игры (у хоста %d, у вас %d)" % [PROTOCOL_VERSION, version]
+		reason = "Разные версии игры (у хоста %d, у тебя %d)" % [PROTOCOL_VERSION, version]
 	elif players.size() >= MAX_PLAYERS:
 		reason = "Игра заполнена (%d из %d)" % [players.size(), MAX_PLAYERS]
 	elif race_started:
-		reason = "Гонка уже идёт"
+		reason = "Гонка уже идёт, зайди, когда все вернутся в лобби"
 	if reason != "":
 		rpc_id(sender, &"_rejected", reason)
 		get_tree().create_timer(0.5).timeout.connect(func() -> void:
@@ -365,7 +365,7 @@ func _free_slot() -> int:
 @rpc("authority", "call_remote", "reliable")
 func _welcome(map: String, all_players: Dictionary) -> void:
 	if not ResourceLoader.exists(Race.TRACKS_DIR + map + ".tscn"):
-		leave_to_menu("У тебя нет карты «%s» — попроси её у хоста" % map)
+		leave_to_menu("У тебя нет карты «%s», попроси её у хоста" % map)
 		return
 	map_name = map
 	players = all_players
@@ -430,7 +430,7 @@ func request_map(map: String) -> void:
 func _change_map(map: String) -> void:
 	# У клиента такой карты может не быть (своя карта хоста) — выходим с понятной причиной.
 	if not ResourceLoader.exists(Race.TRACKS_DIR + map + ".tscn"):
-		leave_to_menu("У тебя нет карты «%s» — попроси её у хоста" % map)
+		leave_to_menu("У тебя нет карты «%s», попроси её у хоста" % map)
 		return
 	map_name = map
 	_back_to_lobby()

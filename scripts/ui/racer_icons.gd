@@ -28,9 +28,15 @@ const EMOTE_TEXTURES := {
 ## Размер иконки и на время эмоции, px (в оригинале 24 и 32).
 const ICON_SIZE := 24.0
 const EMOTE_SIZE := 32.0
-## Центр первой иконки и шаг между иконками, px (в оригинале x = 20, y = 36 + 32·N).
-const FIRST_CENTER := Vector2(20.0, 36.0)
-const STEP := 32.0
+## Центр первой иконки и шаг между иконками, px. В оригинале y = 36 + 32·N, но ник над рожицей
+## (8 px), рожица 24 и полоска прогресса 3 — это 34 px: при шаге 32 ник налезал на полоску
+## соседа сверху. Первая иконка выше, шаг до 40 — четыре игрока помещаются до надписи круга.
+const FIRST_CENTER := Vector2(20.0, 28.0)
+const STEP := 40.0
+## Ник над рожицей, с зазором 2 px.
+const NAME_OFFSET := Vector2(-12.0, -21.0)
+## Тесней этого шага (сенсорные кнопки подняли надпись круга) ники не помещаются — прячутся.
+const NAME_MIN_STEP := 38.0
 ## Самый тесный шаг (с сенсорными кнопками надпись круга поднимается), px.
 const MIN_STEP := 22.0
 ## Свой ник — зелёный (#0f3 в оригинале).
@@ -86,7 +92,7 @@ func _add_entry(racer: RacerState) -> void:
 	name_label.add_theme_color_override(&"font_color", OWN_NAME_COLOR if racer.is_local_player else Color.WHITE)
 	name_label.add_theme_color_override(&"font_outline_color", Color(0.0, 0.0, 0.0, 0.8))
 	name_label.add_theme_constant_override(&"outline_size", 3)
-	name_label.position = Vector2(-12.0, -20.0)
+	name_label.position = NAME_OFFSET
 	holder.add_child(name_label)
 
 	var icon := TextureRect.new()
@@ -159,7 +165,7 @@ func _layout(instant: bool) -> void:
 		return pa < pb if pa != pb else _entries.find(a) < _entries.find(b))
 	for slot in sorted.size():
 		var entry: Dictionary = sorted[slot]
-		(entry["name"] as Label).visible = step >= STEP - 0.5
+		(entry["name"] as Label).visible = step >= NAME_MIN_STEP
 		var target := FIRST_CENTER + Vector2(0.0, step * slot)
 		var holder: Control = entry["holder"]
 		if instant:

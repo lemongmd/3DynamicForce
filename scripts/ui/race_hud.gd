@@ -88,9 +88,11 @@ var _place_shown: int = 0
 var _place_tween: Tween
 var _notices: VBoxContainer
 var _results_table: GridContainer
-var _lobby: PanelContainer
+var _lobby: Control
 var _lobby_label: Label
+var _lobby_empty: Control
 var _online_label: Label
+var _invite: Button
 
 @onready var _place_label: Label = $PlaceLabel
 @onready var _lap: Control = $Lap
@@ -99,8 +101,10 @@ var _online_label: Label
 @onready var _countdown: TextureRect = $Countdown
 @onready var _center_label: Label = $CenterLabel
 @onready var _results: Control = $Results
-@onready var _results_list: Label = $Results/Panel/Box/List
-@onready var _restart_button: Button = $Results/Panel/Box/RestartButton
+@onready var _results_list: Label = $Results/Window/Panel/Box/List
+@onready var _restart_button: Button = $Results/Window/Panel/Box/Buttons/RestartButton
+@onready var _menu_button: Button = $Results/Window/Panel/Box/Buttons/MenuButton
+@onready var _wait_label: Label = $Results/Window/Panel/Box/Wait
 @onready var _item_icon: TextureRect = $TimerPanel/ItemIcon
 @onready var _item_time: TextureRect = $TimerPanel/ItemTime
 @onready var _space_hint: TextureRect = $TimerPanel/SpaceHint
@@ -111,6 +115,7 @@ func _ready() -> void:
 	_center_label.visible = false
 	_countdown.visible = false
 	_restart_button.pressed.connect(_on_restart_pressed)
+	_menu_button.pressed.connect(func() -> void: Network.session().leave_to_menu())
 	_icon_top = _item_icon.position.y
 	_item_time.size.x = 0.0
 	# Место теперь у иконок участников (номер перед ником).
@@ -166,6 +171,7 @@ func _process(delta: float) -> void:
 		if _countdown_left <= 0.0:
 			_countdown.visible = false
 	_update_item_slot(delta)
+	_keep_lobby_clear()
 
 
 ## Подсказка клавиши предмета (Q) — только без сенсорных кнопок, как в оригинале.
@@ -463,49 +469,56 @@ func _banner_label(font_size: int, top: float, height: float) -> Label:
 
 
 ## Окно результатов — в общем стиле (UiStyle): по размеру содержимого, по центру.
+## Поля окна результатов, px.
+const RESULTS_PADDING := Vector2(18, 12)
+
+
 func _style_results() -> void:
-	var panel := _results.get_node(^"Panel") as PanelContainer
-	panel.add_theme_stylebox_override(&"panel", UiStyle.panel_style())
-	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	panel.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	panel.grow_vertical = Control.GROW_DIRECTION_BOTH
-	var title := panel.get_node(^"Box/Title") as Label
-	title.add_theme_font_size_override(&"font_size", 12)
-	title.add_theme_color_override(&"font_color", UiStyle.TITLE_COLOR)
-	title.add_theme_color_override(&"font_outline_color", UiStyle.OUTLINE)
-	title.add_theme_constant_override(&"outline_size", 3)
-	# Список — таблицей (место, ник, время); текстовый список остаётся для автотеста.
-	_results_list.visible = false
+	# Таблица: место (золото/серебро/бронза), ник, время; текстовый список — для автотеста.
 	_results_table = GridContainer.new()
 	_results_table.columns = 3
-	_results_table.add_theme_constant_override(&"h_separation", 10)
-	_results_table.add_theme_constant_override(&"v_separation", 3)
+	_results_table.add_theme_constant_override(&"h_separation", 16)
+	_results_table.add_theme_constant_override(&"v_separation", 5)
 	_results_table.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	var box := panel.get_node(^"Box") as VBoxContainer
+	var box := _results_list.get_parent() as VBoxContainer
+	# Поля шире, сверху — место под нижнюю половину заголовка «РЕЗУЛЬТАТЫ».
+	var panel := box.get_parent() as PanelContainer
+	panel.add_theme_stylebox_override(&"panel", UiStyle.panel_style(UiStyle.TITLE_TOP_EXTRA, RESULTS_PADDING))
 	box.add_child(_results_table)
-	box.move_child(_results_table, _results_list.get_index())
-	_restart_button.custom_minimum_size.x = UiStyle.BUTTON_WIDTH
-	# Пробел — парирование: кнопка не должна нажиматься им (только мышью/Enter по фокусу).
-	_restart_button.focus_mode = Control.FOCUS_NONE
+	box.move_child(_results_table, 0)
 
 
 func _show_results() -> void:
 	var lines := PackedStringArray()
 	for child in _results_table.get_children():
 		child.queue_free()
+	for caption in ["место", "игрок", "время"]:
+		var head := UiStyle.hint(caption)
+		head.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		# Под шапкой — чуть больше места, чем между строками.
+		head.custom_minimum_size.y = 9
+		head.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+		_results_table.add_child(head)
 	for racer in _race.get_sorted_racers():
 		var time_text := format_time(racer.finish_time) if racer.finish_time >= 0.0 else "не доехал"
 		lines.append("%d. %s  %s" % [racer.place, racer.display_name, time_text])
-		var color := UiStyle.OWN_COLOR if racer == _racer else Color.WHITE
-		for cell in ["%d." % racer.place, racer.display_name, time_text]:
-			var label := Label.new()
-			label.text = cell
-			label.add_theme_color_override(&"font_color", color)
-			label.add_theme_color_override(&"font_outline_color", UiStyle.OUTLINE)
-			label.add_theme_constant_override(&"outline_size", 3)
-			_results_table.add_child(label)
+		var place := UiStyle.heading("%d" % racer.place, PLACE_TINTS[clampi(racer.place - 1, 0, PLACE_TINTS.size() - 1)])
+		var name_label := UiStyle.heading(racer.display_name, UiStyle.OWN_COLOR if racer == _racer else Color.WHITE)
+		var time_label := UiStyle.heading(time_text, Color.WHITE if racer.finish_time >= 0.0 else UiStyle.HINT_COLOR)
+		for cell in [place, name_label, time_label]:
+			(cell as Label).horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			_results_table.add_child(cell)
 	_results_list.text = "\n".join(lines)
+	# Кнопки: одиночная — «ещё раз» / «в меню»; сеть — хост ведёт всех в лобби, гость ждёт.
+	var online := Network.session().is_online()
+	var host := not online or Network.session().is_host()
+	_restart_button.visible = host
+	_restart_button.text = "В ЛОББИ" if online else "ЕЩЁ РАЗ"
+	_menu_button.text = "ВЫЙТИ" if online else "В МЕНЮ"
+	_wait_label.visible = not host
 	_winner.visible = false
+	# Иконки игроков слева не нужны: все уже в таблице (и окно на них наезжало).
+	_racer_icons.visible = false
 	_results.visible = true
 
 
@@ -521,114 +534,199 @@ func _on_restart_pressed() -> void:
 # Сеть: лобби на карте и участники на ходу
 # --------------------------------------------------------------------------
 
-## Плашка лобби (как в оригинале: «в комнате N игроков… нажмите [начать]»).
+## Окно лобби, как в оригинале: спрайт «Лобби» на рамке, карта (хост листает < >), сколько
+## игроков; пока хост один — «в комнате нет людей!» и синяя «пригласить» (копирует приглашение
+## с ID игры, вспыхивает зелёным); снизу «НАЧАТЬ» (хост) или «ждём хоста».
+const LOBBY_TITLE := preload("res://assets/original/textures/ui/lobby-000.png")
+const INVITE_SOURCE := preload("res://assets/original/textures/ui/invitebutton-000.png")
+## Окно лобби невысокое и узкое: под ним видно свою машину (её верх — около 125 px от верха
+## экрана), слева — иконки игроков. Отступ между строками, поля, где буквы «Лобби» (спрайт
+## 80×40, сверху 10 пустых строк — отступ от края экрана 12 px).
+const LOBBY_GAP := 6
+const LOBBY_PADDING := Vector2(12, 10)
+const LOBBY_TOP := 2.0
+## Зазор между иконками игроков и окном лобби, px.
+const LOBBY_ICONS_GAP := 4.0
+
+
 func show_lobby(is_host: bool) -> void:
 	if _lobby != null:
 		_lobby.queue_free()
-	# Окно лобби в общем стиле (UiStyle): сверху по центру, под ним видно трассу.
-	_lobby = PanelContainer.new()
-	_lobby.name = "Lobby"
-	_lobby.add_theme_stylebox_override(&"panel", UiStyle.panel_style())
-	_lobby.anchor_left = 0.5
-	_lobby.anchor_right = 0.5
-	_lobby.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_lobby.offset_top = 26.0
-	add_child(_lobby)
-	var box := VBoxContainer.new()
-	box.alignment = BoxContainer.ALIGNMENT_CENTER
-	box.add_theme_constant_override(&"separation", 3)
-	_lobby.add_child(box)
-	box.add_child(UiStyle.title("ЛОББИ"))
-	_lobby_label = UiStyle.text("")
-	box.add_child(_lobby_label)
-	# ID игры: его хост сообщает друзьям (в Discord, Telegram…), они входят по нему.
-	var id_row := HBoxContainer.new()
-	id_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	id_row.add_theme_constant_override(&"separation", 6)
-	box.add_child(id_row)
-	var id_caption := UiStyle.text("ID игры:")
-	id_caption.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	id_row.add_child(id_caption)
-	var id_label := UiStyle.title(Network.session().session_id if Network.session().session_id != "" else "—")
-	id_row.add_child(id_label)
-	if is_host:
-		var copy := Button.new()
-		copy.text = "КОПИРОВАТЬ"
-		copy.focus_mode = Control.FOCUS_NONE
-		copy.add_theme_font_size_override(&"font_size", 6)
-		copy.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		copy.pressed.connect(func() -> void:
-			DisplayServer.clipboard_set(Network.session().session_id)
-			copy.text = "СКОПИРОВАНО!")
-		id_row.add_child(copy)
-		_online_label = UiStyle.text("")
-		box.add_child(_online_label)
-		if not Network.session().online_status_changed.is_connected(_update_lobby):
-			Network.session().online_status_changed.connect(_update_lobby)
+	var session := Network.session()
+	# В лобби время, круг и место ещё ничего не значат — окно занимает верх экрана вместо них.
+	_set_race_info_visible(false)
+	# Слева — о комнате (карта, кто в ней, «начать»), справа у хоста — ID и «пригласить».
+	# Окно невысокое и не шире места между иконками игроков и краем: под ним видно свою машину.
+	var about := UiStyle.column(LOBBY_GAP)
 	# Карта: хост листает < > (все остаются в игре с тем же ID), остальные видят название.
-	var map_row := HBoxContainer.new()
-	map_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	map_row.add_theme_constant_override(&"separation", 6)
-	box.add_child(map_row)
+	var map_row := UiStyle.row(4)
 	if is_host:
 		map_row.add_child(_map_arrow("<", -1))
-	var map_label := UiStyle.title(LobbyMenu.map_title(Network.session().map_name))
+	var map_label := UiStyle.heading(LobbyMenu.map_title(session.map_name))
+	map_label.custom_minimum_size.x = 76
 	map_row.add_child(map_label)
 	if is_host:
 		map_row.add_child(_map_arrow(">", 1))
-	var hint := UiStyle.text("Enter — начать, Esc — выйти" if is_host else "ждём, пока хост начнёт (Esc — выйти)",
-			Color(1.0, 1.0, 1.0, 0.7))
-	box.add_child(hint)
+	about.add_child(map_row)
+	# Хост один — текст оригинала, иначе — сколько игроков.
+	_lobby_empty = UiStyle.column(2)
+	_lobby_empty.add_child(UiStyle.text("в комнате нет людей!"))
+	_lobby_empty.add_child(UiStyle.hint("(вы будете гонять один)"))
+	_lobby_empty.visible = false
+	about.add_child(_lobby_empty)
+	_lobby_label = UiStyle.text("")
+	about.add_child(_lobby_label)
+	# ID игры: по нему друзья входят (меню, кнопка с человечком).
+	var id_panel := PanelContainer.new()
+	id_panel.theme_type_variation = &"InsetPanel"
+	id_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var id_box := UiStyle.column(2)
+	id_panel.add_child(id_box)
+	var id_row := UiStyle.row(6)
+	id_box.add_child(id_row)
+	var id_caption := UiStyle.hint("ID игры")
+	id_caption.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	id_row.add_child(id_caption)
+	id_row.add_child(UiStyle.heading(session.session_id if session.session_id != "" else "…"))
+	var content: Control
 	if is_host:
-		# Без фокуса: пробел (парирование) в лобби не должен запускать гонку.
-		box.add_child(UiStyle.button("НАЧАТЬ", func() -> void: (get_parent() as Race).start_requested(), false))
+		_invite = UiStyle.button("пригласить", _on_invite, false, UiStyle.Kind.SMALL)
+		_invite.icon = _share_icon()
+		_invite.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		id_box.add_child(_invite)
+		# Можно ли войти через интернет — под кнопкой, в той же плашке.
+		_online_label = UiStyle.hint("")
+		id_box.add_child(_online_label)
+		if not session.online_status_changed.is_connected(_update_lobby):
+			session.online_status_changed.connect(_update_lobby)
+		# Без фокуса: пробел (парирование) в лобби не должен запускать гонку. Enter — тоже «начать».
+		var start := UiStyle.button("НАЧАТЬ", func() -> void: (get_parent() as Race).start_requested(), false)
+		start.custom_minimum_size.x = 96
+		start.tooltip_text = "Enter"
+		about.add_child(start)
+		var actions := UiStyle.column(LOBBY_GAP)
+		actions.add_child(id_panel)
+		actions.add_child(UiStyle.hint("Esc: выйти"))
+		var columns := UiStyle.row(12)
+		columns.add_child(about)
+		var divider := VSeparator.new()
+		divider.add_theme_stylebox_override(&"separator", _divider_style())
+		columns.add_child(divider)
+		columns.add_child(actions)
+		content = columns
 	else:
-		_restart_button.disabled = true
-		_restart_button.text = "ЖДЁМ ХОСТА"
-	if is_host:
-		_restart_button.text = "В ЛОББИ"
-	if not Network.session().players_changed.is_connected(_update_lobby):
-		Network.session().players_changed.connect(_update_lobby)
+		about.add_child(id_panel)
+		var wait := UiStyle.column(2)
+		wait.add_child(UiStyle.text("ждём, пока хост начнёт…"))
+		wait.add_child(UiStyle.hint("Esc: выйти"))
+		about.add_child(wait)
+		content = about
+	_lobby = UiStyle.window("", content, LOBBY_TITLE, LOBBY_PADDING)
+	_lobby.name = "Lobby"
+	# Сверху по центру, как в оригинале; буквы «Лобби» — на LOBBY_TOP от края экрана.
+	UiStyle.anchor_at(_lobby, Control.PRESET_CENTER_TOP, Control.GROW_DIRECTION_END, Vector2(0, LOBBY_TOP))
+	add_child(_lobby)
+	if not session.players_changed.is_connected(_update_lobby):
+		session.players_changed.connect(_update_lobby)
 	_update_lobby()
+
+
+## Окно лобби — по центру, но не на иконках игроков слева (длинные ники): если задевает —
+## сдвигается вправо ровно настолько, чтобы не задевать (таймер в лобби спрятан, справа свободно).
+func _keep_lobby_clear() -> void:
+	if _lobby == null or not is_instance_valid(_lobby) or not _lobby.is_inside_tree():
+		return
+	var icons_right := 0.0
+	for node in _racer_icons.find_children("*", "Control", true, false):
+		var control := node as Control
+		if control.is_visible_in_tree() and control.size.x > 0.0:
+			icons_right = maxf(icons_right, control.get_global_rect().end.x)
+	var screen := get_viewport().get_visible_rect().size.x
+	var half := _lobby.size.x * 0.5
+	var shift := clampf(icons_right + LOBBY_ICONS_GAP - (screen * 0.5 - half), 0.0, maxf(screen * 0.5 - half - 2.0, 0.0))
+	_lobby.offset_left = shift
+	_lobby.offset_right = shift
+
+
+## Время (с ячейкой предмета), круг и место — в гонке; в лобби прячутся.
+func _set_race_info_visible(value: bool) -> void:
+	for node: Control in [get_node(^"TimerPanel") as Control, _lap]:
+		node.visible = value
+	_place.modulate.a = 1.0 if value else 0.0
+
+
+## Тонкая бледная черта между колонками окна лобби.
+static func _divider_style() -> StyleBoxLine:
+	var line := StyleBoxLine.new()
+	line.vertical = true
+	line.color = Color(1, 1, 1, 0.18)
+	line.thickness = 1
+	return line
 
 
 ## Кнопка смены карты в лобби (хост): step −1 — предыдущая, +1 — следующая.
 ## Без фокуса: пробел (парирование) её не нажимает.
 func _map_arrow(text: String, step: int) -> Button:
-	var button := Button.new()
-	button.text = text
-	button.focus_mode = Control.FOCUS_NONE
-	button.tooltip_text = "сменить карту (все остаются в игре, ID тот же)"
-	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	button.pressed.connect(func() -> void:
+	var button := UiStyle.button(text, func() -> void:
 		var maps := LobbyMenu.list_maps()
 		if maps.is_empty():
 			return
 		var index := maps.find(Network.session().map_name)
-		Network.session().request_map(maps[posmod(index + step, maps.size())]))
+		Network.session().request_map(maps[posmod(index + step, maps.size())]), false, UiStyle.Kind.SMALL_SECONDARY)
+	button.tooltip_text = "другая карта: все остаются в игре, ID не меняется"
+	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	return button
 
 
+## «Пригласить»: приглашение с ID игры — в буфер обмена (как Clipboard оригинала).
+func _on_invite() -> void:
+	var id := Network.session().session_id
+	DisplayServer.clipboard_set("Пойдём погоняем в 3Dynamic Force! ID игры: %s" % id if id != "" else id)
+	UiStyle.flash(_invite, "скопировано!")
+
+
+## Значок «поделиться» с кнопки InviteButton оригинала (тёмные пиксели её левой части).
+static func _share_icon() -> Texture2D:
+	var source := INVITE_SOURCE.get_image()
+	source.convert(Image.FORMAT_RGBA8)
+	var icon := Image.create(9, 9, false, Image.FORMAT_RGBA8)
+	for y in 9:
+		for x in 9:
+			var color := source.get_pixel(3 + x, 2 + y)
+			if color.get_luminance() < 0.9:
+				icon.set_pixel(x, y, color)
+	return ImageTexture.create_from_image(icon)
+
+
 func hide_lobby() -> void:
+	_set_race_info_visible(true)
 	if _lobby != null:
 		_lobby.queue_free()
 		_lobby = null
 
 
 func _update_lobby() -> void:
+	var session := Network.session()
+	var alone := session.is_host() and session.players.size() <= 1
 	if _lobby_label != null and is_instance_valid(_lobby_label):
-		_lobby_label.text = "игроков %d из %d" % [Network.session().players.size(), Network.MAX_PLAYERS]
+		_lobby_label.text = "игроков: %d из %d" % [maxi(session.players.size(), 1), Network.MAX_PLAYERS]
+		_lobby_label.visible = not alone
+	if _lobby_empty != null and is_instance_valid(_lobby_empty):
+		_lobby_empty.visible = alone
 	if _online_label != null and is_instance_valid(_online_label):
-		match Network.session().online_status:
+		match session.online_status:
 			Network.OnlineStatus.AVAILABLE:
-				_online_label.text = "через интернет: можно войти по ID"
+				_online_label.text = "можно и через интернет"
+				_online_label.tooltip_text = ""
 			Network.OnlineStatus.CONNECTING:
-				_online_label.text = "через интернет: подключаемся…"
+				_online_label.text = "подключаемся к интернету…"
+				_online_label.tooltip_text = ""
 			Network.OnlineStatus.UNAVAILABLE:
-				_online_label.text = "интернета нет — только локальная сеть"
+				_online_label.text = "только локальная сеть"
+				_online_label.tooltip_text = "интернета нет, зайти можно только из этой же сети"
 			_:
 				_online_label.text = "только локальная сеть"
-
+				_online_label.tooltip_text = ""
 
 ## Участник добавился / ушёл (сеть) — иконки слева.
 ## Уведомление сверху по центру (вошёл/вышел из лобби): строки копятся столбиком,
@@ -647,7 +745,7 @@ func notify(text: String, color: Color = Color.WHITE, sound: AudioStream = null)
 		_notices.offset_left = -110.0
 		_notices.offset_right = 110.0
 		_notices.offset_top = 4.0
-		_notices.add_theme_constant_override(&"separation", 1)
+		_notices.add_theme_constant_override(&"separation", 3)
 		add_child(_notices)
 	var label := _outlined_label(text, 6)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

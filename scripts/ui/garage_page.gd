@@ -26,7 +26,7 @@ var _hold := -1.0
 
 
 func _ready() -> void:
-	add_theme_constant_override(&"separation", 2)
+	add_theme_constant_override(&"separation", UiStyle.GAP_SMALL + 2)
 	var row := HBoxContainer.new()
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.add_theme_constant_override(&"separation", 8)

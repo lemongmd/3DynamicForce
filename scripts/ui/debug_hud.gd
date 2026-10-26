@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 		"Дрифт: %s  занос: %.0f°" % [drift_text, rad_to_deg(car.get_slide_angle())],
 		"Руль %+.2f  Газ %+.2f  Дрифт %s" % [input.steer, input.throttle, "да" if input.drift else "нет"],
 		"Парир: %s  Предмет: %s" % ["ДА" if _parry_flash > 0.0 else "-", "ДА" if _item_flash > 0.0 else "-"],
-		"WASD, Shift дрифт, E парир, пробел предмет",
+		"WASD, Shift дрифт, пробел парир, Q предмет",
 		"R сброс, F1 сенсор",
 	])
 	_label.text = "\n".join(lines)

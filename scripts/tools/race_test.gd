@@ -138,7 +138,7 @@ func _race_on(map_name: String) -> void:
 	_check(lowest > floor_y - 1.0, "никто не провалился под трассу (мин. высота %.2f, дно трассы %.2f)" % [lowest, floor_y])
 	await _frames(2)
 	var results := _race.get_node("RaceHud/Results") as Control
-	var results_list := _race.get_node("RaceHud/Results/Panel/Box/List") as Label
+	var results_list := _race.get_node("RaceHud/Results/Window/Panel/Box/List") as Label
 	_check(results.visible, "после гонки показаны результаты")
 	_check(results_list.text.count("\n") == 3, "в результатах 4 строки")
 	_check(RaceHud.format_time(83.456) == "1:23.46", "формат времени (%s)" % RaceHud.format_time(83.456))

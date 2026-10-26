@@ -63,16 +63,16 @@ func _finish() -> void:
 		_diagnosis.peer.close()
 	var lines := PackedStringArray()
 	if open == 0:
-		lines.append("трекеры: нет связи — через интернет не войти (нет интернета, файрвол или антивирус)")
+		lines.append("трекеры не отвечают, через интернет не войти. Мешает отсутствие интернета, файрвол или антивирус")
 	else:
 		lines.append("трекеры: %d из %d отвечают" % [open, _sockets.size()])
 	match _nat:
 		TubeNetworkDiagnosisPeer.Compliance.YES:
-			lines.append("роутер: обычный NAT — прямое соединение пробивается")
+			lines.append("роутер: обычный NAT, прямое соединение проходит")
 		TubeNetworkDiagnosisPeer.Compliance.NO:
-			lines.append("роутер: строгий NAT — войти выйдет, только если у друга обычный; у обоих строгий — нужен TURN-сервер")
+			lines.append("роутер: строгий NAT. Войти получится, если у друга обычный. Если строгий у обоих, нужен TURN-сервер")
 		_:
-			lines.append("роутер: STUN-серверы не ответили (UDP закрыт файрволом?) — через интернет, скорее всего, не соединится")
+			lines.append("роутер: STUN-серверы не ответили, возможно, файрвол закрыл UDP. Через интернет, скорее всего, не соединится")
 	for line in lines:
 		print("проверка сети: ", line)
 	finished.emit(lines)
