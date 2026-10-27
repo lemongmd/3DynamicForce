@@ -1,4 +1,4 @@
-3DYNAMIC FORCE — БЕТА 0.10.8 (Windows)
+3DYNAMIC FORCE — БЕТА 0.10.9 (Windows)
 Ремейк Dynamic Force (оригинал — Mace Dev). Аркадные гонки на 2–4 игроков.
 
 ЗАПУСК
