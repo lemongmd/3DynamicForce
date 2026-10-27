@@ -48,6 +48,7 @@ var _finish_music: bool = false
 @onready var _cars: Node3D = $Cars
 @onready var _camera: TopDownCamera = $TopDownCamera
 @onready var _hud: RaceHud = $RaceHud
+var _radio_panel: RadioPanel
 ## Сеть: звуки входа и выхода игрока (выход — CardCollect, как в оригинале).
 const JOIN_SOUND := preload("res://assets/original/sounds/checkpoint.wav")
 const LEAVE_SOUND := preload("res://assets/original/sounds/cardcollect.wav")
@@ -334,6 +335,12 @@ func _attach_view() -> void:
 	_camera.snap_to_target()
 	_hud.setup(race_manager, player_racer)
 	_update_camera_opponents()
+	# Магнитола своей машины (клавиша 7).
+	if _radio_panel == null:
+		_radio_panel = RadioPanel.new()
+		_radio_panel.name = "RadioPanel"
+		add_child(_radio_panel)
+	_radio_panel.car = player_racer.car
 
 
 func _update_hud_inset() -> void:

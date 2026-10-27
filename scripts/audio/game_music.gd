@@ -5,7 +5,7 @@ extends Node
 ## Шина Music (громкость — в настройках). Играет и во время паузы.
 ##
 ## Как в оригинале:
-##   * меню — Menu_start, потом по кругу Menu_loop (play_menu);
+##   * интро — Menu_start (play_intro), меню — по кругу Menu_loop (play_menu);
 ##   * лобби на карте — LobbyForce, −10 дБ;
 ##   * гонка — через 0.4 с после старта музыка карты (Track.music), по кругу;
 ##   * первый финишировал — EbucheeMoloko, −2 дБ;
@@ -29,6 +29,9 @@ static var _instance: GameMusic
 var current: AudioStream
 
 var _player: AudioStreamPlayer
+## Громкость дорожки без приглушения и само приглушение (радио рядом, CarRadio), дБ.
+var _base_db := 0.0
+var _duck_db := 0.0
 var _loop: bool = true
 var _next_after_intro: AudioStream
 var _fading: Array[AudioStreamPlayer] = []
@@ -55,8 +58,9 @@ func _ready() -> void:
 ## Играть stream (по кругу, если loop) с громкостью volume_db; та же дорожка — не перезапускать.
 func play(stream: AudioStream, volume_db: float = 0.0, loop: bool = true) -> void:
 	_next_after_intro = null
+	_base_db = volume_db
 	if stream == current and _player != null and _player.playing:
-		_player.volume_db = volume_db
+		_player.volume_db = volume_db + _duck_db
 		return
 	_fade_out_current()
 	current = stream
@@ -67,18 +71,33 @@ func play(stream: AudioStream, volume_db: float = 0.0, loop: bool = true) -> voi
 	_player = AudioStreamPlayer.new()
 	_player.bus = BUS
 	_player.stream = stream
-	_player.volume_db = volume_db
+	_player.volume_db = volume_db + _duck_db
 	_player.finished.connect(_on_finished.bind(_player))
 	add_child(_player)
 	_player.play()
 
 
-## Меню: вступление Menu_start, затем по кругу Menu_loop (как IntroS → MenuS оригинала).
-func play_menu() -> void:
-	if current == MENU_LOOP or current == MENU_INTRO:
-		return
+## Интро: Menu_start один раз, потом по кругу Menu_loop (IntroS оригинала; интро идёт под неё).
+func play_intro() -> void:
 	play(MENU_INTRO, 0.0, false)
 	_next_after_intro = MENU_LOOP
+
+
+## Меню: Menu_loop по кругу (MenuS оригинала). Доигрывает Menu_start интро — пусть кончится
+## сама (интро уходит в меню за 0.06 с до её конца), дальше и так Menu_loop.
+func play_menu() -> void:
+	if current == MENU_LOOP or (current == MENU_INTRO and _next_after_intro == MENU_LOOP):
+		return
+	play(MENU_LOOP)
+
+
+## Сколько секунд играет текущая дорожка (по звуку, с поправкой на задержку вывода);
+## −1 — ничего не играет (тесты без звука).
+func playback_position() -> float:
+	if _player == null or not _player.playing:
+		return -1.0
+	return _player.get_playback_position() + AudioServer.get_time_since_last_mix() \
+			- AudioServer.get_output_latency()
 
 
 func play_lobby() -> void:
@@ -87,6 +106,15 @@ func play_lobby() -> void:
 
 func play_finish() -> void:
 	play(FINISH, FINISH_VOLUME_DB)
+
+
+## Приглушить музыку на db (≤ 0; 0 — как была): рядом играет радио машины.
+func set_duck(db: float) -> void:
+	if is_equal_approx(db, _duck_db):
+		return
+	_duck_db = db
+	if _player != null:
+		_player.volume_db = _base_db + _duck_db
 
 
 ## Тишина (плавно).

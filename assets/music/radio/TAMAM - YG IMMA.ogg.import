@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cdnccq7tq2lmu"
+path="res://.godot/imported/TAMAM - YG IMMA.ogg-4932d55314c255da5e8b7beef27500bc.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/music/radio/TAMAM - YG IMMA.ogg"
+dest_files=["res://.godot/imported/TAMAM - YG IMMA.ogg-4932d55314c255da5e8b7beef27500bc.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

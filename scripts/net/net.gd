@@ -35,7 +35,7 @@ signal session_ended(reason: String)
 ## Изменилась доступность игры через интернет (у хоста: трекеры подключились / нет).
 signal online_status_changed
 
-const PROTOCOL_VERSION := 6
+const PROTOCOL_VERSION := 7
 const MAX_PLAYERS := 4
 ## Настройки Tube: App ID, трекеры, STUN (грузится при запуске, не preload: иначе редактор
 ## держит ресурс до выхода).
@@ -627,6 +627,24 @@ func _emote(emote_name: StringName, seconds: float) -> void:
 	var car := race.get_net_car(multiplayer.get_remote_sender_id()) if race != null else null
 	if car != null:
 		car.emote(emote_name, seconds)
+
+
+# --------------------------------------------------------------------------
+# Радио машины (CarRadio): трек и место в нём — остальным
+# --------------------------------------------------------------------------
+
+## Своё радио включили или выключили (path пустой) — остальным.
+func send_radio(path: String, position: float) -> void:
+	if is_online():
+		rpc(&"_radio", path, position)
+
+
+@rpc("any_peer", "call_remote", "reliable")
+func _radio(path: String, position: float) -> void:
+	var car := race.get_net_car(multiplayer.get_remote_sender_id()) if race != null else null
+	# Трек — только из своей папки радио (чужой путь не грузим).
+	if car != null and (path.is_empty() or CarRadio.tracks().has(path)):
+		CarRadio.of(car).play_track(path, position, false)
 
 
 # --------------------------------------------------------------------------

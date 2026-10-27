@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cah5741l45p6f"
+path="res://.godot/imported/Платина - Веном feat. Big Baby Tape.ogg-1293d238b6cf8fa6235596ecf9152d41.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/music/radio/Платина - Веном feat. Big Baby Tape.ogg"
+dest_files=["res://.godot/imported/Платина - Веном feat. Big Baby Tape.ogg-1293d238b6cf8fa6235596ecf9152d41.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

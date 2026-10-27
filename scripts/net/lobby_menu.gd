@@ -56,18 +56,8 @@ const PANEL_GAP_BOTTOM := 22.0
 const PAGE_TIME := 1.0 / 6.0
 ## Логотип: сжимается до 0.95 за 1/3 с и снова (как в оригинале — в такт музыке).
 const LOGO_BEAT := 1.0 / 3.0
-## Шестерёнка настроек на пустом кресте (кадр 9): Y — жёлтый, O — оранжевый, K — контур.
-const GEAR := [
-	"...KKK...",
-	".KKKYKKK.",
-	".KYYYYYK.",
-	"KKYOOOYKK",
-	"KYYOKOYYK",
-	"KKYOOOYKK",
-	".KYYYYYK.",
-	".KKKYKKK.",
-	"...KKK...",
-]
+## Кнопка настроек: крест с гаечным ключом, рисунок Mace Dev (в оригинале такой нет).
+const SETTINGS_BUTTON := preload("res://assets/textures/ui/settings_button.png")
 
 var _nick: LineEdit
 var _map_names: PackedStringArray = []
@@ -305,7 +295,8 @@ func _build_main_page() -> Control:
 	friends.pressed.connect(_show_page.bind(Page.FRIENDS, true))
 	_place(page, friends, center + Vector2(-40, 19))
 	var settings := _start_button(StartFrame.EMPTY, 32)
-	settings.texture_normal = _gear_texture()
+	settings.texture_normal = SETTINGS_BUTTON
+	settings.texture_click_mask = _alpha_mask(SETTINGS_BUTTON)
 	settings.tooltip_text = "настройки"
 	settings.pressed.connect(_show_page.bind(Page.SETTINGS, true))
 	_place(page, settings, center + Vector2(40, 19))
@@ -895,21 +886,3 @@ func _page_with_title(title: String, content: Control) -> Control:
 	if content.has_meta(&"focus"):
 		box.set_meta(&"focus", content.get_meta(&"focus"))
 	return box
-
-
-## Шестерёнка (GEAR) поверх пустого креста оригинала — кнопка настроек.
-func _gear_texture() -> Texture2D:
-	var cross := (load("%smenustartbutton-%03d.png" % [MENU_TEXTURES, StartFrame.EMPTY]) as Texture2D).get_image()
-	if cross.is_compressed():
-		cross.decompress()
-	cross.convert(Image.FORMAT_RGBA8)
-	var colors := {"Y": Color8(255, 222, 0), "O": Color8(255, 140, 20), "K": Color8(60, 0, 20)}
-	var first_row: String = GEAR[0]
-	var top := Vector2i(floori((cross.get_width() - first_row.length()) / 2.0),
-			floori((cross.get_height() - GEAR.size()) / 2.0))
-	for y in GEAR.size():
-		var row: String = GEAR[y]
-		for x in row.length():
-			if colors.has(row[x]):
-				cross.set_pixelv(top + Vector2i(x, y), colors[row[x]])
-	return ImageTexture.create_from_image(cross)

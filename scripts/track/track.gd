@@ -1220,9 +1220,14 @@ func _add_hills(root: Node3D, edge: float) -> void:
 			var outside := outline_half_width_at(d) + wall_width
 			var ci := roundi((p.x - origin.x) / HILLS_CELL)
 			var cj := roundi((p.z - origin.y) / HILLS_CELL)
+			# Дальше outside + площадка + склон гора — уже фон: только клетки внутри этого круга.
+			var far := outside + HILLS_PLATEAU + slope
 			for j in range(maxi(cj - radius, 0), mini(cj + radius, nz - 1) + 1):
 				var dz := origin.y + j * HILLS_CELL - p.z
-				for i in range(maxi(ci - radius, 0), mini(ci + radius, nx - 1) + 1):
+				if absf(dz) >= far:
+					continue
+				var span := ceili(sqrt(far * far - dz * dz) / HILLS_CELL)
+				for i in range(maxi(ci - span, 0), mini(ci + span, nx - 1) + 1):
 					var dx := origin.x + i * HILLS_CELL - p.x
 					var dd := sqrt(dx * dx + dz * dz) - outside
 					var k := j * nx + i
@@ -1244,24 +1249,38 @@ func _add_hills(root: Node3D, edge: float) -> void:
 			heights[k] = minf(heights[k] + bumps[k] * sin(PI * slope_t[k]), tops[k])
 	_hills = {"origin": origin, "nx": nx, "nz": nz, "heights": heights}
 
+	# Сетка с общими вершинами; нормали — по соседним высотам (быстрее SurfaceTool на 23 тыс.
+	# клеток «Хэллоуина»: прогрузка карты на старте заезда).
+	var vertices := PackedVector3Array()
+	vertices.resize(nx * nz)
+	var normals := PackedVector3Array()
+	normals.resize(nx * nz)
+	for k in nx * nz:
+		var i := k % nx
+		var j := k / nx
+		vertices[k] = Vector3(origin.x + i * HILLS_CELL, heights[k], origin.y + j * HILLS_CELL)
+		var left := heights[k - 1] if i > 0 else heights[k]
+		var right := heights[k + 1] if i < nx - 1 else heights[k]
+		var back := heights[k - nx] if j > 0 else heights[k]
+		var front := heights[k + nx] if j < nz - 1 else heights[k]
+		normals[k] = Vector3(left - right, 2.0 * HILLS_CELL, back - front).normalized()
 	# Клетки целиком под фоном не нужны.
 	var hidden := water - 0.6
-	var st := SurfaceTool.new()
-	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var indices := PackedInt32Array()
 	for j in nz - 1:
 		for i in nx - 1:
 			var k := j * nx + i
-			var corners := [k, k + 1, k + nx + 1, k + nx]
-			if corners.all(func(c: int) -> bool: return heights[c] < hidden):
+			if heights[k] < hidden and heights[k + 1] < hidden and heights[k + nx] < hidden 					and heights[k + nx + 1] < hidden:
 				continue
-			var v: Array[Vector3] = []
-			for c: int in corners:
-				v.append(Vector3(origin.x + (c % nx) * HILLS_CELL, heights[c], origin.y + floorf(float(c) / nx) * HILLS_CELL))
 			# Лицевая сторона — вверх (обход по часовой, если смотреть сверху).
-			for index in [0, 1, 2, 0, 2, 3]:
-				st.add_vertex(v[index])
-	st.generate_normals()
-	var mesh := st.commit()
+			indices.append_array([k, k + 1, k + nx + 1, k, k + nx + 1, k + nx])
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+	arrays[Mesh.ARRAY_NORMAL] = normals
+	arrays[Mesh.ARRAY_INDEX] = indices
+	var mesh := ArrayMesh.new()
+	mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
 	mesh.surface_set_material(0, _surround_material())
 	var instance := MeshInstance3D.new()
 	instance.name = "Hills"
