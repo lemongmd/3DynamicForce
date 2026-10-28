@@ -35,7 +35,7 @@ signal session_ended(reason: String)
 ## Изменилась доступность игры через интернет (у хоста: трекеры подключились / нет).
 signal online_status_changed
 
-const PROTOCOL_VERSION := 7
+const PROTOCOL_VERSION := 8
 const MAX_PLAYERS := 4
 ## Настройки Tube: App ID, трекеры, STUN (грузится при запуске, не preload: иначе редактор
 ## держит ресурс до выхода).

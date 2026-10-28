@@ -13,7 +13,8 @@ extends Control
 ##   * настройки (SettingsPanel); титры — отдельный экран, как Credits оригинала.
 ## Внизу — «mace dev 2023» (автор оригинала) и состояние сети (иконки menuconnectionstatus: трекеры отвечают —
 ## «подключено», нет — «только локальная сеть»), вверху справа — ник и рожица цвета скина.
-## Ник, карта и скин запоминаются в user://settings.cfg. Музыка — Menu_start, потом Menu_loop.
+## Ник, карта и скин запоминаются в user://settings.cfg. Музыка — Menu_start, потом Menu_loop
+## (в сезон Хэллоуина — хэллоуинский фон HalloweenBackground и ремикс, см. Season).
 ## Меню рисуется в полном разрешении окна (content_scale_mode = canvas_items), как у оригинала:
 ## пиксели крупные, но пульс логотипа и вращение фигур — плавные (в 384×216 они рябили).
 ## Своя картинка карты для меню — res://assets/textures/maps/<карта>.png (build_map_thumbs.gd).
@@ -22,7 +23,7 @@ const SETTINGS_PATH := "user://settings.cfg"
 const TRACKS_DIR := "res://scenes/tracks/"
 const LOGO := preload("res://assets/image.png")
 ## Названия карт для меню (остальные — по имени файла).
-const MAP_TITLES := {"remake_01": "Трамплины", "map_a": "Хим. зона", "map_b": "Снежная", "map_d": "Пляж",
+const MAP_TITLES := {"remake_01": "Ралли", "map_a": "Хим. зона", "map_b": "Снежная", "map_d": "Пляж",
 		"map_e": "Стройка", "map_f": "Шинозавод", "map_g": "Аквапарк", "map_h": "Радужная",
 		"halloween": "Хэллоуин"}
 ## Картинки карт оригинала (menuselectmap): кадр по карте; наши и свои карты — «абстракция»,
@@ -35,6 +36,17 @@ const RANDOM_MAP := "?"
 ## Сайт автора оригинала (титры).
 const AUTHOR_SITE := "https://macestudios.ru/"
 const MENU_TEXTURES := "res://assets/original/textures/menu/"
+## Хэллоуинское меню (Season): логотип, кнопки-кресты и кнопка настроек в тыквенно-фиолетовых
+## цветах (build_halloween_menu.gd); кнопки темы — тыквенные (главные) и фиолетовые.
+const HALLOWEEN_TEXTURES := "res://assets/textures/menu_halloween/"
+const UI_THEME := preload("res://ui/main_theme.tres")
+const HALLOWEEN_BUTTONS := {
+	"Button": [Color(0.93, 0.45, 0.1), Color(1.0, 0.6, 0.22), Color(0.74, 0.32, 0.06)],
+	"OptionButton": [Color(0.93, 0.45, 0.1), Color(1.0, 0.6, 0.22), Color(0.74, 0.32, 0.06)],
+	"ButtonSmall": [Color(0.93, 0.45, 0.1), Color(1.0, 0.6, 0.22), Color(0.74, 0.32, 0.06)],
+	"ButtonSecondary": [Color(0.42, 0.2, 0.58), Color(0.55, 0.3, 0.73), Color(0.32, 0.14, 0.45)],
+	"ButtonSmallSecondary": [Color(0.42, 0.2, 0.58), Color(0.55, 0.3, 0.73), Color(0.32, 0.14, 0.45)],
+}
 const PANEL_TEXTURE := preload("res://assets/original/textures/menu/menupanelbg.png")
 const CLOSE_BUTTON := preload("res://assets/textures/ui/close_button.png")
 const FACE := preload("res://assets/original/textures/main/playercaricon-none-000.png")
@@ -54,8 +66,10 @@ const LOGO_Y_PAGE := 28.0
 const PANEL_GAP_TOP := 8.0
 const PANEL_GAP_BOTTOM := 22.0
 const PAGE_TIME := 1.0 / 6.0
-## Логотип: сжимается до 0.95 за 1/3 с и снова (как в оригинале — в такт музыке).
+## Логотип: сжимается до 0.95 за 1/3 с и снова (как в оригинале — в такт музыке: 180 ударов
+## в минуту); под хэллоуинский ремикс — 168.
 const LOGO_BEAT := 1.0 / 3.0
+const LOGO_BEAT_HALLOWEEN := 60.0 / 168.0
 ## Кнопка настроек: крест с гаечным ключом, рисунок Mace Dev (в оригинале такой нет).
 const SETTINGS_BUTTON := preload("res://assets/textures/ui/settings_button.png")
 
@@ -72,7 +86,8 @@ var _check_button: Button
 var _check_result: Label
 var _net_popup: Control
 
-var _background: MenuBackground
+## MenuBackground или в сезон HalloweenBackground (Season).
+var _background: Control
 var _logo: TextureRect
 var _panel: NinePatchRect
 var _panel_size := MAIN_PANEL
@@ -169,18 +184,48 @@ func _unhandled_input(event: InputEvent) -> void:
 # Сборка интерфейса
 # --------------------------------------------------------------------------
 
+## Тема меню в сезон Хэллоуина: кнопки перекрашены (HALLOWEEN_BUTTONS: обычная, наведена, нажата).
+static func _halloween_theme() -> Theme:
+	var halloween := UI_THEME.duplicate(true) as Theme
+	for type: String in HALLOWEEN_BUTTONS:
+		var colors: Array = HALLOWEEN_BUTTONS[type]
+		for state: String in ["normal", "hover", "pressed", "hover_pressed"]:
+			var box := halloween.get_stylebox(state, type) as StyleBoxTexture
+			if box == null:
+				continue
+			box = box.duplicate() as StyleBoxTexture
+			box.modulate_color = colors[{"normal": 0, "hover": 1}.get(state, 2)]
+			halloween.set_stylebox(state, type, box)
+	return halloween
+
+
+static func _logo_beat() -> float:
+	return LOGO_BEAT_HALLOWEEN if Season.is_halloween() else LOGO_BEAT
+
+
 func _build_ui() -> void:
-	_background = MenuBackground.new()
+	var halloween := Season.is_halloween()
+	if halloween:
+		theme = _halloween_theme()
+	if halloween:
+		_background = HalloweenBackground.new()
+	else:
+		_background = MenuBackground.new()
 	add_child(_background)
 
 	_logo = TextureRect.new()
 	_logo.texture = LOGO
 	_logo.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	if halloween:
+		# Хэллоуинский логотип выше на 8 px (потёки под буквами): вёрстка — по обычному.
+		_logo.texture = load(HALLOWEEN_TEXTURES + "logo.png") as Texture2D
+		_logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_logo.stretch_mode = TextureRect.STRETCH_KEEP
 	_logo.size = LOGO.get_size()
 	_logo.pivot_offset = _logo.size * 0.5
 	add_child(_logo)
 	var beat := _logo.create_tween().set_loops()
-	beat.tween_property(_logo, ^"scale", Vector2.ONE * 0.95, LOGO_BEAT).from(Vector2.ONE) \
+	beat.tween_property(_logo, ^"scale", Vector2.ONE * 0.95, _logo_beat()).from(Vector2.ONE) \
 			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 	_panel = NinePatchRect.new()
@@ -295,8 +340,9 @@ func _build_main_page() -> Control:
 	friends.pressed.connect(_show_page.bind(Page.FRIENDS, true))
 	_place(page, friends, center + Vector2(-40, 19))
 	var settings := _start_button(StartFrame.EMPTY, 32)
-	settings.texture_normal = SETTINGS_BUTTON
-	settings.texture_click_mask = _alpha_mask(SETTINGS_BUTTON)
+	settings.texture_normal = load(HALLOWEEN_TEXTURES + "settings_button.png") as Texture2D \
+			if Season.is_halloween() else SETTINGS_BUTTON
+	settings.texture_click_mask = _alpha_mask(settings.texture_normal)
 	settings.tooltip_text = "настройки"
 	settings.pressed.connect(_show_page.bind(Page.SETTINGS, true))
 	_place(page, settings, center + Vector2(40, 19))
@@ -834,7 +880,8 @@ func _status_frame(frame: int) -> Texture2D:
 ## Кнопка-крест оригинала (кадр menustartbutton) размером side×side.
 func _start_button(frame: int, side: int, with_click: bool = true) -> TextureButton:
 	var button := TextureButton.new()
-	button.texture_normal = load("%smenustartbutton-%03d.png" % [MENU_TEXTURES, frame]) as Texture2D
+	var folder := HALLOWEEN_TEXTURES if Season.is_halloween() else MENU_TEXTURES
+	button.texture_normal = load("%smenustartbutton-%03d.png" % [folder, frame]) as Texture2D
 	button.ignore_texture_size = true
 	button.stretch_mode = TextureButton.STRETCH_SCALE
 	# Нажимается только видимый крест: прозрачные углы квадрата соседних крестов отбирали клики.

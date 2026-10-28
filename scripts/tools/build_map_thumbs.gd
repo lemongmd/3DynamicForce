@@ -23,6 +23,8 @@ const COLORS := {
 	"N": Color8(26, 20, 52), "n2": Color8(44, 30, 78), "M": Color8(255, 244, 196), "m": Color8(214, 200, 150),
 	"g": Color8(26, 44, 36), "h": Color8(38, 60, 46), "P": Color8(242, 122, 26), "p": Color8(178, 72, 20),
 	"Y": Color8(255, 226, 92), "w": Color8(214, 228, 255), "e": Color8(70, 72, 92),
+	# «Ралли»: тёмная трава.
+	"q": Color8(52, 160, 48),
 }
 
 ## Буквы подписи (белые на чёрной плашке, как у карт оригинала).
@@ -95,44 +97,39 @@ func _halloween() -> Image:
 	return image
 
 
-## «Трамплины»: небо с солнцем, эстакада над водой с опорами и перилами, трамплин,
-## красная машина в прыжке.
+## «Ралли»: небо с солнцем, травяные холмы, асфальт с красно-белым бордюром наискосок,
+## красная машина на трассе и клетчатый флаг у обочины.
 func _remake_01() -> Image:
 	var image := Image.create(WIDTH, HEIGHT, false, Image.FORMAT_RGBA8)
 	for y in HEIGHT:
 		for x in WIDTH:
 			var key := "S"
-			if y >= 18:
-				key = "b" if (x + y * 3) % 7 == 0 else ("n" if y >= 21 and (x + y) % 5 == 0 else "B")
+			if y >= 10 - int(sin(x * 0.3) * 1.5):
+				key = "q" if (x * 5 + y * 3) % 9 == 0 else "G"
 			elif y <= 6 and (x * 7 + y * 3) % 11 == 0:
 				key = "s"
 			image.set_pixel(x, y, COLORS[key])
 	_rect(image, Rect2i(27, 2, 3, 3), "Z")
-	# Опоры эстакады в воду.
-	for column_x in [4, 11, 18, 25]:
-		_rect(image, Rect2i(column_x, 18, 2, 4), "C")
-		_rect(image, Rect2i(column_x + 1, 18, 1, 4), "c")
-	# Настил: перила, дорога, кромка.
-	for x in range(1, WIDTH - 1):
-		if x % 3 == 0:
-			image.set_pixel(x, 14, COLORS["O"])
-		image.set_pixel(x, 15, COLORS["O"])
-		image.set_pixel(x, 16, COLORS["D"])
-		image.set_pixel(x, 17, COLORS["d"] if x % 4 == 0 else COLORS["D"])
-	# Трамплин: клин на дороге, выше к левому краю (машина едет справа налево и улетает).
-	for x in range(20, 27):
-		var top := 12 + int((x - 20) * 0.6)
-		for y in range(top, 16):
-			image.set_pixel(x, y, COLORS["r" if y == top else "R"])
-	# Машина в прыжке (вид сбоку) над трамплином и след полёта от его края.
-	_rect(image, Rect2i(14, 9, 4, 2), "A")
-	_rect(image, Rect2i(15, 8, 2, 1), "a")
-	image.set_pixel(14, 11, COLORS["T"])
-	image.set_pixel(17, 11, COLORS["T"])
-	for point in [Vector2i(20, 12), Vector2i(19, 11), Vector2i(18, 11)]:
-		image.set_pixelv(point, COLORS["W"])
-	# Подпись в одну строку, сокращённо (как «СНЕЖ.» оригинала) — сцена остаётся видна.
-	_label(image, ["ТРАМП."])
+	# Дорога наискосок вверх вправо: асфальт 5 px, по краям бордюр — красный и белый через 2 px.
+	for x in WIDTH:
+		var top := 15 - int(x * 0.22)
+		for y in range(top, top + 7):
+			if y >= HEIGHT:
+				continue
+			var edge := y == top or y == top + 6
+			var kerb := "A" if (x / 2) % 2 == 0 else "W"
+			image.set_pixel(x, y, COLORS[kerb] if edge else COLORS["d" if (x + y) % 5 == 0 else "D"])
+	# Машина (вид сверху-сбоку) на дороге.
+	_rect(image, Rect2i(10, 15, 5, 2), "A")
+	_rect(image, Rect2i(11, 14, 3, 1), "a")
+	image.set_pixel(10, 17, COLORS["T"])
+	image.set_pixel(14, 17, COLORS["T"])
+	# Клетчатый флаг на столбике у обочины.
+	_rect(image, Rect2i(26, 6, 1, 6), "c")
+	for fy in 2:
+		for fx in 3:
+			image.set_pixel(27 + fx, 6 + fy, COLORS["K" if (fx + fy) % 2 == 0 else "W"])
+	_label(image, ["РАЛЛИ"])
 	_frame(image)
 	return image
 

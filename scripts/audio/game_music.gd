@@ -5,7 +5,8 @@ extends Node
 ## Шина Music (громкость — в настройках). Играет и во время паузы.
 ##
 ## Как в оригинале:
-##   * интро — Menu_start (play_intro), меню — по кругу Menu_loop (play_menu);
+##   * интро — Menu_start (play_intro), меню — по кругу Menu_loop (play_menu); в сезон Хэллоуина
+##     (Season) — хэллоуинский ремикс Spark Main Theme: интро — его вступление, меню — петля;
 ##   * лобби на карте — LobbyForce, −10 дБ;
 ##   * гонка — через 0.4 с после старта музыка карты (Track.music), по кругу;
 ##   * первый финишировал — EbucheeMoloko, −2 дБ;
@@ -16,6 +17,8 @@ const BUS := &"Music"
 const FADE_TIME := 0.4
 const MENU_INTRO := preload("res://assets/original/music/menu_start.ogg")
 const MENU_LOOP := preload("res://assets/original/music/menu_loop.ogg")
+const HALLOWEEN_START := preload("res://assets/music/menu_halloween_start.ogg")
+const HALLOWEEN_LOOP := preload("res://assets/music/menu_halloween_loop.ogg")
 const LOBBY := preload("res://assets/original/music/lobbyforce.ogg")
 const FINISH := preload("res://assets/original/sounds/ebucheemoloko.wav")
 const LOBBY_VOLUME_DB := -10.0
@@ -33,7 +36,8 @@ var _player: AudioStreamPlayer
 var _base_db := 0.0
 var _duck_db := 0.0
 var _loop: bool = true
-var _next_after_intro: AudioStream
+## Что играть следом, когда текущая (не зацикленная) дорожка кончится.
+var _queue: Array[AudioStream] = []
 var _fading: Array[AudioStreamPlayer] = []
 
 
@@ -57,7 +61,7 @@ func _ready() -> void:
 
 ## Играть stream (по кругу, если loop) с громкостью volume_db; та же дорожка — не перезапускать.
 func play(stream: AudioStream, volume_db: float = 0.0, loop: bool = true) -> void:
-	_next_after_intro = null
+	_queue.clear()
 	_base_db = volume_db
 	if stream == current and _player != null and _player.playing:
 		_player.volume_db = volume_db + _duck_db
@@ -77,18 +81,29 @@ func play(stream: AudioStream, volume_db: float = 0.0, loop: bool = true) -> voi
 	_player.play()
 
 
-## Интро: Menu_start один раз, потом по кругу Menu_loop (IntroS оригинала; интро идёт под неё).
+## Музыка интро (один раз) и меню (по кругу); в сезон Хэллоуина — ремикс.
+static func intro_stream() -> AudioStream:
+	return HALLOWEEN_START if Season.is_halloween() else MENU_INTRO
+
+
+static func menu_stream() -> AudioStream:
+	return HALLOWEEN_LOOP if Season.is_halloween() else MENU_LOOP
+
+
+## Интро: Menu_start один раз, потом Menu_loop (IntroS оригинала; интро идёт под Menu_start).
 func play_intro() -> void:
-	play(MENU_INTRO, 0.0, false)
-	_next_after_intro = MENU_LOOP
+	var streams: Array[AudioStream] = [intro_stream(), menu_stream()]
+	_play_sequence(streams)
 
 
 ## Меню: Menu_loop по кругу (MenuS оригинала). Доигрывает Menu_start интро — пусть кончится
-## сама (интро уходит в меню за 0.06 с до её конца), дальше и так Menu_loop.
-func play_menu() -> void:
-	if current == MENU_LOOP or (current == MENU_INTRO and _next_after_intro == MENU_LOOP):
+## сама (интро уходит в меню чуть раньше её конца), дальше и так Menu_loop.
+## restart — начать музыку меню сразу (интро пропустили).
+func play_menu(restart: bool = false) -> void:
+	var loop := menu_stream()
+	if current == loop or (current == intro_stream() and not _queue.is_empty() and not restart):
 		return
-	play(MENU_LOOP)
+	play(loop)
 
 
 ## Сколько секунд играет текущая дорожка (по звуку, с поправкой на задержку вывода);
@@ -125,11 +140,16 @@ func stop() -> void:
 func _on_finished(finished_player: AudioStreamPlayer) -> void:
 	if finished_player != _player:
 		return
-	if _next_after_intro != null:
-		var next := _next_after_intro
-		play(next)
+	if not _queue.is_empty():
+		_play_sequence(_queue.duplicate())
 	elif _loop:
 		_player.play()
+
+
+## Дорожки по очереди, последняя — по кругу.
+func _play_sequence(streams: Array[AudioStream]) -> void:
+	play(streams[0], 0.0, streams.size() == 1)
+	_queue = streams.slice(1)
 
 
 func _fade_out_current() -> void:

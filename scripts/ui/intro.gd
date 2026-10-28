@@ -10,6 +10,8 @@ extends Control
 ## Claude (просьба автора ремейка) делит слот «Помощь в создании» пополам.
 ## Перед интро — прогрев (Warmup: карты, объекты, шейдеры; первая гонка не подвисает) на
 ## картинке загрузки (как при запуске), чтобы сама заставка шла без рывков.
+## В сезон Хэллоуина (Season) интро идёт под вступление хэллоуинского ремикса (HALLOWEEN_*:
+## смены кадров на его тактах, вспышки — на ударах сердца), меню — под его петлю.
 ## Пробел, Enter, Esc, клик или касание — пропустить (сразу меню и Menu_loop).
 ## Проверочные ключи сборки (-- --race=…, --list-maps) интро пропускают сразу.
 
@@ -46,6 +48,18 @@ const PULSE_EVERY := 0.15
 const ZOOM_TIME := 1.4
 const ZOOM_SCALE := 5.0
 const END_AT := 10.612
+## Хэллоуинский ремикс: 168 ударов в минуту, вступление — 8 тактов (11.43 с): колокол на тактах
+## 0 и 2–5, хор с 2-го, шкатулка с 4-го, на 6–7-м сердцебиение «тук-тук», в конце вой в тему.
+## Кадры — в тактах: Mace Studios до 3-го, «Помощь…» и Claude — по полтора такта, «ПРЕДСТАВЛЯЕМ...» —
+## с 6-го; вспышки — на ударах сердца (тики 0, 18, 48, 66 из 96 в такте), рост — с 7-го такта.
+const HALLOWEEN_BAR := 240.0 / 168.0
+const HALLOWEEN_SEGMENTS := [[0, 0.0, 3.0], [1, 3.0, 4.5], [CLAUDE_FRAME, 4.5, 6.0], [2, 6.0, 9.0]]
+const HALLOWEEN_HEARTBEATS := [0.0, 0.1875, 0.5, 0.6875]
+const HALLOWEEN_PULSE_BARS := [6, 7]
+const HALLOWEEN_ZOOM_BAR := 7.0
+const HALLOWEEN_BARS := 8.0
+## Белая вспышка на удар сердца, с.
+const FLASH_TIME := 0.075
 ## Картинки — по центру экрана, на 4 px ниже середины (Intro оригинала: x 192, y 112 из 384×216).
 const CENTER_DROP := 4.0
 ## Шаг прогрева рисуется столько кадров.
@@ -65,6 +79,12 @@ var _splash: Control
 var _flash: ColorRect
 var _hint: Label
 var _frames: Dictionary = {}
+## Расписание интро под свою музыку (обычное — константы выше, к Хэллоуину — HALLOWEEN_*), с.
+var _segments: Array = SEGMENTS
+## Вспышки по списку (пусто — через PULSE_EVERY с PULSE_AT, как в оригинале).
+var _pulses: Array[float] = []
+var _zoom_at := PULSE_AT
+var _end_at := END_AT
 
 
 func _ready() -> void:
@@ -77,6 +97,8 @@ func _ready() -> void:
 		_phase = Phase.LEAVING
 		get_tree().change_scene_to_file.call_deferred(MENU_SCENE)
 		return
+	if Season.is_halloween():
+		_use_halloween_timing()
 	_scale_mode_before = get_window().content_scale_mode
 	# Как меню: база 384×216, но масштаб плавный (рост «ПРЕДСТАВЛЯЕМ...» ×5).
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
@@ -143,7 +165,7 @@ func _build() -> void:
 	black.set_anchors_preset(Control.PRESET_FULL_RECT)
 	black.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(black)
-	for segment: Array in SEGMENTS:
+	for segment: Array in _segments:
 		var frame: int = segment[0]
 		var node := _build_frame(frame)
 		_frames[frame] = node
@@ -231,10 +253,10 @@ func _add_label(parent: Control, text: String, font_size: int, rect: Rect2) -> v
 
 ## Вид интро в момент t (с начала Menu_start).
 func _show_time(t: float) -> void:
-	if t >= END_AT:
+	if t >= _end_at:
 		_go_menu(false)
 		return
-	for segment: Array in SEGMENTS:
+	for segment: Array in _segments:
 		var node: Control = _frames[segment[0]]
 		var start: float = segment[1]
 		var end: float = segment[2]
@@ -248,19 +270,41 @@ func _show_time(t: float) -> void:
 		var x := (t - start) / half
 		node.modulate.a = _ease_out_expo(x if x <= 1.0 else 2.0 - x)
 		node.scale = Vector2.ONE
-		if segment[0] != CLAUDE_FRAME and t >= PULSE_AT:
-			var zoom := _ease_in_sine(minf((t - PULSE_AT) / ZOOM_TIME, 1.0))
+		if segment[0] != CLAUDE_FRAME and t >= _zoom_at:
+			var zoom := _ease_in_sine(minf((t - _zoom_at) / ZOOM_TIME, 1.0))
 			node.scale = Vector2.ONE * lerpf(1.0, ZOOM_SCALE, zoom)
-	_flash.visible = t >= PULSE_AT and fmod(t - PULSE_AT, PULSE_EVERY) < PULSE_EVERY * 0.5
+	_flash.visible = _flash_at(t)
 
 
-## skip — пропустили: Menu_start обрывается, сразу Menu_loop.
+## Расписание под вступление хэллоуинского ремикса (такты -> секунды).
+func _use_halloween_timing() -> void:
+	_segments = []
+	for segment: Array in HALLOWEEN_SEGMENTS:
+		_segments.append([segment[0], segment[1] * HALLOWEEN_BAR, segment[2] * HALLOWEEN_BAR])
+	for bar: int in HALLOWEEN_PULSE_BARS:
+		for beat: float in HALLOWEEN_HEARTBEATS:
+			_pulses.append((bar + beat) * HALLOWEEN_BAR)
+	_zoom_at = HALLOWEEN_ZOOM_BAR * HALLOWEEN_BAR
+	# Как у Menu_start: в меню — чуть раньше конца дорожки.
+	_end_at = HALLOWEEN_BARS * HALLOWEEN_BAR - 0.06
+
+
+func _flash_at(t: float) -> bool:
+	if _pulses.is_empty():
+		return t >= PULSE_AT and fmod(t - PULSE_AT, PULSE_EVERY) < PULSE_EVERY * 0.5
+	for pulse in _pulses:
+		if t >= pulse and t < pulse + FLASH_TIME:
+			return true
+	return false
+
+
+## skip — пропустили: Menu_start обрывается, сразу музыка меню.
 func _go_menu(skip: bool) -> void:
 	if _phase == Phase.LEAVING:
 		return
 	_phase = Phase.LEAVING
 	if skip:
-		GameMusic.player().play(GameMusic.MENU_LOOP)
+		GameMusic.player().play_menu(true)
 	get_tree().change_scene_to_file(MENU_SCENE)
 
 

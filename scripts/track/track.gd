@@ -231,6 +231,13 @@ enum Shape {
 	set(value):
 		wall_material = value
 		_queue_rebuild()
+## Текстура стены вдоль трассы (UV ленты, как у дороги; плитка — wall_tile_size): бордюр
+## с полосками поперёк. Иначе — по мировым координатам (кирпич не мерцает на складках). Складок
+## нет, если corner_radius не меньше половины дороги + стены.
+@export var wall_along_track: bool = false:
+	set(value):
+		wall_along_track = value
+		_queue_rebuild()
 @export var background_material: Material:
 	set(value):
 		background_material = value
@@ -815,7 +822,7 @@ func _build_geometry() -> void:
 	# на внутренней стороне поворотов лента складывается сама на себя (радиус скругления меньше
 	# половины дороги + стены + полосы), и наложенные копии с разной разметкой или освещением
 	# мерцали бы (Z-fighting); так они рисуют одно и то же.
-	var wall_world := _world_material(wall_material)
+	var wall_world := wall_material if wall_along_track else _world_material(wall_material)
 	var wall_tile := _fit_tile(wall_tile_size)
 	# Внешний бок стены уходит вниз на толщину настила (на эстакаде видно край «моста»).
 	var bottom := -deck_thickness

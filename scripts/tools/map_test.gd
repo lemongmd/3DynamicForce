@@ -6,7 +6,7 @@ extends SceneTree
 ##     объектами не больше TrackCheck.MAX_GAP м), объекты не на стене и не друг на друге,
 ##     есть коробки предметов;
 ## «Гонка на этой карте» редактора карт: гонка берёт карту из файла-подсказки.
-## Для карт с трамплинами и шпилькой (remake_01):
+## Для карт с трамплинами и шпилькой (remake_01 — «Ралли»):
 ##   * машина на полной скорости взлетает с трамплина выше ограждений и пролетает над ними
 ##     без удара; без трамплина (в обход) ограждение останавливает;
 ##   * на трассе есть поворот радиусом меньше DRIFT_RADIUS — место под дрифт.
@@ -115,7 +115,8 @@ func _check_drift_corner(map_name: String, track: Track) -> void:
 func _check_ramp_jump(track: Track) -> void:
 	var ramp := track.get_node("Props/Ramp1") as Node3D
 	var hits := [0]
-	for name in ["Props/BarrierParry1", "Props/BarrierParry2"]:
+	# Ряд парируемых ограждений за первым трамплином («Ралли»: стартовая прямая, layout_map).
+	for name in ["Props/Barrier1", "Props/Barrier2"]:
 		(track.get_node(name) as ParryHazard).car_hit.connect(func(_c: CarController) -> void: hits[0] += 1)
 	var car := (load(CAR_SCENE) as PackedScene).instantiate() as CarController
 	var input := PlayerInputSource.new()
