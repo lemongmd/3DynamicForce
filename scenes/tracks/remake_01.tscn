@@ -1,4 +1,4 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bpyl3fo5uo580"]
 
 [ext_resource type="Script" path="res://scripts/track/track.gd" id="1_track"]
 [ext_resource type="Material" path="res://assets/materials/rally_road.tres" id="2_road"]
