@@ -19,3 +19,8 @@ __pycache__/
 ~*
 *.TMP
 *.tmp
+export_presets.cfg
+libwebrtc_native.windows.template_debug.x86_64.dll
+3DynamicForce.exe
+export_presets.cfg
+export_presets.cfg
