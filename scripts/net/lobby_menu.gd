@@ -777,7 +777,7 @@ func _on_check_network() -> void:
 		check.queue_free()
 		if _net_popup != null and _net_popup.visible:
 			_show_net_check(lines))
-	check.start(load(Network.CONTEXT_PATH) as TubeContext)
+	check.start(Network.load_context())
 
 
 func _load_settings() -> void:
@@ -831,7 +831,7 @@ func _start_probe() -> void:
 	if not Network.is_available():
 		_set_status(1, "нет webrtc")
 		return
-	var context := load(Network.CONTEXT_PATH) as TubeContext
+	var context := Network.load_context()
 	for url in context.trackers_urls:
 		var socket := WebSocketPeer.new()
 		if socket.connect_to_url(url) == OK:

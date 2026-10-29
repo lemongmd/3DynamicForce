@@ -40,6 +40,8 @@ const MAX_PLAYERS := 4
 ## Настройки Tube: App ID, трекеры, STUN (грузится при запуске, не preload: иначе редактор
 ## держит ресурс до выхода).
 const CONTEXT_PATH := "res://scenes/net/tube_context.tres"
+## Логин и пароль нашего TURN (scenes/net/turn_servers.tres, в .gitignore).
+const TURN_PATH := "res://scenes/net/turn_servers.tres"
 ## Сколько ждать прямого соединения с игроком (попытка, с) и сколько попыток: у Tube по
 ## умолчанию 2 с × 3 — через интернет (трекеры, STUN, пробивка NAT) этого мало, вход
 ## обрывался «не удалось войти». Всего — до 30 с.
@@ -124,7 +126,7 @@ func _ready() -> void:
 	GameSettings.apply()
 	_tube = TubeClient.new()
 	_tube.name = "Tube"
-	_tube.context = _load_context()
+	_tube.context = load_context()
 	_tube.peer_signaling_timeout = SIGNALING_TIMEOUT
 	_tube.peer_signaling_max_attempts = SIGNALING_ATTEMPTS
 	add_child(_tube)
@@ -245,8 +247,8 @@ func set_local_car(car: CarController) -> void:
 ## Контекст Tube: с интернетом (трекеры) или только локальная сеть.
 func _context() -> TubeContext:
 	if use_internet:
-		return _load_context()
-	var local := _load_context().duplicate() as TubeContext
+		return load_context()
+	var local := load_context().duplicate() as TubeContext
 	local.set(&"_generate_app_id_tool_button", Callable())
 	local.trackers_urls = []
 	local.stun_servers_urls = []
@@ -708,8 +710,12 @@ func _poll_discovery(delta: float) -> void:
 
 ## Контекст Tube из файла. Кнопка редактора «Generate app id» в TubeContext — лямбда,
 ## которая держит сам ресурс (цикл ссылок: ресурс не освобождается при выходе); в игре
-## она не нужна — разрываем.
-static func _load_context() -> TubeContext:
+## она не нужна — разрываем. TURN-серверы с паролем — из отдельного TURN_PATH: он не
+## в git (репозиторий публичный), но в сборку попадает; нет файла — играем без TURN.
+static func load_context() -> TubeContext:
 	var context := load(CONTEXT_PATH) as TubeContext
 	context.set(&"_generate_app_id_tool_button", Callable())
+	if ResourceLoader.exists(TURN_PATH):
+		var servers: Array = load(TURN_PATH).get_meta(&"turn_servers", [])
+		context.turn_servers.assign(servers)
 	return context

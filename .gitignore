@@ -24,3 +24,5 @@ libwebrtc_native.windows.template_debug.x86_64.dll
 3DynamicForce.exe
 export_presets.cfg
 export_presets.cfg
+# Логин и пароль нашего TURN-сервера: в сборку идут, в публичный репозиторий — нет.
+scenes/net/turn_servers.tres
